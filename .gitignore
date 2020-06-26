@@ -17,3 +17,6 @@
 /New Unity Project 1/Temp
 /New Unity Project 1/*.exe
 /New Unity Project 1/Assets/Shader/alpha.shader
+bin
+obj
+.vs

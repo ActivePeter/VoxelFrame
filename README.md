@@ -1,6 +1,12 @@
 # VoxelFrame
 使用unity开发一个类似mc的游戏， a game like minecraft built on unity
 
+### 准备续坑了：
+
+先建立一个服务端程序。
+
+
+
 [https://www.bilibili.com/video/BV1d7411n7nK/](https://www.bilibili.com/video/BV1d7411n7nK/)
 
 !!!
