@@ -8,7 +8,7 @@ namespace VoxelServer.Network
     {
         public const int BUFFER_SIZE = 1024;
         public byte[] buffer = new byte[BUFFER_SIZE];
-        public void handleReceive()
+        public void handleReceive(int datalen)
         {
 
         }
