@@ -10,8 +10,7 @@ namespace VoxelServer.Network
     {
         private Socket clientSocket;
         Server server;
-        public const int BUFFER_SIZE = 1024;
-        public byte[] buffer = new byte[BUFFER_SIZE];
+        ClientMessageHandler clientMessageHandler=new ClientMessageHandler();
         public int indexInDic { get; }
 
         public Client(Server server, Socket clientSocket,int indexInDic)
@@ -23,12 +22,9 @@ namespace VoxelServer.Network
         }
         void startReceive()
         {
-            clientSocket.BeginReceive(buffer,0,BUFFER_SIZE, SocketFlags.None, ReceiveCallback,null);
+            clientSocket.BeginReceive(clientMessageHandler.buffer, 0, ClientMessageHandler.BUFFER_SIZE, SocketFlags.None, ReceiveCallback,null);
         }
-        void handleReceive()
-        {
-
-        }
+        
         void ReceiveCallback(IAsyncResult iar)
         {
             try
@@ -45,8 +41,7 @@ namespace VoxelServer.Network
                     close();
                     return;
                 }
-
-                handleReceive();
+                clientMessageHandler.handleReceive();
                 startReceive();
             }
             catch (Exception ex)
