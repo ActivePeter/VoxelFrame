@@ -22,7 +22,7 @@ namespace VoxelServer.Network
         }
         void startReceive()
         {
-            clientSocket.BeginReceive(clientMessageHandler.buffer, 0, ClientMessageHandler.BUFFER_SIZE, SocketFlags.None, ReceiveCallback,null);
+            clientSocket.BeginReceive(clientMessageHandler.buffer, clientMessageHandler.beginIndex, clientMessageHandler.leftSize, SocketFlags.None, ReceiveCallback,null);
         }
         
         void ReceiveCallback(IAsyncResult iar)
@@ -41,7 +41,7 @@ namespace VoxelServer.Network
                     close();
                     return;
                 }
-                clientMessageHandler.handleReceive();
+                clientMessageHandler.handleReceive(len);
                 startReceive();
             }
             catch (Exception ex)
