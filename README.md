@@ -1,6 +1,10 @@
 # VoxelFrame
 使用unity开发一个类似mc的游戏， a game like minecraft built on unity
 
+游戏端目前是unity2018
+
+服务端使用.net core 3.1
+
 ### 准备续坑了：
 
 先建立一个服务端程序。
