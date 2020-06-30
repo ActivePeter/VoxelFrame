@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using VoxelServer.Game.PlayerPart;
 
 namespace VoxelServer
 {
@@ -11,7 +12,7 @@ namespace VoxelServer
         
         static void Main(string[] args)
         {
-            
+            new PlayerManager();
             
         }
         

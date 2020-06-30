@@ -9,7 +9,13 @@
 
 先建立一个服务端程序。
 
+### 目前服务端进度：
 
+1.socket的建立和管理
+
+2.完成了粘包半包的处理
+
+当前正在做:protobuf的包序列化
 
 [https://www.bilibili.com/video/BV1d7411n7nK/](https://www.bilibili.com/video/BV1d7411n7nK/)
 
