@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using VoxelServer.Game.PlayerPart;
+using VoxelServer.Game.WorldPart;
 
 namespace VoxelServer
 {
@@ -12,8 +13,8 @@ namespace VoxelServer
         
         static void Main(string[] args)
         {
-            new PlayerManager();
-            
+            PlayerManager playerManager = new PlayerManager();
+            new WorldManager(playerManager);
         }
         
     }

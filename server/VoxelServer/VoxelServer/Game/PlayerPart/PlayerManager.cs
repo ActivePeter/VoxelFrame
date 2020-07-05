@@ -16,7 +16,6 @@ namespace VoxelServer.Game.PlayerPart
         Dictionary<int, PlayerBaseData> idToPlayerBaseDataDic;
         Dictionary<string, int> nameToIdDic = new Dictionary<string, int>();
 
-
         public PlayerManager()
         {
             instance = this;
@@ -26,7 +25,7 @@ namespace VoxelServer.Game.PlayerPart
             regiPlayer("ssss", "11233");
             regiPlayer("sssss", "11233");
 
-            savePlayerBaseDataIfNeed();
+            //savePlayerBaseDataIfNeed();
         }
         private void loadPlayerData()
         {
@@ -76,7 +75,11 @@ namespace VoxelServer.Game.PlayerPart
                     json = JsonFormatter.SerializeObject(idToPlayerBaseDataDic);
                 }
                 FileUtils.saveFile("data/playerData/baseData.json", json);
-                Console.WriteLine(json);
+                Console.WriteLine("data has just been stored");
+            }
+            else
+            {
+                Console.WriteLine("data nochange");
             }
         }
     }
