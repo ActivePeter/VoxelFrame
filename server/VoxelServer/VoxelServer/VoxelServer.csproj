@@ -6,7 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="protobuf-net" Version="2.4.6" />
+    <PackageReference Include="Apex.Serialization" Version="2.0.0" />
+    <PackageReference Include="protobuf-net" Version="3.0.13" />
+    <PackageReference Include="Swifter.Json" Version="1.5.0" />
   </ItemGroup>
 
   <ItemGroup>

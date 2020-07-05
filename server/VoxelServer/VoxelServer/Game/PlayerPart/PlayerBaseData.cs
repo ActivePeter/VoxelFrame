@@ -4,10 +4,10 @@ using System.Text;
 
 namespace VoxelServer.Game.PlayerPart
 {
-    class Player
+    class PlayerBaseData
     {
-        public PlayerBaseData PlayerBaseData=new PlayerBaseData();
-        
-        
+        public int userId;
+        public string userName;
+        public string password;
     }
 }
