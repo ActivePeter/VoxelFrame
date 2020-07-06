@@ -5,6 +5,8 @@
 
 服务端使用.net core 3.1
 
+![image-20200706172720868](http://tuchuang.hanbaoaaa.xyz/image-20200706172720868.png)
+
 ### 准备续坑了：
 
 先建立一个服务端程序。

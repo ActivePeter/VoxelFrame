@@ -9,9 +9,9 @@ namespace VoxelServer.Network
     class Server
     {
         private static Socket socket;
-        Dictionary<int, Client> clients;
+        Dictionary<int, Client> clients=new Dictionary<int, Client>();
         int latestIndex = 0;
-        List<int> removedIndexes=new List<int>();
+        List<int> removedIndexes = new List<int>();
 
         public Server(int port)
         {
