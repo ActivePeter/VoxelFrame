@@ -9,7 +9,8 @@ namespace VoxelServer.Network
         const int BUFFER_SIZE = 1024;
         public byte[] buffer = new byte[BUFFER_SIZE];
         public int beginIndex = 0;
-        int bodyLen = -1;//记录读出的bodylen。-1即为未读.每次处理完数据体后都要置-1
+        int bodyLen = -1;//记录读出的bodylen。-1即为未读.每次处理完数据体后都要置-1                    
+                         //bodyLen为数据体总长度
         public int leftSize
         {
             get
@@ -19,6 +20,7 @@ namespace VoxelServer.Network
         }
 
         public byte[] incompleteBody;//用来存储之前接收但没接受全的数据体
+
         public void handleReceive(int dataLen)
         {
             int handledLen=0;//记录已经处理的数据长度。等价于下一步数据从哪开始.处理完数据就要+1
@@ -41,7 +43,7 @@ namespace VoxelServer.Network
                         handledLen += 4;
                         if (bodyLen > dataLen - handledLen)//数据体长度大于未处理数据长度，把数据体存入previousData
                         {
-                            //存入incompleteBody
+                            Array.Copy(buffer, handledLen, incompleteBody, 0, dataLen - handledLen);//存入incompleteBody
 
                             return;
                         }
@@ -57,17 +59,17 @@ namespace VoxelServer.Network
                 }
                 else
                 {
-                    //bodyLen为数据体总长度
+
                     int leftBodyLen = bodyLen - incompleteBody.Length;
                     if (leftBodyLen > dataLen)
                     {
-                        //存入incompleteBody
+                        Array.Copy(buffer, 0, incompleteBody, incompleteBody.Length - 1, dataLen);//存入incompleteBody
 
                         return;
                     }
                     else
                     {
-                        //组合数据体
+                        Array.Copy(buffer, 0, incompleteBody, incompleteBody.Length - 1, leftBodyLen);//组合数据体
 
                         //处理数据体
 
