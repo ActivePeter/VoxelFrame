@@ -11,7 +11,7 @@ namespace VoxelServer.Network
         private static Socket socket;
         Dictionary<int, Client> clients;
         int latestIndex = 0;
-        List<int> removedIndexes;
+        List<int> removedIndexes=new List<int>();
 
         public Server(int port)
         {
