@@ -7,7 +7,13 @@ namespace VoxelServer.Game.WorldPart
 {
     class World
     {
-        Dictionary<int, Player> playerDic;
+        public void tick()
+        {
+            tickPlayers();
+        }
+        public void tickPlayers()
+        {
 
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace VoxelServer.Game.WorldPart
         World world;
         PlayerManager playerManager;
 
+
         public WorldManager(PlayerManager playerManager) {
             world = new World();
             this.playerManager = playerManager;
@@ -44,6 +45,7 @@ namespace VoxelServer.Game.WorldPart
             {
                 playerManager.savePlayerBaseDataIfNeed();
             }
+            world.tick();
             tickCnt++;
         }
     }
