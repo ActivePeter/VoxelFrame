@@ -57,6 +57,7 @@ namespace VoxelServer.Network
                 }
                 else
                 {
+                    //bodyLen为数据体总长度
                     int leftBodyLen = bodyLen - incompleteBody.Length;
                     if (leftBodyLen > dataLen)
                     {
