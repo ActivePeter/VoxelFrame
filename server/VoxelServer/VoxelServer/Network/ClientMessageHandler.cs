@@ -10,11 +10,13 @@ namespace VoxelServer.Network
     class ClientMessageHandler
     {
         const int BUFFER_SIZE = 1024;
+        const int HEAD_SIZE = 6;
         public byte[] buffer = new byte[BUFFER_SIZE];
         
         public int beginIndex = 0;
         int bodyLen = -1;//记录读出的bodylen。-1即为未读.每次处理完数据体后都要置-1                    
                          //bodyLen为数据体总长度
+        Int16 packId = -1;
         public int leftSize
         {
             get
@@ -32,7 +34,7 @@ namespace VoxelServer.Network
             {
                 if (incompleteBody.Count==0)//判断是否存在未接收完的数据体，不存在即先读取数据头（数据体长度int32）
                 {
-                    if (dataLen-handledLen < 4)//判断长度是否达到int32，不到直接return，继续下一次接收。
+                    if (dataLen-handledLen < HEAD_SIZE)//判断长度是否达到int32，不到直接return，继续下一次接收。
                     {
                         beginIndex += dataLen - handledLen;
                         if (handledLen>0)
@@ -44,7 +46,8 @@ namespace VoxelServer.Network
                     else
                     {
                         bodyLen = BitConverter.ToInt32(buffer, handledLen);
-                        handledLen += 4;
+                        packId = BitConverter.ToInt16(buffer, handledLen+4);
+                        handledLen += HEAD_SIZE;
                         if (bodyLen > dataLen - handledLen)//数据体长度大于未处理数据长度，把数据体存入incompleteBody
                         {
                             incompleteBody.AddRange(buffer.Skip(handledLen).Take(dataLen - handledLen));//存入incompleteBody
@@ -57,7 +60,7 @@ namespace VoxelServer.Network
                             //Serializer.Deserialize
                             //处理完后
                             handledLen += bodyLen;
-                            resetBodyLen();
+                            resetBodyLenAndPackId();
                         }
                     }
                 }
@@ -79,15 +82,16 @@ namespace VoxelServer.Network
 
                         //处理完后
                         handledLen += leftBodyLen;
-                        resetBodyLen();
+                        resetBodyLenAndPackId();
                         incompleteBody.Clear();
                     }
                 }
             }
         }
-        private void resetBodyLen()
+        private void resetBodyLenAndPackId()
         {
             bodyLen = -1;
+            packId = -1;
         }
     }
 }

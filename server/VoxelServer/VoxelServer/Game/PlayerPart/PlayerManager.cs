@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using VoxelServer.StateEnums;
-using VoxelServer.Utils;
+using Voxel.Network.Pack;
+using Voxel.Utils;
 
 namespace VoxelServer.Game.PlayerPart
 {
