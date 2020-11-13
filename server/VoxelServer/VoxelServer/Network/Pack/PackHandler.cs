@@ -26,10 +26,10 @@ namespace Voxel.Network.Pack
                     break;
             }
         }
-        public PackId serializePack()
-        {
-
-        }
+        //public PackId serializePack()
+        //{
+        //    Serializer.Serialize()
+        //}
 
     }
 

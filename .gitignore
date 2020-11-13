@@ -24,3 +24,8 @@ VoxelFrameRemake2020/Library/
 *.meta
 *.asset
 VoxelFrameRemake2020/Temp/
+testEntitas/Library/metadata/00/0000000000000000b100000000000000.info
+testEntitas/Library/metadata/00/00000000000000002000000000000000.info
+testEntitas/Library/metadata/
+testEntitas/Temp/
+testEntitas/Library/ShaderCache/
