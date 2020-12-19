@@ -29,3 +29,14 @@ testEntitas/Library/metadata/00/00000000000000002000000000000000.info
 testEntitas/Library/metadata/
 testEntitas/Temp/
 testEntitas/Library/ShaderCache/
+target/
+client/unity/VoxelFrameRemake2020/Library/metadata/
+client/unity/VoxelFrameRemake2020/Library/ShaderCache/
+client/unity/VoxelFrameRemake2020/Library/PackageCache/
+client/unity/VoxelFrameRemake2020/Library/ChinaEditorCache/
+client/unity/VoxelFrameRemake2020/Library/
+client/unity/UnityOfficialECS/Library/
+client/unity/testEntitas/Library/
+client/unity/UnityOfficialECS/Temp/
+client/unity/New Unity Project 1/Library/
+client/unity/mlgb/Library/
