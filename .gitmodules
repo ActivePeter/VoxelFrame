@@ -1,3 +1,6 @@
 [submodule "abandoned-part"]
 	path = abandoned-part
 	url = https://github.com/VoxelFrame/VoxelFrame-Abandoned.git
+[submodule "VoxelFrame_CppClient"]
+	path = VoxelFrame_CppClient
+	url = https://github.com/VoxelFrame/VoxelFrame-CppClient.git
