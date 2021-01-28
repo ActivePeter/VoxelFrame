@@ -1,35 +1,31 @@
 # VoxelFrame
-使用unity开发一个类似mc的游戏， a game like minecraft built on unity
 
-游戏端目前是unity2018
+## 介绍
 
-服务端使用.net core 3.1
+写一个mc是我一直以来脑子里的执念...
 
-![image-20200706172720868](http://tuchuang.hanbaoaaa.xyz/image-20200706172720868.png)
+我给这个项目开了一个organization，以下是链接
 
-### 准备续坑了：
+[VoxelFrame (github.com)](https://github.com/VoxelFrame)
 
-先建立一个服务端程序。
+当前主力学习的是用c++和opengl
 
-### 目前服务端进度：
+[VoxelFrame/VoxelFrame_CppClient: 重新开始用c++和opengl写一个类似mc的游戏 (github.com)](https://github.com/VoxelFrame/VoxelFrame_CppClient)
 
-- [x] 1.socket的建立和管理
-- [x] 2.完成了粘包半包的处理
-- [ ] 3.构建基本的结构ing
-- [ ] 4.往客户端中加入network部分以及protobuf2.4.6的包
-- [ ] 5.联调登入
+> 之前也想用rust，但想想还是先把c++用扎实了再说
+>
+> 放弃unity的原因不是因为unity不好，只是个人想往c++的方向发展
+
+## 必要的操作
+
+1，这个仓库是存储各类子模块的主仓库，需要执行
+
+```
+git submodule update --init
+```
 
 
 
-当前正在做:protobuf的包序列化
+## old（现在放在anbandon-part里）
 
-[https://www.bilibili.com/video/BV1d7411n7nK/](https://www.bilibili.com/video/BV1d7411n7nK/)
-
-!!!
-
-<div style="position: relative; padding: 30% 45%;">
-<iframe src="//player.bilibili.com/player.html?aid=86810765&cid=148349605&page=1&as_wide=1&high_quality=1&danmaku=" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"> </iframe>
-</div>
-
-!!!
-
+[VoxelFrame/VoxelFrame_Abandoned (github.com)](https://github.com/VoxelFrame/VoxelFrame_Abandoned)
