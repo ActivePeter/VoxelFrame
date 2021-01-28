@@ -30,13 +30,14 @@ testEntitas/Library/metadata/
 testEntitas/Temp/
 testEntitas/Library/ShaderCache/
 target/
-client/unity/VoxelFrameRemake2020/Library/metadata/
-client/unity/VoxelFrameRemake2020/Library/ShaderCache/
-client/unity/VoxelFrameRemake2020/Library/PackageCache/
-client/unity/VoxelFrameRemake2020/Library/ChinaEditorCache/
-client/unity/VoxelFrameRemake2020/Library/
-client/unity/UnityOfficialECS/Library/
-client/unity/testEntitas/Library/
-client/unity/UnityOfficialECS/Temp/
-client/unity/New Unity Project 1/Library/
-client/unity/mlgb/Library/
+client/old/unity/VoxelFrameRemake2020/Library/metadata/
+client/old/unity/VoxelFrameRemake2020/Library/ShaderCache/
+client/old/unity/VoxelFrameRemake2020/Library/PackageCache/
+client/old/unity/VoxelFrameRemake2020/Library/ChinaEditorCache/
+client/old/unity/VoxelFrameRemake2020/Library/
+client/old/unity/UnityOfficialECS/Library/
+client/old/unity/testEntitas/Library/
+client/old/unity/UnityOfficialECS/Temp/
+client/old/unity/New Unity Project 1/Library/
+client/old/unity/mlgb/Library/
+client/old/unity/VoxelFrameRemake2020/Temp/
