@@ -4,3 +4,6 @@
 [submodule "VoxelFrame_CppClient"]
 	path = VoxelFrame_CppClient
 	url = https://github.com/VoxelFrame/VoxelFrame-CppClient.git
+[submodule "VoxelFrame_GoServer"]
+	path = VoxelFrame_GoServer
+	url = https://github.com/VoxelFrame/VoxelFrame_GoServer.git
