@@ -8,7 +8,7 @@
 
 [VoxelFrame (github.com)](https://github.com/VoxelFrame)
 
-当前主力学习的是用c++和opengl
+当前主力学习的是c++和go
 
 [VoxelFrame/VoxelFrame_CppClient: 重新开始用c++和opengl写一个类似mc的游戏 (github.com)](https://github.com/VoxelFrame/VoxelFrame_CppClient)
 
