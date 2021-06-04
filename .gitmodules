@@ -4,3 +4,18 @@
 [submodule "VoxelFrame_GoServer"]
 	path = VoxelFrame_GoServer
 	url = https://github.com/VoxelFrame/VoxelFrame_GoServer.git
+[submodule "CppClient/third/protobuff"]
+	path = CppClient/third/protobuff
+	url = https://github.com/VoxelFrame/protobuff.git
+[submodule "CppClient/third/vf_imgui"]
+	path = CppClient/third/vf_imgui
+	url = https://github.com/VoxelFrame/vf_imgui.git
+[submodule "CppClient/third/parallel-hashmap"]
+	path = CppClient/third/parallel-hashmap
+	url = https://github.com/VoxelFrame/parallel-hashmap.git
+[submodule "CppClient/third/glfw"]
+	path = CppClient/third/glfw
+	url = https://github.com/VoxelFrame/glfw.git
+[submodule "CppClient/third/brynet"]
+	path = CppClient/third/brynet
+	url = https://github.com/VoxelFrame/brynet.git
