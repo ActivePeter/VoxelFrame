@@ -1,0 +1,22 @@
+
+[submodule "third/glfw"]
+	path = third/glfw
+	url = https://github.com/VoxelFrame/glfw.git
+[submodule "third/vf_imgui"]
+	path = third/vf_imgui
+	url = https://github.com/VoxelFrame/vf_imgui.git
+[submodule "third/brynet"]
+	path = third/brynet
+	url = https://github.com/VoxelFrame/brynet.git
+[submodule "third/protobuff"]
+	path = third/protobuff
+	url = https://github.com/VoxelFrame/protobuff.git
+[submodule "third/sparsepp"]
+	path = third/sparsepp
+	url = https://github.com/VoxelFrame/sparsepp.git
+[submodule "third/parallel-hashmap"]
+	path = third/parallel-hashmap
+	url = https://github.com/VoxelFrame/parallel-hashmap.git
+[submodule "third/paecs"]
+	path = third/paecs
+	url = https://github.com/ActivePeter/paecs.git

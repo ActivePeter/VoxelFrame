@@ -1,0 +1,6 @@
+syntax = "proto2";
+package VFproto;
+
+message ChunkMsg{
+   repeated int32 blockArr =1;
+}

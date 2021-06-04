@@ -1,0 +1,32 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/third/glad/include",
+                "${workspaceFolder}/third/glfw/include",
+                "${workspaceFolder}/third/glm/include",
+                "${workspaceFolder}/third/brynet/include",
+                "${workspaceFolder}/third/protobuff/src",
+                "${workspaceFolder}/third/vf_imgui/imgui",
+                "${workspaceFolder}/third/stb_image/include",
+                // "${workspaceFolder}/third/sparsepp",
+                "${workspaceFolder}/third/parallel-hashmap",
+                "${workspaceFolder}/third/paecs/src",
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.18362.0",
+            "compilerPath": "E:/VS2019/VC/Tools/MSVC/14.28.29333/bin/Hostx64/x64/cl.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "msvc-x64",
+            // "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}
