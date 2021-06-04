@@ -19,3 +19,6 @@
 [submodule "CppClient/third/brynet"]
 	path = CppClient/third/brynet
 	url = https://github.com/VoxelFrame/brynet.git
+[submodule "CppClient/third/paecs"]
+	path = CppClient/third/paecs
+	url = https://github.com/ActivePeter/paecs.git
