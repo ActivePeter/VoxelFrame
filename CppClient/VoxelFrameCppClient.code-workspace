@@ -9,7 +9,7 @@
 			"path": "third\\protobuff\\protobuf_cmake"
 		},
 		{
-			"name": "VoxelFrame_CppClient",
+			"name": "MainProject",
 			"path": "."
 		}
 	],
