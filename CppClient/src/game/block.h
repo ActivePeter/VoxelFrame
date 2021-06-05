@@ -24,7 +24,7 @@
 class CommonBlockInfo
 {
 private:
-    inline void setIndices(uint8_t (&indices)[6], uint8_t _0, uint8_t _1, uint8_t _2, uint8_t _3, uint8_t _4, uint8_t _5)
+    inline void setIndices(uint8_t indices[6], uint8_t _0, uint8_t _1, uint8_t _2, uint8_t _3, uint8_t _4, uint8_t _5)
     {
         indices[0] = _0;
         indices[1] = _1;
@@ -32,25 +32,32 @@ private:
         indices[3] = _3;
         indices[4] = _4;
         indices[5] = _5;
+        // std::cout << "hhh:";
+        // for (int i = 0; i < 6; i++)
+        // {
+        //     std::cout << indices[i] << ",";
+        // }
+        // std::cout << std::endl;
     }
 
 public:
     enum FaceDirection
     {
-        FaceX_Positive,
-        FaceX_Negative,
-        FaceY_Positive,
-        FaceY_Negative,
-        FaceZ_Positive,
-        FaceZ_Negative,
+        FaceX_Positive = 0,
+        FaceX_Negative = 1,
+        FaceY_Positive = 2,
+        FaceY_Negative = 3,
+        FaceZ_Positive = 4,
+        FaceZ_Negative = 5,
     };
     bool hasFace(FaceDirection dir)
     {
         return true;
     }
     //逆时针为正面
-    void getFaceIndices(FaceDirection dir, uint8_t (&indices)[6])
+    void getFaceIndices(FaceDirection dir, uint8_t indices[6])
     {
+        // std::cout << "dir enum:" << (int)dir << std::endl;
         switch (dir)
         {
         case FaceX_Positive:
@@ -73,8 +80,14 @@ public:
             break;
 
         default:
+            std::cout << "no face enum matched" << std::endl;
             break;
         }
+        // for (int i = 0; i < 6; i++)
+        // {
+        //     std::cout << (int)indices[i] << ",";
+        // }
+        // std::cout << std::endl;
     }
 };
 class BlockManager

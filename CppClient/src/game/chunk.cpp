@@ -24,17 +24,21 @@ void Chunk::constructMesh()
                 for (int z = 0; z < ChunkWidth + 1; z++)
                 {
                     vertices[x + y * (ChunkWidth + 1) + z * (ChunkWidth + 1) * (ChunkWidth + 1)].setPostion(x, y, z);
+                    // std::cout << vertices[x + y * (ChunkWidth + 1) + z * (ChunkWidth + 1) * (ChunkWidth + 1)].Position.x << ","
+                    //           << vertices[x + y * (ChunkWidth + 1) + z * (ChunkWidth + 1) * (ChunkWidth + 1)].Position.y << ","
+                    //           << vertices[x + y * (ChunkWidth + 1) + z * (ChunkWidth + 1) * (ChunkWidth + 1)].Position.z
+                    //           << std::endl;
                 }
             }
         }
     }
     auto blockManager = App::getInstance().gamePtr->blockManager;
     //遍历区块
-    for (int x = 0; x < ChunkWidth; x++)
+    for (int x = 0; x < ChunkWidth - 1; x++)
     {
-        for (int y = 0; y < ChunkWidth / 2; y++)
+        for (int y = 0; y < ChunkWidth - 1; y++)
         {
-            for (int z = 0; z < ChunkWidth; z++)
+            for (int z = 0; z < ChunkWidth - 1; z++)
             {
                 //标准方块8个点序列对应的在区块中的索引
                 uint32_t _8points[8] = {
@@ -68,4 +72,5 @@ void Chunk::constructMesh()
             }
         }
     }
+    setupMesh();
 }

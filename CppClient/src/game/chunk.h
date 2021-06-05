@@ -76,8 +76,11 @@ private:
             blockInfo.getFaceIndices(posDir, indicesOfIndices);
             for (int i = 0; i < 6; i++)
             {
+
+                // std::cout << (int)indicesOfIndices[i] << ",";
                 indices.push_back(_8points[indicesOfIndices[i]]);
             }
+            // std::cout << std::endl;
             //逆时针面为正面
         }
         //x为空 x+1为实,添加朝x负向的面
@@ -89,10 +92,15 @@ private:
             blockInfo_p.getFaceIndices(negDir, indicesOfIndices);
             for (int i = 0; i < 6; i++)
             {
+                // std::cout << (int)indicesOfIndices[i] << ".";
+                // std::cout << indicesOfIndices[i] << ",";
                 indices.push_back(_8points[indicesOfIndices[i]]);
             }
+
+            // std::cout << std::endl;
             //逆时针面为正面
         }
+        // std::cout << std::endl;
     }
 
 public:
@@ -108,11 +116,18 @@ public:
         chunkKey = ck;
         for (int x = 0; x < ChunkWidth; x++)
         {
-            for (int y = 0; y < ChunkWidth / 2; y++)
+            for (int y = 0; y < ChunkWidth; y++)
             {
                 for (int z = 0; z < ChunkWidth; z++)
                 {
-                    data[x + y * ChunkWidth + z * ChunkWidth * ChunkWidth];
+                    if (y > ChunkWidth / 2)
+                    {
+                        data[x + y * ChunkWidth + z * ChunkWidth * ChunkWidth] = 0;
+                    }
+                    else
+                    {
+                        data[x + y * ChunkWidth + z * ChunkWidth * ChunkWidth] = 1;
+                    }
                 }
             }
         }
