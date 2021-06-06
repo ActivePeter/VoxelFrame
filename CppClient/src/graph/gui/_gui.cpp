@@ -92,11 +92,21 @@ void Gui::renderGui()
         static float f = 0.0f;
         static float fpitch = 0.0f;
         static int counter = 0;
-        ImGui::Text("Hello, world!");                // Display some text (you can use a format string too)
+        ImGui::Text("Hello, world!"); // Display some text (you can use a format string too)
+        {
+            auto camPtr = App::getInstance().graphPtr->cameraPtr;
+            if (camPtr)
+            {
+                char buff[90] = {0};
+                sprintf(buff, "cam pos: %.2f %.2f %.2f", camPtr->Position.x, camPtr->Position.y, camPtr->Position.z);
+                ImGui::Text(buff);
+            }
+        }
+
         ImGui::SliderFloat("float", &f, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f
-        App::getInstance().graphPtr->cameraPtr->Yaw = 360 * f;
+        // App::getInstance().graphPtr->cameraPtr->Yaw = 360 * f;
         ImGui::SliderFloat("float2", &fpitch, -89.0f, 89.0f);
-        App::getInstance().graphPtr->cameraPtr->Pitch = fpitch;
+        // App::getInstance().graphPtr->cameraPtr->Pitch = fpitch;
 
         ImGui::ColorEdit3("clear color", (float *)&clear_color); // Edit 3 floats representing a color
 

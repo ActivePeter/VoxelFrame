@@ -27,6 +27,10 @@ public:
     float highDPIscaleFactor = 1;
     std::shared_ptr<Camera> cameraPtr;
     std::shared_ptr<Shader> camShaderPtr;
+
+    // timing
+    // float deltaTime = 0.0f; // time between current frame and last frame
+    // float lastFrame = 0.0f;
     //用于遍历并绘制所有网格
     //玩家区块变更就需要更新这个列表
     std::vector<std::shared_ptr<Chunk>> chunks2Draw;

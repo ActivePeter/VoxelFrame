@@ -8,5 +8,6 @@ class IO
 private:
     /* data */
 public:
+    void processInput(GLFWwindow *window);
     void init();
 };

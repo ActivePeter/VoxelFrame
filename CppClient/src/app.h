@@ -37,10 +37,20 @@ public:
     std::shared_ptr<Graph> graphPtr;
     std::shared_ptr<IO> ioPtr;
 
+    // timing
+    float deltaTime = 0.0f; // time between current frame and last frame
+    float lastFrame = 0.0f;
+
     // app()
     // {
 
     // }
+    inline void calcTimePerLoop()
+    {
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+    }
     void run();
     static App &getInstance();
 };

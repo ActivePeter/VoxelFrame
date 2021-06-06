@@ -24,6 +24,8 @@ void App::run()
     gamePtr->start();
     while (graph.running())
     {
+        calcTimePerLoop();
+        ioPtr->processInput(graph.window);
         // DrawSys::doDraw();
         graph.doDraw();
         // //清屏
