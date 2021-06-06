@@ -4,11 +4,14 @@ void App::run()
 {
     ecsPtr = paecs::createScene();
     gamePtr = std::make_shared<Game>();
-
-    if (!_g_Graph.init())
+    graphPtr = std::make_shared<Graph>();
+    ioPtr = std::make_shared<IO>();
+    auto &graph = *graphPtr;
+    if (!graph.init())
     {
         return; //启动失败
     }
+    ioPtr->init();
 
     auto &ecs = *ecsPtr;
     ecs.createEntity()
@@ -19,10 +22,10 @@ void App::run()
     // NetSys::start();
     // WindowInfoModel &windowInfoModel = WindowInfoModel::getInstance();
     gamePtr->start();
-    while (_g_Graph.running())
+    while (graph.running())
     {
         // DrawSys::doDraw();
-        _g_Graph.doDraw();
+        graph.doDraw();
         // //清屏
         // glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         // glClear(GL_COLOR_BUFFER_BIT);
@@ -40,12 +43,12 @@ void App::run()
     // }
 
     // // 退出前清理
-    _g_Graph.end();
+    graph.end();
 }
 
 App &App::getInstance()
 {
-
+    //位于堆区，自创建时就存在
     static App instance;
     return instance;
 }

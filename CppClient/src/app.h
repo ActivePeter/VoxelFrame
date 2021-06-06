@@ -7,7 +7,9 @@
 #include "game/game.h"
 #include "graph/_Graph.h"
 #include "net/_net.h"
+#include "io/_IO.h"
 
+class Graph;
 class Game;
 ////////////////////////////////////////
 struct A
@@ -32,6 +34,8 @@ public:
     // Scene scene;
     std::shared_ptr<paecs::Scene> ecsPtr;
     std::shared_ptr<Game> gamePtr;
+    std::shared_ptr<Graph> graphPtr;
+    std::shared_ptr<IO> ioPtr;
 
     // app()
     // {

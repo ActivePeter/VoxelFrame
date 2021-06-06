@@ -1,4 +1,5 @@
 #include "chunk.h"
+#include "app.h"
 
 void ChunkManager::addNewChunk(int32_t x, int32_t y, int32_t z)
 {
@@ -7,7 +8,7 @@ void ChunkManager::addNewChunk(int32_t x, int32_t y, int32_t z)
 
     // newChunk->constructMesh();
     chunkKey2chunkPtr[ck] = newChunk;
-    _g_Graph.addChunk2DrawList(newChunk);
+    App::getInstance().graphPtr->addChunk2DrawList(newChunk);
 }
 
 void Chunk::constructMesh()

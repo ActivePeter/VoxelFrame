@@ -1,9 +1,11 @@
 #include "_gui.h"
 #include "graph/_Graph.h"
-Gui _Gui;
+// Gui _Gui;
 
 void Gui::init()
 {
+    auto &graph = *App::getInstance().graphPtr;
+
     // WindowInfoModel &wim = WindowInfoModel::getInstance();
     // Setup Dear ImGui binding
     IMGUI_CHECKVERSION();
@@ -13,7 +15,7 @@ void Gui::init()
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
 
-    ImGui_ImplGlfw_InitForOpenGL(_g_Graph.window, true);
+    ImGui_ImplGlfw_InitForOpenGL(graph.window, true);
     ImGui_ImplOpenGL3_Init();
 
     // Setup style
@@ -21,7 +23,7 @@ void Gui::init()
     //ImGui::StyleColorsClassic();
     ImGui::StyleColorsLight();
     ImGuiStyle &style = ImGui::GetStyle();
-    style.ScaleAllSizes(_g_Graph.highDPIscaleFactor);
+    style.ScaleAllSizes(graph.highDPIscaleFactor);
     // Load Fonts
     // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
     // - AddFontFromFileTTF() will return the ImFont* so you can store it if you need to select the font among multiple.
@@ -33,11 +35,11 @@ void Gui::init()
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
     ImFontConfig config;
-    config.SizePixels = 18.0f * _g_Graph.highDPIscaleFactor;
+    config.SizePixels = 18.0f * graph.highDPIscaleFactor;
     font_default = io.Fonts->AddFontDefault(&config);
-    font_cousine = io.Fonts->AddFontFromFileTTF("resource/font/Cousine-Regular.ttf", 15.0f * _g_Graph.highDPIscaleFactor);
-    font_karla = io.Fonts->AddFontFromFileTTF("resource/font/Karla-Regular.ttf", 18.0f * _g_Graph.highDPIscaleFactor);
-    font_latol = io.Fonts->AddFontFromFileTTF("resource/font/Lato-Regular.ttf", 18.0f * _g_Graph.highDPIscaleFactor);
+    font_cousine = io.Fonts->AddFontFromFileTTF("resource/font/Cousine-Regular.ttf", 15.0f * graph.highDPIscaleFactor);
+    font_karla = io.Fonts->AddFontFromFileTTF("resource/font/Karla-Regular.ttf", 18.0f * graph.highDPIscaleFactor);
+    font_latol = io.Fonts->AddFontFromFileTTF("resource/font/Lato-Regular.ttf", 18.0f * graph.highDPIscaleFactor);
 
     // io.Fonts->AddFontFromFileTTF("resource/font/DroidSans.ttf", 16.0f);
     // io.Fonts->AddFontFromFileTTF("resource/font/ProggyTiny.ttf", 10.0f);
@@ -88,9 +90,14 @@ void Gui::renderGui()
     // Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets automatically appears in a window called "Debug".
     {
         static float f = 0.0f;
+        static float fpitch = 0.0f;
         static int counter = 0;
-        ImGui::Text("Hello, world!");                            // Display some text (you can use a format string too)
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);             // Edit 1 float using a slider from 0.0f to 1.0f
+        ImGui::Text("Hello, world!");                // Display some text (you can use a format string too)
+        ImGui::SliderFloat("float", &f, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f
+        App::getInstance().graphPtr->cameraPtr->Yaw = 360 * f;
+        ImGui::SliderFloat("float2", &fpitch, -89.0f, 89.0f);
+        App::getInstance().graphPtr->cameraPtr->Pitch = fpitch;
+
         ImGui::ColorEdit3("clear color", (float *)&clear_color); // Edit 3 floats representing a color
 
         ImGui::Text("Windows");
