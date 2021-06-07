@@ -18,7 +18,7 @@ struct Vertex
     glm::vec3 Position;
 
     // // texCoords材质uv
-    glm::vec2 TexCoords;
+    // glm::vec2 TexCoords;
 
     // // normal
     // glm::vec3 Normal;
@@ -68,21 +68,6 @@ public:
     //     // now that we have all the required data, set the vertex buffers and its attribute pointers.
     //     setupMesh();
     // }
-    void expandVertices(size_t size)
-    {
-        Vertex vertex;
-        for (int i = 0; i < size; i++)
-        {
-            vertices.push_back(vertex);
-        }
-    }
-    void expandVertices(Vertex vertex, size_t size)
-    {
-        for (int i = 0; i < size; i++)
-        {
-            vertices.push_back(vertex);
-        }
-    }
     // void expandIndices(size_t size)
     // {
     //     for (int i = 0; i < size; i++)

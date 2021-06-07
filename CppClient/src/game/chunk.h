@@ -46,66 +46,43 @@ private:
         return x + y * (ChunkWidth + 1) + z * (ChunkWidth + 1) * (ChunkWidth + 1);
     }
     /** 
-     * @brief 构建一个维度的网格 需要参数一一对应
-     * @param block    方块id
-     * @param block_p  +1方块的id
-     * @param blockInfo 方块信息
-     * @param blockInfo_p +1方块信息
-     * @param posDir 正方向
-     * @param negDir 负方向
-     *
-     * @return 返回说明
-     *     -<em>false</em> fail
-     *     -<em>true</em> succeed
+     * 判断并构建一个方向上的网格 需要参数一一对应
      */
     void constructMeshInOneDim(
         int blockx, int blocky, int blockz,
+        int blockx_p, int blocky_p, int blockz_p,
         uint8_t &block,
         uint8_t &block_p,
         CommonBlockInfo &blockInfo,
         CommonBlockInfo &blockInfo_p,
         CommonBlockInfo::FaceDirection posDir,
-        CommonBlockInfo::FaceDirection negDir, )
+        CommonBlockInfo::FaceDirection negDir)
     {
+
         //+1为空 当前为实心
         if (!block_p &&
             block &&
             blockInfo.hasStandardFace(posDir))
         {
             blockInfo.pushOneFace2Mesh(blockx, blocky, blockz, posDir, *this);
-            //插入一个面的四个点
-
-            //插入四个点对应的索引顺序
-
-            // uint8_t indicesOfIndices[6]; //qaq 取不来名字了
-            // blockInfo.getFaceIndices(posDir, indicesOfIndices);
-            // for (int i = 0; i < 6; i++)
-            // {
-
-            //     // std::cout << (int)indicesOfIndices[i] << ",";
-            //     indices.push_back(_8points[indicesOfIndices[i]]);
-            // }
-            // std::cout << std::endl;
-            //逆时针面为正面
+            auto &mesh = *this;
+            auto &vetex1 = mesh.vertices[mesh.vertices.size() - 4];
+            auto &vetex2 = mesh.vertices[mesh.vertices.size() - 3];
+            auto &vetex3 = mesh.vertices[mesh.vertices.size() - 2];
+            auto &vetex4 = mesh.vertices[mesh.vertices.size() - 1];
+            printf("vec added 1: %.2f %.2f %.2f \r\n", vetex1.Position.x, vetex1.Position.y, vetex1.Position.z);
+            printf("vec added 2: %.2f %.2f %.2f \r\n", vetex2.Position.x, vetex2.Position.y, vetex2.Position.z);
+            printf("vec added 3: %.2f %.2f %.2f \r\n", vetex3.Position.x, vetex3.Position.y, vetex3.Position.z);
+            printf("vec added 4: %.2f %.2f %.2f \r\n", vetex4.Position.x, vetex4.Position.y, vetex4.Position.z);
+            printf("\r\n");
         }
         //x为空 x+1为实,添加朝x负向的面
         else if (!block &&
                  block_p &&
-                 blockInfo_p.hasFace(negDir))
+                 blockInfo_p.hasStandardFace(negDir))
         {
-            uint8_t indicesOfIndices[6]; //qaq 取不来名字了
-            blockInfo_p.getFaceIndices(negDir, indicesOfIndices);
-            for (int i = 0; i < 6; i++)
-            {
-                // std::cout << (int)indicesOfIndices[i] << ".";
-                // std::cout << indicesOfIndices[i] << ",";
-                indices.push_back(_8points[indicesOfIndices[i]]);
-            }
-
-            // std::cout << std::endl;
-            //逆时针面为正面
+            blockInfo_p.pushOneFace2Mesh(blockx_p, blocky_p, blockz_p, negDir, *this);
         }
-        // std::cout << std::endl;
     }
 
 public:

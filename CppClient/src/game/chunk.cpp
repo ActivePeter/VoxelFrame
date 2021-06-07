@@ -60,18 +60,21 @@ void Chunk::constructMesh()
                 auto _block_p = readData(x + 1, y, z);
                 auto &blockInfo_p_x = blockManager->getBlockInfo(_block_p);
                 constructMeshInOneDim(x, y, z,
+                                      x + 1, y, z,
                                       _block, _block_p, blockInfo, blockInfo_p_x,
                                       CommonBlockInfo::FaceX_Positive, CommonBlockInfo::FaceX_Negative);
 
                 _block_p = readData(x, y + 1, z);
                 auto &blockInfo_p_y = blockManager->getBlockInfo(_block_p);
                 constructMeshInOneDim(x, y, z,
+                                      x, y + 1, z,
                                       _block, _block_p, blockInfo, blockInfo_p_y,
                                       CommonBlockInfo::FaceY_Positive, CommonBlockInfo::FaceY_Negative);
 
                 _block_p = readData(x, y, z + 1);
                 auto &blockInfo_p_z = blockManager->getBlockInfo(_block_p);
                 constructMeshInOneDim(x, y, z,
+                                      x, y, z + 1,
                                       _block, _block_p, blockInfo, blockInfo_p_z,
                                       CommonBlockInfo::FaceZ_Positive, CommonBlockInfo::FaceZ_Negative);
             }

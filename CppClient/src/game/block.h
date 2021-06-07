@@ -24,27 +24,6 @@
 class CommonBlockInfo
 {
 private:
-    inline void pushIndices(vector<unsigned int> &target, unsigned int _0, unsigned int _1, unsigned int _2, unsigned int _3, unsigned int _4, unsigned int _5)
-    {
-        target.push_back(_0);
-        target.push_back(_1);
-        target.push_back(_2);
-        target.push_back(_3);
-        target.push_back(_4);
-        target.push_back(_5);
-        // indices[0] = _0;
-        // indices[1] = _1;
-        // indices[2] = _2;
-        // indices[3] = _3;
-        // indices[4] = _4;
-        // indices[5] = _5;
-        // std::cout << "hhh:";
-        // for (int i = 0; i < 6; i++)
-        // {
-        //     std::cout << indices[i] << ",";
-        // }
-        // std::cout << std::endl;
-    }
     inline void setFaceVertices(vector<Vertex> &vertices, uint8_t _0, uint8_t _1, uint8_t _2, uint8_t _3)
     {
         addUpStandardVertexOfIndex(vertices[vertices.size() - 4], _0);
@@ -53,7 +32,11 @@ private:
         addUpStandardVertexOfIndex(vertices[vertices.size() - 1], _3);
     }
 
-    //标准方块顶点坐标和索引的对应信息
+    /**************************************
+     * 方块基础信息3
+     * 这个函数包含方块 顶点相对坐标 和 对应的index
+     * 参考markdown文件夹里的 方块顶点顺序.md
+     * ***************************************/
     void addUpStandardVertexOfIndex(Vertex &vertex, uint8_t index)
     {
         switch (index)
@@ -76,6 +59,7 @@ private:
             break;
         case 5:
             vertex.addPosition(0, 1, 1);
+            break;
         case 6:
             vertex.addPosition(1, 0, 1);
             break;
@@ -96,13 +80,20 @@ public:
         FaceZ_Negative = 5,
     };
 
-    //方块基础信息1,判断某个方向是否有标准类型面
+    /**************************************
+     * 方块基础信息1,判断某个方向是否有标准类型面
+     * 以便后续有特殊类型方块可以继承和覆盖
+     * ***************************************/
     bool hasStandardFace(FaceDirection dir)
     {
         return true;
     }
 
-    //这个函数包含方块所有顶点坐标信息
+    /**************************************
+     * 方块基础信息2
+     * 这个函数包含方块每个面的顶点坐标顺序
+     * 以便后续有特殊类型方块可以继承和覆盖
+     * ***************************************/
     void setFaceVertexPosOnDir(Mesh &mesh, FaceDirection dir)
     {
 
@@ -139,18 +130,28 @@ public:
             break;
         }
     }
+    /**************************************
+     * 往区块网格添加一个方块面的函数
+     * 包含了三角形的顺序信息（indices
+     * ***************************************/
     void pushOneFace2Mesh(int blockx, int blocky, int blockz, FaceDirection dir, Mesh &mesh)
     {
+        // printf("dir: %d \r\n", dir);
         Vertex vertex;
         vertex.setPosition(blockx, blocky, blockz);
-        mesh.expandVertices(vertex, 4);
+        for (int i = 0; i < 4; i++)
+        {
+            mesh.vertices.push_back(vertex);
+        }
         setFaceVertexPosOnDir(mesh, dir);
+
         mesh.indices.push_back(mesh.vertices.size() - 4);
         mesh.indices.push_back(mesh.vertices.size() - 3);
         mesh.indices.push_back(mesh.vertices.size() - 2);
         mesh.indices.push_back(mesh.vertices.size() - 4);
         mesh.indices.push_back(mesh.vertices.size() - 2);
         mesh.indices.push_back(mesh.vertices.size() - 1);
+        // printf("%d %d\r\n", mesh.vertices.size(), mesh.indices.size());
     }
 };
 class BlockManager
