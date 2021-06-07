@@ -1,8 +1,7 @@
 {
 	"folders": [
 		{
-			"name": "guidance",
-			"path": "guidance"
+			"path": "markdown"
 		},
 		{
 			"name": "protobuf_cmake",

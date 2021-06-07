@@ -73,6 +73,13 @@ file(GLOB protobuf_files
 # SET(${PROTO_FILES_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 LIST(APPEND PROTO_FLAGS -I${PROTO_FILES_DIR})
 
+# 移除原来生成的proto源文件
+# EXECUTE_PROCESS(
+#     COMMAND rm -f ${PROTO_FILES_DIR}/src/* 
+# )
+file(REMOVE_RECURSE ${PROTO_FILES_DIR}/src)
+file(MAKE_DIRECTORY ${PROTO_FILES_DIR}/src)
+# 遍历并生成proto源文件
 FOREACH(FIL ${protobuf_files})
 
     GET_FILENAME_COMPONENT(FIL_WE ${FIL} NAME_WE)
@@ -80,9 +87,7 @@ FOREACH(FIL ${protobuf_files})
     set(PROTO_SRCS "${PROTO_FILES_DIR}/src/${FIL_WE}.pb.cc")
     set(PROTO_HDRS "${PROTO_FILES_DIR}/src/${FIL_WE}.pb.h")
 
-    EXECUTE_PROCESS(
-        COMMAND rm -f ${PROTO_FILES_DIR}/src/* 
-    )
+    
     EXECUTE_PROCESS(
         COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} -I${PROTO_FILES_DIR} --cpp_out=${PROTO_FILES_DIR}/src ${FIL}
     )
@@ -104,8 +109,25 @@ ENDFOREACH()
 # add_library (stb_image ${STB_IMAGE_DIR}/stb_image.cc)
 
 # 设置MSVC编译编码
+if(MSVC)
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8>")
+endif()
 
+# 复制资源文件到生成目录
+# EXECUTE_PROCESS(
+#     COMMAND rm -rf E:/pa_files/project/cs_big_prjs/VoxelFrame/CppClient/build/Debug/resource/* 
+# )
+if(MSVC)
+    file(REMOVE_RECURSE ${VoxelFrame_BINARY_DIR}/Debug/resource)
+    file(REMOVE_RECURSE ${VoxelFrame_BINARY_DIR}/Release/resource)
+
+    file(COPY ${PROJECT_SOURCE_DIR}/resource DESTINATION ${VoxelFrame_BINARY_DIR}/Debug)
+    file(COPY ${PROJECT_SOURCE_DIR}/resource DESTINATION ${VoxelFrame_BINARY_DIR}/Release)
+else()
+    file(REMOVE_RECURSE ${VoxelFrame_BINARY_DIR}/resource)
+    file(MAKE_DIRECTORY ${VoxelFrame_BINARY_DIR}/resource)
+    file(COPY ${PROJECT_SOURCE_DIR}/resource DESTINATION ${VoxelFrame_BINARY_DIR})
+endif()
 # 添加一个可编译的目标到工程
 # aux_source_directory(${PROJECT_SOURCE_DIR}/src DIR_SRCS)
 set (SRC_DIR ${PROJECT_SOURCE_DIR}/src)
