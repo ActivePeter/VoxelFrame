@@ -59,27 +59,32 @@ private:
      *     -<em>true</em> succeed
      */
     void constructMeshInOneDim(
+        int blockx, int blocky, int blockz,
         uint8_t &block,
         uint8_t &block_p,
         CommonBlockInfo &blockInfo,
         CommonBlockInfo &blockInfo_p,
         CommonBlockInfo::FaceDirection posDir,
-        CommonBlockInfo::FaceDirection negDir,
-        uint32_t _8points[])
+        CommonBlockInfo::FaceDirection negDir, )
     {
         //+1为空 当前为实心
         if (!block_p &&
             block &&
-            blockInfo.hasFace(posDir))
+            blockInfo.hasStandardFace(posDir))
         {
-            uint8_t indicesOfIndices[6]; //qaq 取不来名字了
-            blockInfo.getFaceIndices(posDir, indicesOfIndices);
-            for (int i = 0; i < 6; i++)
-            {
+            blockInfo.pushOneFace2Mesh(blockx, blocky, blockz, posDir, *this);
+            //插入一个面的四个点
 
-                // std::cout << (int)indicesOfIndices[i] << ",";
-                indices.push_back(_8points[indicesOfIndices[i]]);
-            }
+            //插入四个点对应的索引顺序
+
+            // uint8_t indicesOfIndices[6]; //qaq 取不来名字了
+            // blockInfo.getFaceIndices(posDir, indicesOfIndices);
+            // for (int i = 0; i < 6; i++)
+            // {
+
+            //     // std::cout << (int)indicesOfIndices[i] << ",";
+            //     indices.push_back(_8points[indicesOfIndices[i]]);
+            // }
             // std::cout << std::endl;
             //逆时针面为正面
         }

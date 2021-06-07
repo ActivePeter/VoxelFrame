@@ -14,19 +14,28 @@ using namespace std;
 
 struct Vertex
 {
-    // position
+    // // position
     glm::vec3 Position;
+
+    // // texCoords材质uv
+    glm::vec2 TexCoords;
+
     // // normal
     // glm::vec3 Normal;
-    // // texCoords
-    // glm::vec2 TexCoords;
+
     // // tangent
     // glm::vec3 Tangent;
     // // bitangent
     // glm::vec3 Bitangent;
-    void setPostion(float x, float y, float z)
+    void setPosition(float x, float y, float z)
     {
         Position = glm::vec3(x, y, z);
+    }
+    void addPosition(float x, float y, float z)
+    {
+        Position.x += x;
+        Position.y += y;
+        Position.z += z;
     }
 };
 
@@ -58,6 +67,28 @@ public:
 
     //     // now that we have all the required data, set the vertex buffers and its attribute pointers.
     //     setupMesh();
+    // }
+    void expandVertices(size_t size)
+    {
+        Vertex vertex;
+        for (int i = 0; i < size; i++)
+        {
+            vertices.push_back(vertex);
+        }
+    }
+    void expandVertices(Vertex vertex, size_t size)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            vertices.push_back(vertex);
+        }
+    }
+    // void expandIndices(size_t size)
+    // {
+    //     for (int i = 0; i < size; i++)
+    //     {
+    //         indices.push_back(0);
+    //     }
     // }
 
     // render the mesh

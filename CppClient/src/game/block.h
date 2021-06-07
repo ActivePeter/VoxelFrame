@@ -24,20 +24,65 @@
 class CommonBlockInfo
 {
 private:
-    inline void setIndices(uint8_t indices[6], uint8_t _0, uint8_t _1, uint8_t _2, uint8_t _3, uint8_t _4, uint8_t _5)
+    inline void pushIndices(vector<unsigned int> &target, unsigned int _0, unsigned int _1, unsigned int _2, unsigned int _3, unsigned int _4, unsigned int _5)
     {
-        indices[0] = _0;
-        indices[1] = _1;
-        indices[2] = _2;
-        indices[3] = _3;
-        indices[4] = _4;
-        indices[5] = _5;
+        target.push_back(_0);
+        target.push_back(_1);
+        target.push_back(_2);
+        target.push_back(_3);
+        target.push_back(_4);
+        target.push_back(_5);
+        // indices[0] = _0;
+        // indices[1] = _1;
+        // indices[2] = _2;
+        // indices[3] = _3;
+        // indices[4] = _4;
+        // indices[5] = _5;
         // std::cout << "hhh:";
         // for (int i = 0; i < 6; i++)
         // {
         //     std::cout << indices[i] << ",";
         // }
         // std::cout << std::endl;
+    }
+    inline void setFaceVertices(vector<Vertex> &vertices, uint8_t _0, uint8_t _1, uint8_t _2, uint8_t _3)
+    {
+        addUpStandardVertexOfIndex(vertices[vertices.size() - 4], _0);
+        addUpStandardVertexOfIndex(vertices[vertices.size() - 3], _1);
+        addUpStandardVertexOfIndex(vertices[vertices.size() - 2], _2);
+        addUpStandardVertexOfIndex(vertices[vertices.size() - 1], _3);
+    }
+
+    //标准方块顶点坐标和索引的对应信息
+    void addUpStandardVertexOfIndex(Vertex &vertex, uint8_t index)
+    {
+        switch (index)
+        {
+        //need do nothing
+        // case 0:
+        //     vertex.addPosition(0,0,0);
+        //     break;
+        case 1:
+            vertex.addPosition(1, 0, 0);
+            break;
+        case 2:
+            vertex.addPosition(0, 1, 0);
+            break;
+        case 3:
+            vertex.addPosition(0, 0, 1);
+            break;
+        case 4:
+            vertex.addPosition(1, 1, 0);
+            break;
+        case 5:
+            vertex.addPosition(0, 1, 1);
+        case 6:
+            vertex.addPosition(1, 0, 1);
+            break;
+        case 7:
+            vertex.addPosition(1, 1, 1);
+            break;
+        }
     }
 
 public:
@@ -50,44 +95,62 @@ public:
         FaceZ_Positive = 4,
         FaceZ_Negative = 5,
     };
-    bool hasFace(FaceDirection dir)
+
+    //方块基础信息1,判断某个方向是否有标准类型面
+    bool hasStandardFace(FaceDirection dir)
     {
         return true;
     }
-    //逆时针为正面
-    void getFaceIndices(FaceDirection dir, uint8_t indices[6])
+
+    //这个函数包含方块所有顶点坐标信息
+    void setFaceVertexPosOnDir(Mesh &mesh, FaceDirection dir)
     {
-        // std::cout << "dir enum:" << (int)dir << std::endl;
+
+        // 8个点 对应8个索引
         switch (dir)
         {
         case FaceX_Positive:
-            setIndices(indices, 1, 6, 4, 4, 6, 7);
+            // 1 4 7 6
+            setFaceVertices(mesh.vertices, 1, 4, 7, 6);
             break;
         case FaceX_Negative:
-            setIndices(indices, 3, 0, 2, 2, 5, 3);
+            // 3 5 2 0
+            setFaceVertices(mesh.vertices, 3, 5, 2, 0);
             break;
         case FaceY_Positive:
-            setIndices(indices, 2, 4, 7, 7, 5, 2);
+            // 2 5 7 4
+            setFaceVertices(mesh.vertices, 2, 5, 7, 4);
             break;
         case FaceY_Negative:
-            setIndices(indices, 0, 3, 6, 6, 1, 0);
+            // 1 6 3 0
+            setFaceVertices(mesh.vertices, 1, 6, 3, 0);
             break;
         case FaceZ_Positive:
-            setIndices(indices, 3, 5, 7, 7, 6, 3);
+            // 6 7 5 3
+            setFaceVertices(mesh.vertices, 6, 7, 5, 3);
             break;
         case FaceZ_Negative:
-            setIndices(indices, 0, 1, 4, 4, 2, 0);
+            // 0 2 4 1
+            setFaceVertices(mesh.vertices, 0, 2, 4, 1);
             break;
 
         default:
             std::cout << "no face enum matched" << std::endl;
             break;
         }
-        // for (int i = 0; i < 6; i++)
-        // {
-        //     std::cout << (int)indices[i] << ",";
-        // }
-        // std::cout << std::endl;
+    }
+    void pushOneFace2Mesh(int blockx, int blocky, int blockz, FaceDirection dir, Mesh &mesh)
+    {
+        Vertex vertex;
+        vertex.setPosition(blockx, blocky, blockz);
+        mesh.expandVertices(vertex, 4);
+        setFaceVertexPosOnDir(mesh, dir);
+        mesh.indices.push_back(mesh.vertices.size() - 4);
+        mesh.indices.push_back(mesh.vertices.size() - 3);
+        mesh.indices.push_back(mesh.vertices.size() - 2);
+        mesh.indices.push_back(mesh.vertices.size() - 4);
+        mesh.indices.push_back(mesh.vertices.size() - 2);
+        mesh.indices.push_back(mesh.vertices.size() - 1);
     }
 };
 class BlockManager
