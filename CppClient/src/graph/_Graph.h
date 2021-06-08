@@ -8,6 +8,8 @@
 #include "camera.h"
 #include "gui/_gui.h"
 #include "shader_m.h"
+#include "texture.h"
+
 class Gui;
 class Chunk;
 class App;
@@ -21,6 +23,7 @@ private:
 
 public:
     std::shared_ptr<Gui> _guiPtr;
+    std::shared_ptr<TextureManager> _textureManagerPtr;
     int windowH = 800;
     int windowW = 1000;
     GLFWwindow *window;

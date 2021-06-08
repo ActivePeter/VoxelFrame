@@ -23,13 +23,26 @@
 //代表最普通的方块状态。
 class CommonBlockInfo
 {
-private:
+protected:
     inline void setFaceVertices(vector<Vertex> &vertices, uint8_t _0, uint8_t _1, uint8_t _2, uint8_t _3)
     {
         addUpStandardVertexOfIndex(vertices[vertices.size() - 4], _0);
         addUpStandardVertexOfIndex(vertices[vertices.size() - 3], _1);
         addUpStandardVertexOfIndex(vertices[vertices.size() - 2], _2);
         addUpStandardVertexOfIndex(vertices[vertices.size() - 1], _3);
+    }
+    /* data */
+    void setFaceUVsByTextureIndex(
+        Mesh &mesh, int textureIndex)
+    {
+        float uvs[8];
+        auto size = mesh.vertices.size();
+        auto &tm = *App::getInstance().graphPtr->_textureManagerPtr;
+        tm.getBlockFaceUVsByTextureIndex(uvs, textureIndex);
+        mesh.vertices[size - 4].setUV(uvs[0], uvs[1]);
+        mesh.vertices[size - 3].setUV(uvs[2], uvs[3]);
+        mesh.vertices[size - 2].setUV(uvs[4], uvs[5]);
+        mesh.vertices[size - 1].setUV(uvs[6], uvs[7]);
     }
 
     /**************************************

@@ -27,6 +27,9 @@ struct Vertex
     // glm::vec3 Tangent;
     // // bitangent
     // glm::vec3 Bitangent;
+    void setUV(float u, float v)
+    {
+    }
     void setPosition(float x, float y, float z)
     {
         Position = glm::vec3(x, y, z);
