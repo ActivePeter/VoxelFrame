@@ -1,5 +1,11 @@
 #pragma once
 #include "base.h"
+#include "blocks_uv_setter/base_blocks_uv_setter.h"
+
+#include "blocks_detailed/blocks_registry.h"
+#include "graph/Mesh.h"
+
+#include "enum.h"
 // class CommonBlockMeshModel
 // {
 // private:
@@ -21,6 +27,8 @@
 //
 
 //代表最普通的方块状态。
+class App;
+///////////////////////////
 class CommonBlockInfo
 {
 protected:
@@ -32,18 +40,8 @@ protected:
         addUpStandardVertexOfIndex(vertices[vertices.size() - 1], _3);
     }
     /* data */
-    void setFaceUVsByTextureIndex(
-        Mesh &mesh, int textureIndex)
-    {
-        float uvs[8];
-        auto size = mesh.vertices.size();
-        auto &tm = *App::getInstance().graphPtr->_textureManagerPtr;
-        tm.getBlockFaceUVsByTextureIndex(uvs, textureIndex);
-        mesh.vertices[size - 4].setUV(uvs[0], uvs[1]);
-        mesh.vertices[size - 3].setUV(uvs[2], uvs[3]);
-        mesh.vertices[size - 2].setUV(uvs[4], uvs[5]);
-        mesh.vertices[size - 1].setUV(uvs[6], uvs[7]);
-    }
+    // void setFaceUVsByTextureIndex(
+    //     Mesh &mesh, int textureIndex);
 
     /**************************************
      * 方块基础信息3
@@ -83,21 +81,16 @@ protected:
     }
 
 public:
-    enum FaceDirection
+    std::shared_ptr<Base_BlockUVSetter> blockUVSetter;
+    CommonBlockInfo(std::shared_ptr<Base_BlockUVSetter> blockUVSetter1)
     {
-        FaceX_Positive = 0,
-        FaceX_Negative = 1,
-        FaceY_Positive = 2,
-        FaceY_Negative = 3,
-        FaceZ_Positive = 4,
-        FaceZ_Negative = 5,
-    };
-
+        blockUVSetter = blockUVSetter1;
+    }
     /**************************************
      * 方块基础信息1,判断某个方向是否有标准类型面
      * 以便后续有特殊类型方块可以继承和覆盖
      * ***************************************/
-    bool hasStandardFace(FaceDirection dir)
+    bool hasStandardFace(BlockAbout::FaceDirection dir)
     {
         return true;
     }
@@ -107,33 +100,33 @@ public:
      * 这个函数包含方块每个面的顶点坐标顺序
      * 以便后续有特殊类型方块可以继承和覆盖
      * ***************************************/
-    void setFaceVertexPosOnDir(Mesh &mesh, FaceDirection dir)
+    void setFaceVertexPosOnDir(Mesh &mesh, BlockAbout::FaceDirection dir)
     {
 
         // 8个点 对应8个索引
         switch (dir)
         {
-        case FaceX_Positive:
+        case BlockAbout::FaceX_Positive:
             // 1 4 7 6
             setFaceVertices(mesh.vertices, 1, 4, 7, 6);
             break;
-        case FaceX_Negative:
+        case BlockAbout::FaceX_Negative:
             // 3 5 2 0
             setFaceVertices(mesh.vertices, 3, 5, 2, 0);
             break;
-        case FaceY_Positive:
+        case BlockAbout::FaceY_Positive:
             // 2 5 7 4
             setFaceVertices(mesh.vertices, 2, 5, 7, 4);
             break;
-        case FaceY_Negative:
+        case BlockAbout::FaceY_Negative:
             // 1 6 3 0
             setFaceVertices(mesh.vertices, 1, 6, 3, 0);
             break;
-        case FaceZ_Positive:
+        case BlockAbout::FaceZ_Positive:
             // 6 7 5 3
             setFaceVertices(mesh.vertices, 6, 7, 5, 3);
             break;
-        case FaceZ_Negative:
+        case BlockAbout::FaceZ_Negative:
             // 0 2 4 1
             setFaceVertices(mesh.vertices, 0, 2, 4, 1);
             break;
@@ -143,29 +136,12 @@ public:
             break;
         }
     }
+    // virtual void setVertexUVOnDir(BlockAbout::FaceDirection dir, Mesh &mesh) {}
     /**************************************
      * 往区块网格添加一个方块面的函数
      * 包含了三角形的顺序信息（indices
      * ***************************************/
-    void pushOneFace2Mesh(int blockx, int blocky, int blockz, FaceDirection dir, Mesh &mesh)
-    {
-        // printf("dir: %d \r\n", dir);
-        Vertex vertex;
-        vertex.setPosition(blockx, blocky, blockz);
-        for (int i = 0; i < 4; i++)
-        {
-            mesh.vertices.push_back(vertex);
-        }
-        setFaceVertexPosOnDir(mesh, dir);
-
-        mesh.indices.push_back(mesh.vertices.size() - 4);
-        mesh.indices.push_back(mesh.vertices.size() - 3);
-        mesh.indices.push_back(mesh.vertices.size() - 2);
-        mesh.indices.push_back(mesh.vertices.size() - 4);
-        mesh.indices.push_back(mesh.vertices.size() - 2);
-        mesh.indices.push_back(mesh.vertices.size() - 1);
-        // printf("%d %d\r\n", mesh.vertices.size(), mesh.indices.size());
-    }
+    void pushOneFace2Mesh(int blockx, int blocky, int blockz, BlockAbout::FaceDirection dir, Mesh &mesh);
 };
 class BlockManager
 {
@@ -177,10 +153,15 @@ public:
     // CommonBlockFaceState commonBlockFaceState[];
     BlockManager()
     {
-        commonBlockInfos.resize(255);
+        registerBlockAll(*this);
+        // commonBlockInfos.resize(255);
+    }
+    void addBlock(CommonBlockInfo &block)
+    {
+        commonBlockInfos.push_back(block);
     }
     CommonBlockInfo &getBlockInfo(int blockId)
     {
-        return commonBlockInfos[blockId];
+        return commonBlockInfos[blockId - 1];
     }
 };

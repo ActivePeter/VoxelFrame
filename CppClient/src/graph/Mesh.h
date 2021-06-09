@@ -18,7 +18,7 @@ struct Vertex
     glm::vec3 Position;
 
     // // texCoords材质uv
-    // glm::vec2 TexCoords;
+    glm::vec2 TexCoords;
 
     // // normal
     // glm::vec3 Normal;
@@ -29,6 +29,8 @@ struct Vertex
     // glm::vec3 Bitangent;
     void setUV(float u, float v)
     {
+        TexCoords.x = u;
+        TexCoords.y = v;
     }
     void setPosition(float x, float y, float z)
     {
@@ -144,8 +146,14 @@ public:
 
         // // set the vertex attribute pointers
         // // vertex Positions
-        glEnableVertexAttribArray(0);
+
+        //坐标 对齐
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)0);
+        glEnableVertexAttribArray(0);
+
+        //uv 对齐
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(sizeof(glm::vec3)));
+        glEnableVertexAttribArray(1);
 
         // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
         glBindBuffer(GL_ARRAY_BUFFER, 0);

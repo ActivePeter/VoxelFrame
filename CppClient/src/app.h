@@ -11,6 +11,7 @@
 
 class Graph;
 class Game;
+class App;
 ////////////////////////////////////////
 struct A
 {

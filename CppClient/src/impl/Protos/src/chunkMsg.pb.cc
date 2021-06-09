@@ -14,25 +14,22 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
+
+PROTOBUF_PRAGMA_INIT_SEG
 namespace VFproto {
-class ChunkMsgDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ChunkMsg> _instance;
-} _ChunkMsg_default_instance_;
+constexpr ChunkMsg::ChunkMsg(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : blockarr_(){}
+struct ChunkMsgDefaultTypeInternal {
+  constexpr ChunkMsgDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~ChunkMsgDefaultTypeInternal() {}
+  union {
+    ChunkMsg _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT ChunkMsgDefaultTypeInternal _ChunkMsg_default_instance_;
 }  // namespace VFproto
-static void InitDefaultsscc_info_ChunkMsg_chunkMsg_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::VFproto::_ChunkMsg_default_instance_;
-    new (ptr) ::VFproto::ChunkMsg();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ChunkMsg_chunkMsg_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ChunkMsg_chunkMsg_2eproto}, {}};
-
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_chunkMsg_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_chunkMsg_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_chunkMsg_2eproto = nullptr;
@@ -57,21 +54,21 @@ const char descriptor_table_protodef_chunkMsg_2eproto[] PROTOBUF_SECTION_VARIABL
   "\n\016chunkMsg.proto\022\007VFproto\"\034\n\010ChunkMsg\022\020\n"
   "\010blockArr\030\001 \003(\005"
   ;
-static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_chunkMsg_2eproto_deps[1] = {
-};
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_chunkMsg_2eproto_sccs[1] = {
-  &scc_info_ChunkMsg_chunkMsg_2eproto.base,
-};
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_chunkMsg_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_chunkMsg_2eproto = {
-  false, false, descriptor_table_protodef_chunkMsg_2eproto, "chunkMsg.proto", 55,
-  &descriptor_table_chunkMsg_2eproto_once, descriptor_table_chunkMsg_2eproto_sccs, descriptor_table_chunkMsg_2eproto_deps, 1, 0,
+  false, false, 55, descriptor_table_protodef_chunkMsg_2eproto, "chunkMsg.proto", 
+  &descriptor_table_chunkMsg_2eproto_once, nullptr, 0, 1,
   schemas, file_default_instances, TableStruct_chunkMsg_2eproto::offsets,
-  file_level_metadata_chunkMsg_2eproto, 1, file_level_enum_descriptors_chunkMsg_2eproto, file_level_service_descriptors_chunkMsg_2eproto,
+  file_level_metadata_chunkMsg_2eproto, file_level_enum_descriptors_chunkMsg_2eproto, file_level_service_descriptors_chunkMsg_2eproto,
 };
+PROTOBUF_ATTRIBUTE_WEAK ::PROTOBUF_NAMESPACE_ID::Metadata
+descriptor_table_chunkMsg_2eproto_metadata_getter(int index) {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_chunkMsg_2eproto);
+  return descriptor_table_chunkMsg_2eproto.file_level_metadata[index];
+}
 
 // Force running AddDescriptors() at dynamic initialization time.
-static bool dynamic_init_dummy_chunkMsg_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_chunkMsg_2eproto)), true);
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_chunkMsg_2eproto(&descriptor_table_chunkMsg_2eproto);
 namespace VFproto {
 
 // ===================================================================
@@ -116,11 +113,6 @@ void ChunkMsg::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 void ChunkMsg::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ChunkMsg& ChunkMsg::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ChunkMsg_chunkMsg_2eproto.base);
-  return *internal_default_instance();
-}
-
 
 void ChunkMsg::Clear() {
 // @@protoc_insertion_point(message_clear_start:VFproto.ChunkMsg)

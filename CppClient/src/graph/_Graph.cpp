@@ -93,6 +93,8 @@ bool Graph::init()
     _guiPtr = std::make_shared<Gui>();
     _guiPtr->init();
 
+    _textureManagerPtr = std::make_shared<TextureManager>();
+
     //camera
     cameraPtr = std::make_shared<Camera>(glm::vec3(0.0f, 0.0f, 3.0f));
     camShaderPtr = std::make_shared<Shader>("camera.vs", "camera.fs");
@@ -125,6 +127,25 @@ bool Graph::init()
 // 绘制相关 /////////////////////////////////////////////////////////
 void Graph::drawMesh()
 {
+    auto &camShader = *camShaderPtr;
+    auto &camera = *cameraPtr;
+
+    // 仅绘制边线模式
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    // 相机操作
+    camShader.use();
+    // glUseProgram(shaderProgram);
+
+    // pass projection matrix to shader (note that in this case it could change every frame)
+    glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)windowW / (float)windowH, 0.1f, 100.0f);
+    camShader.setMat4("projection", projection);
+
+    // camera/view transformation
+    glm::mat4 view = camera.GetViewMatrix();
+    camShader.setMat4("view", view);
+
+    _textureManagerPtr->bindChunkTexture();
     //遍历需要绘制的区块网格
     for (int i = 0; i < chunks2Draw.size(); i++)
     {
@@ -141,21 +162,7 @@ void Graph::addChunk2DrawList(std::shared_ptr<Chunk> chunkPtr)
 
 void Graph::doDraw()
 {
-    auto &camShader = *camShaderPtr;
-    auto &camera = *cameraPtr;
     drawBegin();
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    // 相机操作
-    camShader.use();
-    // glUseProgram(shaderProgram);
-
-    // pass projection matrix to shader (note that in this case it could change every frame)
-    glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)windowW / (float)windowH, 0.1f, 100.0f);
-    camShader.setMat4("projection", projection);
-
-    // camera/view transformation
-    glm::mat4 view = camera.GetViewMatrix();
-    camShader.setMat4("view", view);
 
     // glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
     // glDrawArrays(GL_TRIANGLES, 0, 3);

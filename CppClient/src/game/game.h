@@ -6,6 +6,7 @@
 struct ChunkKey;
 class Chunk;
 class ChunkManager;
+class BlockManager;
 //////////////////////////////
 
 class Game

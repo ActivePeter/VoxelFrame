@@ -9,7 +9,9 @@ project (${PROJECT_NAME})
 set (CMAKE_CXX_STAND 11)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g")
 
-
+#conan
+include(${VoxelFrame_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
 
 set (3RD_DIR ${PROJECT_SOURCE_DIR}/third)
 # message(${3RD_DIR})
@@ -54,8 +56,8 @@ include_directories (${parallel_hashmap_dir})
 
 # protobuf
 set (PROTO_DIR ${3RD_DIR}/protobuff)
-# add_subdirectory(${PROTO_DIR}/cmake)
-include_directories (${PROTO_DIR}/src)
+# # add_subdirectory(${PROTO_DIR}/cmake)
+# include_directories (${PROTO_DIR}/src)
 
 set (PAECS_DIR ${3RD_DIR}/paecs)
 add_subdirectory(${PAECS_DIR}) 
@@ -65,7 +67,7 @@ include_directories (${PAECS_DIR}/src)
 #         ${PROJECT_SOURCE_DIR}/build/third/protobuff/cmake/*.lib
 #         )
 
-set (PROTOBUF_PROTOC_EXECUTABLE ${PROTO_DIR}/protobuf_cmake/build/Release/protoc.exe)
+set (PROTOBUF_PROTOC_EXECUTABLE ${PROTO_DIR}/protoc-3.15.5-win64/bin/protoc.exe)
 set (PROTO_FILES_DIR ${PROJECT_SOURCE_DIR}/src/impl/Protos)
 file(GLOB protobuf_files
         ${PROTO_FILES_DIR}/*.proto
@@ -118,11 +120,11 @@ endif()
 #     COMMAND rm -rf E:/pa_files/project/cs_big_prjs/VoxelFrame/CppClient/build/Debug/resource/* 
 # )
 if(MSVC)
-    file(REMOVE_RECURSE ${VoxelFrame_BINARY_DIR}/Debug/resource)
-    file(REMOVE_RECURSE ${VoxelFrame_BINARY_DIR}/Release/resource)
+    file(REMOVE_RECURSE ${VoxelFrame_BINARY_DIR}/bin/resource)
+    # file(REMOVE_RECURSE ${VoxelFrame_BINARY_DIR}/Release/resource)
 
-    file(COPY ${PROJECT_SOURCE_DIR}/resource DESTINATION ${VoxelFrame_BINARY_DIR}/Debug)
-    file(COPY ${PROJECT_SOURCE_DIR}/resource DESTINATION ${VoxelFrame_BINARY_DIR}/Release)
+    file(COPY ${PROJECT_SOURCE_DIR}/resource DESTINATION ${VoxelFrame_BINARY_DIR}/bin)
+    # file(COPY ${PROJECT_SOURCE_DIR}/resource DESTINATION ${VoxelFrame_BINARY_DIR}/Release)
 else()
     file(REMOVE_RECURSE ${VoxelFrame_BINARY_DIR}/resource)
     file(MAKE_DIRECTORY ${VoxelFrame_BINARY_DIR}/resource)
@@ -136,19 +138,30 @@ file(GLOB_RECURSE SRC_FILES ${SRC_DIR}/*.cpp ${SRC_DIR}/*.cc)
 add_executable (${PROJECT_NAME} ${SRC_FILES})
 
 if(MSVC)
+    set(CompilerFlags
+        CMAKE_CXX_FLAGS
+        CMAKE_CXX_FLAGS_DEBUG
+        CMAKE_CXX_FLAGS_RELEASE
+        CMAKE_C_FLAGS
+        CMAKE_C_FLAGS_DEBUG
+        CMAKE_C_FLAGS_RELEASE
+    )
+    foreach(CompilerFlag ${CompilerFlags})
+    string(REPLACE "/MDd" "/MD" ${CompilerFlag} "${${CompilerFlag}}")
+    endforeach()
+    # set (protolib_dir ${PROTO_DIR}/protobuf_cmake/build/)
     
-    set (protolib_dir ${PROTO_DIR}/protobuf_cmake/build/)
-    
-        set_target_properties( ${PROJECT_NAME} PROPERTIES
-            COMPILE_FLAGS "/MT"
-        )
+        # set_target_properties( ${PROJECT_NAME} PROPERTIES
+        #     COMPILE_FLAGS "/MT"
+        # )
         
         # set (protolibsd ${protolib_dir}Debug/libprotobufd.lib ${protolib_dir}Debug/libprotobuf-lited.lib ${protolib_dir}Debug/libprotocd.lib)
     
-        set (protolibs ${protolib_dir}Release/libprotobuf.lib ${protolib_dir}Release/libprotobuf-lite.lib ${protolib_dir}Release/libprotoc.lib)
+        # set (protolibs ${protolib_dir}Release/libprotobuf.lib ${protolib_dir}Release/libprotobuf-lite.lib ${protolib_dir}Release/libprotoc.lib)
     
     target_link_libraries (${PROJECT_NAME} 
-        general glfw glad imgui ws2_32 ${protolibs} paecs
+        general glfw glad imgui ws2_32  paecs ${CONAN_LIBS}
+        # ${protolibs}
         # debug ${protolibsd}
         # optimized ${protolibs}
     )

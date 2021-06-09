@@ -1,5 +1,6 @@
 #include "chunk.h"
 #include "app.h"
+#include "enum.h"
 
 void ChunkManager::addNewChunk(int32_t x, int32_t y, int32_t z)
 {
@@ -62,23 +63,58 @@ void Chunk::constructMesh()
                 constructMeshInOneDim(x, y, z,
                                       x + 1, y, z,
                                       _block, _block_p, blockInfo, blockInfo_p_x,
-                                      CommonBlockInfo::FaceX_Positive, CommonBlockInfo::FaceX_Negative);
+                                      BlockAbout::FaceX_Positive, BlockAbout::FaceX_Negative);
 
                 _block_p = readData(x, y + 1, z);
                 auto &blockInfo_p_y = blockManager->getBlockInfo(_block_p);
                 constructMeshInOneDim(x, y, z,
                                       x, y + 1, z,
                                       _block, _block_p, blockInfo, blockInfo_p_y,
-                                      CommonBlockInfo::FaceY_Positive, CommonBlockInfo::FaceY_Negative);
+                                      BlockAbout::FaceY_Positive, BlockAbout::FaceY_Negative);
 
                 _block_p = readData(x, y, z + 1);
                 auto &blockInfo_p_z = blockManager->getBlockInfo(_block_p);
                 constructMeshInOneDim(x, y, z,
                                       x, y, z + 1,
                                       _block, _block_p, blockInfo, blockInfo_p_z,
-                                      CommonBlockInfo::FaceZ_Positive, CommonBlockInfo::FaceZ_Negative);
+                                      BlockAbout::FaceZ_Positive, BlockAbout::FaceZ_Negative);
             }
         }
     }
     setupMesh();
+}
+
+void Chunk::constructMeshInOneDim(int blockx, int blocky, int blockz,
+                                  int blockx_p, int blocky_p, int blockz_p,
+                                  uint8_t &block,
+                                  uint8_t &block_p,
+                                  CommonBlockInfo &blockInfo,
+                                  CommonBlockInfo &blockInfo_p,
+                                  BlockAbout::FaceDirection posDir,
+                                  BlockAbout::FaceDirection negDir)
+{
+    //+1为空 当前为实心
+    if (!block_p &&
+        block &&
+        blockInfo.hasStandardFace(posDir))
+    {
+        blockInfo.pushOneFace2Mesh(blockx, blocky, blockz, posDir, *this);
+        auto &mesh = *this;
+        auto &vetex1 = mesh.vertices[mesh.vertices.size() - 4];
+        auto &vetex2 = mesh.vertices[mesh.vertices.size() - 3];
+        auto &vetex3 = mesh.vertices[mesh.vertices.size() - 2];
+        auto &vetex4 = mesh.vertices[mesh.vertices.size() - 1];
+        printf("vec added 1: %.2f %.2f %.2f \r\n", vetex1.Position.x, vetex1.Position.y, vetex1.Position.z);
+        printf("vec added 2: %.2f %.2f %.2f \r\n", vetex2.Position.x, vetex2.Position.y, vetex2.Position.z);
+        printf("vec added 3: %.2f %.2f %.2f \r\n", vetex3.Position.x, vetex3.Position.y, vetex3.Position.z);
+        printf("vec added 4: %.2f %.2f %.2f \r\n", vetex4.Position.x, vetex4.Position.y, vetex4.Position.z);
+        printf("\r\n");
+    }
+    //x为空 x+1为实,添加朝x负向的面
+    else if (!block &&
+             block_p &&
+             blockInfo_p.hasStandardFace(negDir))
+    {
+        blockInfo_p.pushOneFace2Mesh(blockx_p, blocky_p, blockz_p, negDir, *this);
+    }
 }
