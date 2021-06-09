@@ -1,39 +1,45 @@
+[中文](./README_CN.md)
+
 # VoxelFrame
 
-## 介绍
+## Introduction
 
-写一个mc是我一直以来脑子里的执念...
+I likes playing minecraft very much and it's always been my dream to write a mc.
 
-我给这个项目开了一个organization，以下是链接
+## Organization
 
-[VoxelFrame (github.com)](https://github.com/VoxelFrame)
+[VoxelFrame (github.com)](https://github.com/VoxelFrame)   To store related projects.
 
-当前主力学习的是c++和go
+## Language
 
-[VoxelFrame/VoxelFrame_CppClient: 重新开始用c++和opengl写一个类似mc的游戏 (github.com)](https://github.com/VoxelFrame/VoxelFrame_CppClient)
+c++(client), golang(server)
 
-> 之前也想用rust，但想想还是先把c++用扎实了再说
->
-> 放弃unity的原因不是因为unity不好，只是个人想往c++的方向发展
+## Current Progress Preview
 
-## 计划
+Im now focusing on client and writing the foundation framework 
 
-客户端c++
+![image-20210609124342573](https://hanbaoaaa.xyz/tuchuang/images/2021/06/09/image-20210609124342573.png)
 
-服务端golang
+## Development Record
 
+[client](./CppClient/markdown/record.md)
 
+## Start development
 
-## 必要的操作
-
-1，这个仓库是存储各类子模块的主仓库，需要执行
+1，This repo relays on other libs through submodule,so you need to launch it using following command
 
 ```
 git submodule update --init
 ```
 
+[client](./CppClient/markdown/start.md)
 
+## Old (unity version)
 
-## old（现在放在anbandon-part里）
+This part was written in my high school period.
 
 [VoxelFrame/VoxelFrame_Abandoned (github.com)](https://github.com/VoxelFrame/VoxelFrame_Abandoned)
+
+#### video:
+
+https://www.bilibili.com/video/BV1d7411n7nK/
