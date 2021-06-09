@@ -2,6 +2,8 @@
 
 # VoxelFrame
 
+![image-20210609143052106](https://hanbaoaaa.xyz/tuchuang/images/2021/06/09/image-20210609143052106.png)
+
 ## 介绍
 
 我非常喜欢玩minecraft，并且写一个mc是我长久以来一直想做到的
