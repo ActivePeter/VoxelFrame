@@ -24,7 +24,7 @@ Im now focusing on client and writing the foundation framework
 
 [client](./CppClient/markdown/record.md)
 
-## Start development
+## Start Development
 
 1，This repo relays on other libs through submodule,so you need to launch it using following command
 
@@ -33,6 +33,12 @@ git submodule update --init
 ```
 
 [client](./CppClient/markdown/start.md)
+
+## Related Projects
+
+I'm also trying to implement a ecs lib and use it in my mc
+
+[ActivePeter/paecs: simple implementation of ECS game model (github.com)](https://github.com/ActivePeter/paecs)
 
 ## Old (unity version)
 

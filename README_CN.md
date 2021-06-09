@@ -34,6 +34,12 @@ git submodule update --init
 
 [client](./CppClient/markdown/start.md)
 
+## 相关项目
+
+我也在尝试实现一个ecs库并用在我的mc里
+
+[ActivePeter/paecs: simple implementation of ECS game model (github.com)](https://github.com/ActivePeter/paecs)
+
 ## 旧版本 (unity版)
 
 这部分是我高中时候做的
