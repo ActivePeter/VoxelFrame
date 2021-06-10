@@ -36,3 +36,10 @@ void CommonBlockInfo::pushOneFace2Mesh(int blockx, int blocky, int blockz, Block
         // printf("%d %d\r\n", mesh.vertices.size(), mesh.indices.size());
     }
 }
+
+//注册所有方块
+BlockManager::BlockManager()
+{
+    registerBlockAll(*this);
+    // commonBlockInfos.resize(255);
+}

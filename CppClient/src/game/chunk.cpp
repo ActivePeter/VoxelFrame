@@ -12,6 +12,29 @@ void ChunkManager::addNewChunk(int32_t x, int32_t y, int32_t z)
     App::getInstance().graphPtr->addChunk2DrawList(newChunk);
 }
 
+/**
+ * 如果玩家所在区块。就需要加载新的未绘制的区块，
+ * 同时将不在视野内的区块加入倒计时销毁队列
+ * 当然，如果在时间内又再次回来。那么将区块再次从销毁队列中移除
+ * 
+ * 思考
+ * 用什么来做销毁队列：易于遍历和增删，
+ * 目前来看可以用list，list增删方便 遍历也不差
+*/
+void ChunkManager::checkPlayerChunkPosChanged()
+{
+    //上一次player所在区块的坐标
+    static int lastX = 0, lastY = 0, lastZ = 0;
+    //计算坐标，如果改变，就重新计算范围内区块
+    if (true)
+    {
+    }
+    if (chunksDestroyQuene.size() > 0)
+    {
+        //遍历，更新区块销毁倒计时，到点销毁
+    }
+}
+
 void Chunk::constructMesh()
 {
     //仅改变size，实际内存占用不变

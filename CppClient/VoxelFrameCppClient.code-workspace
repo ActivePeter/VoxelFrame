@@ -113,7 +113,8 @@
 			"stop_token": "cpp",
 			"typeindex": "cpp",
 			"unordered_set": "cpp",
-			"charconv": "cpp"
+			"charconv": "cpp",
+			"complex": "cpp"
 		}
 	}
 }

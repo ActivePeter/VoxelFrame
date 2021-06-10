@@ -63,54 +63,63 @@ void framebuff_size_callback(GLFWwindow *window, int width, int height)
 
 void mouse_callback(GLFWwindow *window, double xpos, double ypos)
 {
-    // camera 操作
+    auto &io = *App::getInstance().ioPtr;
+    for (int i = 0; i < io.mouseMoveCallbacks.size(); i++)
     {
-        static bool firstMouse = true;
-        static double lastX, lastY;
-        if (firstMouse)
-        {
-            lastX = xpos;
-            lastY = ypos;
-            firstMouse = false;
-        }
-
-        float xoffset = xpos - lastX;
-        float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
-
-        lastX = xpos;
-        lastY = ypos;
-        if (App::getInstance().graphPtr && App::getInstance().graphPtr->cameraPtr)
-        {
-            App::getInstance().graphPtr->cameraPtr->ProcessMouseMovement(xoffset, yoffset);
-        }
+        io.mouseMoveCallbacks[i](xpos, ypos);
     }
+    // camera 操作
+    // {
+    //     static bool firstMouse = true;
+    //     static double lastX, lastY;
+    //     if (firstMouse)
+    //     {
+    //         lastX = xpos;
+    //         lastY = ypos;
+    //         firstMouse = false;
+    //     }
+
+    //     float xoffset = xpos - lastX;
+    //     float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+    //     lastX = xpos;
+    //     lastY = ypos;
+    //     if (App::getInstance().graphPtr && App::getInstance().graphPtr->cameraPtr)
+    //     {
+    //         App::getInstance().graphPtr->cameraPtr->ProcessMouseMovement(xoffset, yoffset);
+    //     }
+    // }
 }
 void IO::processInput(GLFWwindow *window)
 {
-    auto &app = App::getInstance();
-    auto &camera = *(App::getInstance().graphPtr->cameraPtr);
-    //     if (action == GLFW_PRESS || action == GLFW_REPEAT)
-    //     {
-    //         switch (key)
-    //         {
-    //         case GLFW_KEY_W:
-    //             camera.ProcessKeyboard(FORWARD, app.deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    for (int i = 0; i < processInputCallbacks.size(); i++)
     {
-        camera.ProcessKeyboard(FORWARD, app.deltaTime);
+        processInputCallbacks[i](*this);
     }
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-    {
-        camera.ProcessKeyboard(BACKWARD, app.deltaTime);
-    }
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-    {
-        camera.ProcessKeyboard(LEFT, app.deltaTime);
-    }
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-    {
-        camera.ProcessKeyboard(RIGHT, app.deltaTime);
-    }
+    // auto &app = App::getInstance();
+    // auto &camera = *(App::getInstance().graphPtr->cameraPtr);
+    // //     if (action == GLFW_PRESS || action == GLFW_REPEAT)
+    // //     {
+    // //         switch (key)
+    // //         {
+    // //         case GLFW_KEY_W:
+    // //             camera.ProcessKeyboard(FORWARD, app.deltaTime);
+    // if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    // {
+    //     camera.ProcessKeyboard(FORWARD, app.deltaTime);
+    // }
+    // if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    // {
+    //     camera.ProcessKeyboard(BACKWARD, app.deltaTime);
+    // }
+    // if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    // {
+    //     camera.ProcessKeyboard(LEFT, app.deltaTime);
+    // }
+    // if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    // {
+    //     camera.ProcessKeyboard(RIGHT, app.deltaTime);
+    // }
     // glfwSetWindowShouldClose(window, true);
 }
 // camera
@@ -122,6 +131,11 @@ void IO::init()
     glfwSetFramebufferSizeCallback(app.graphPtr->window, framebuff_size_callback);
     //处理输入
     // glfwSetCursorPosCallback(_g_Graph.window, mouse_callback);
-    glfwSetKeyCallback(app.graphPtr->window, process_IO_callabck);
+    // glfwSetKeyCallback(app.graphPtr->window, process_IO_callabck);
     glfwSetCursorPosCallback(app.graphPtr->window, mouse_callback);
+}
+
+int IO::getKey()
+{
+    return glfwGetKey(App::getInstance().graphPtr->window, GLFW_KEY_W);
 }

@@ -48,37 +48,7 @@ protected:
      * 这个函数包含方块 顶点相对坐标 和 对应的index
      * 参考markdown文件夹里的 方块顶点顺序.md
      * ***************************************/
-    void addUpStandardVertexOfIndex(Vertex &vertex, uint8_t index)
-    {
-        switch (index)
-        {
-        //need do nothing
-        // case 0:
-        //     vertex.addPosition(0,0,0);
-        //     break;
-        case 1:
-            vertex.addPosition(1, 0, 0);
-            break;
-        case 2:
-            vertex.addPosition(0, 1, 0);
-            break;
-        case 3:
-            vertex.addPosition(0, 0, 1);
-            break;
-        case 4:
-            vertex.addPosition(1, 1, 0);
-            break;
-        case 5:
-            vertex.addPosition(0, 1, 1);
-            break;
-        case 6:
-            vertex.addPosition(1, 0, 1);
-            break;
-        case 7:
-            vertex.addPosition(1, 1, 1);
-            break;
-        }
-    }
+    void addUpStandardVertexOfIndex(Vertex &vertex, uint8_t index);
 
 public:
     std::shared_ptr<Base_BlockUVSetter> blockUVSetter;
@@ -100,42 +70,7 @@ public:
      * 这个函数包含方块每个面的顶点坐标顺序
      * 以便后续有特殊类型方块可以继承和覆盖
      * ***************************************/
-    void setFaceVertexPosOnDir(Mesh &mesh, BlockAbout::FaceDirection dir)
-    {
-
-        // 8个点 对应8个索引
-        switch (dir)
-        {
-        case BlockAbout::FaceX_Positive:
-            // 1 4 7 6
-            setFaceVertices(mesh.vertices, 1, 4, 7, 6);
-            break;
-        case BlockAbout::FaceX_Negative:
-            // 3 5 2 0
-            setFaceVertices(mesh.vertices, 3, 5, 2, 0);
-            break;
-        case BlockAbout::FaceY_Positive:
-            // 2 5 7 4
-            setFaceVertices(mesh.vertices, 2, 5, 7, 4);
-            break;
-        case BlockAbout::FaceY_Negative:
-            // 1 6 3 0
-            setFaceVertices(mesh.vertices, 1, 6, 3, 0);
-            break;
-        case BlockAbout::FaceZ_Positive:
-            // 6 7 5 3
-            setFaceVertices(mesh.vertices, 6, 7, 5, 3);
-            break;
-        case BlockAbout::FaceZ_Negative:
-            // 0 2 4 1
-            setFaceVertices(mesh.vertices, 0, 2, 4, 1);
-            break;
-
-        default:
-            std::cout << "no face enum matched" << std::endl;
-            break;
-        }
-    }
+    void setFaceVertexPosOnDir(Mesh &mesh, BlockAbout::FaceDirection dir);
     // virtual void setVertexUVOnDir(BlockAbout::FaceDirection dir, Mesh &mesh) {}
     /**************************************
      * 往区块网格添加一个方块面的函数
@@ -151,11 +86,7 @@ private:
 
 public:
     // CommonBlockFaceState commonBlockFaceState[];
-    BlockManager()
-    {
-        registerBlockAll(*this);
-        // commonBlockInfos.resize(255);
-    }
+    BlockManager();
     void addBlock(CommonBlockInfo &block)
     {
         commonBlockInfos.push_back(block);

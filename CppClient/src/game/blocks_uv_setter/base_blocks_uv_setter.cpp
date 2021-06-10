@@ -1,5 +1,6 @@
 #include "base_blocks_uv_setter.h"
 
+//对应基础类型方块的网格设置uv
 void Base_BlockUVSetter::setFaceUVsByTextureIndex(Mesh &mesh, int textureIndex)
 {
     float uvs[8];

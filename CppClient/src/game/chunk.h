@@ -96,6 +96,7 @@ private:
     // Game &game;
     /* data */
     phmap::flat_hash_map<ChunkKey, std::shared_ptr<Chunk>> chunkKey2chunkPtr;
+    std::list<std::shared_ptr<Chunk>> chunksDestroyQuene;
 
 public:
     ChunkManager()
@@ -103,4 +104,6 @@ public:
         // addNewChunk(0, 0, 0);
     }
     void addNewChunk(int32_t x, int32_t y, int32_t z);
+
+    void checkPlayerChunkPosChanged();
 };
