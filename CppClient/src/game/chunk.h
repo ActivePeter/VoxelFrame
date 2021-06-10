@@ -1,14 +1,22 @@
-#pragma once
+#ifndef VF_ChunkWidth
+#define VF_ChunkWidth 64
+#define VF_ChunkSize (VF_ChunkWidth * VF_ChunkWidth * VF_ChunkWidth)
+#endif
+struct ChunkKey;
+class Chunk;
+class ChunkManager;
+
+/////////////////////////////////////////////////
+#ifndef __CHUNK_H__
+#define __CHUNK_H__
+// heads ///////////////////////////
 #include "parallel_hashmap/phmap.h"
 #include "graph/Mesh.h"
 #include "graph/_Graph.h"
 // #include "game.h"
 #include "app.h"
 #include "block.h"
-
-#define ChunkWidth 64
-#define ChunkSize (ChunkWidth * ChunkWidth * ChunkWidth)
-
+/////////////////////////////
 // class Game;
 class Mesh;
 class CommonBlockInfo;
@@ -39,11 +47,11 @@ private:
     /* data */
     inline uint8_t readData(int x, int y, int z)
     {
-        return data[x + y * ChunkWidth + z * ChunkWidth * ChunkWidth];
+        return data[x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth];
     }
     inline uint32_t getIndexByPos(int x, int y, int z)
     {
-        return x + y * (ChunkWidth + 1) + z * (ChunkWidth + 1) * (ChunkWidth + 1);
+        return x + y * (VF_ChunkWidth + 1) + z * (VF_ChunkWidth + 1) * (VF_ChunkWidth + 1);
     }
     /** 
      * 判断并构建一个方向上的网格 需要参数一一对应
@@ -59,7 +67,7 @@ private:
         BlockAbout::FaceDirection negDir);
 
 public:
-    uint8_t data[ChunkSize];
+    uint8_t data[VF_ChunkSize];
     ChunkKey chunkKey;
     // Game &game;
 
@@ -69,19 +77,19 @@ public:
     Chunk(ChunkKey ck)
     {
         chunkKey = ck;
-        for (int x = 0; x < ChunkWidth; x++)
+        for (int x = 0; x < VF_ChunkWidth; x++)
         {
-            for (int y = 0; y < ChunkWidth; y++)
+            for (int y = 0; y < VF_ChunkWidth; y++)
             {
-                for (int z = 0; z < ChunkWidth; z++)
+                for (int z = 0; z < VF_ChunkWidth; z++)
                 {
-                    if (y > ChunkWidth / 2)
+                    if (y > VF_ChunkWidth / 2)
                     {
-                        data[x + y * ChunkWidth + z * ChunkWidth * ChunkWidth] = 0;
+                        data[x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth] = 0;
                     }
                     else
                     {
-                        data[x + y * ChunkWidth + z * ChunkWidth * ChunkWidth] = 1;
+                        data[x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth] = 1;
                     }
                 }
             }
@@ -107,3 +115,4 @@ public:
 
     void checkPlayerChunkPosChanged();
 };
+#endif // __CHUNK_H__

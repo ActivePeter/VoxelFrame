@@ -1,5 +1,8 @@
-#pragma once
+class Graph;
 
+////////////////////////////////////////////////////////
+#ifndef ___GRAPH_H__
+#define ___GRAPH_H__
 #include <glad/glad.h>
 #include "GLFW/glfw3.h"
 #include "base.h"
@@ -10,9 +13,6 @@
 #include "shader_m.h"
 #include "texture.h"
 
-class Gui;
-class Chunk;
-class App;
 ////////////////////////
 
 class Graph
@@ -57,3 +57,4 @@ public:
 // extern Graph _g_Graph;
 
 // #endif // __DRAWSYS_H__
+#endif // ___GRAPH_H__

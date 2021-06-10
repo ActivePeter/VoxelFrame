@@ -146,6 +146,7 @@ if(MSVC)
         CMAKE_C_FLAGS_DEBUG
         CMAKE_C_FLAGS_RELEASE
     )
+    # conan的库默认全为md，所以强制mdd改为md
     foreach(CompilerFlag ${CompilerFlags})
     string(REPLACE "/MDd" "/MD" ${CompilerFlag} "${${CompilerFlag}}")
     endforeach()

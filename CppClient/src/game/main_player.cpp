@@ -2,7 +2,7 @@
 #include "App.h"
 #include "io.h"
 
-namespace main_plaer_about
+namespace N_MainPlayer
 {
     void mouse_callback(double xpos, double ypos)
     {
@@ -54,19 +54,19 @@ namespace main_plaer_about
             auto player = *app.gamePtr->mainPlayer;
             if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
             {
-                player.ProcessKeyboard(MainPlayer::FORWARD, app.deltaTime);
+                player.ProcessKeyboard(N_MainPlayer::FORWARD, app.deltaTime);
             }
             if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
             {
-                player.ProcessKeyboard(MainPlayer::BACKWARD, app.deltaTime);
+                player.ProcessKeyboard(N_MainPlayer::BACKWARD, app.deltaTime);
             }
             if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
             {
-                player.ProcessKeyboard(MainPlayer::LEFT, app.deltaTime);
+                player.ProcessKeyboard(N_MainPlayer::LEFT, app.deltaTime);
             }
             if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
             {
-                player.ProcessKeyboard(MainPlayer::RIGHT, app.deltaTime);
+                player.ProcessKeyboard(N_MainPlayer::RIGHT, app.deltaTime);
             }
         }
 
@@ -78,5 +78,6 @@ MainPlayer::MainPlayer()
 {
     cameraPtr = App::getInstance().getInstance().graphPtr->cameraPtr;
     auto &io = *App::getInstance().ioPtr;
-    io.registerMouseMove();
+    io.registerMouseMove(N_MainPlayer::mouse_callback);
+    io.registerProcessInput(N_MainPlayer::processInput);
 }

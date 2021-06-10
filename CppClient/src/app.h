@@ -1,4 +1,8 @@
-#pragma once
+class App;
+
+#ifndef __APP_H__
+#define __APP_H__
+
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
@@ -9,9 +13,6 @@
 #include "net/_net.h"
 #include "io/_IO.h"
 
-class Graph;
-class Game;
-class App;
 ////////////////////////////////////////
 struct A
 {
@@ -57,3 +58,4 @@ public:
 };
 
 // extern app _g_app;
+#endif // __APP_H__

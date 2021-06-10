@@ -85,16 +85,13 @@ public:
     }
     void getBlockFaceUVsByTextureIndex(float uvs[8], int index)
     {
-        uvs[0] = index % blocksMixedTextureW; //        uo
-        uvs[1] = index / blocksMixedTextureW; //        vo
-
-        uvs[2] = uvs[0] + perBlockTextureWidth2UV; //      uo+1
-        uvs[3] = uvs[1];                           //      vo
-
-        uvs[4] = uvs[2];                           //      uo+1
-        uvs[5] = uvs[1] + perBlockTextureWidth2UV; //      vo+1
-
-        uvs[6] = uvs[0]; //                             uo
-        uvs[7] = uvs[5]; //                             vo+1
+        uvs[0] = float(index % blocksMixedTextureW); //        uo
+        uvs[1] = float(index / blocksMixedTextureW); //        vo
+        uvs[2] = uvs[0] + perBlockTextureWidth2UV;   //      uo+1
+        uvs[3] = uvs[1];                             //      vo
+        uvs[4] = uvs[2];                             //      uo+1
+        uvs[5] = uvs[1] + perBlockTextureWidth2UV;   //      vo+1
+        uvs[6] = uvs[0];                             //                             uo
+        uvs[7] = uvs[5];                             //                             vo+1
     }
 };

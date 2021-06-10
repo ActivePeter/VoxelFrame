@@ -1,4 +1,10 @@
-#pragma once
+
+
+class Gui;
+///////////////////////////////////////
+
+#ifndef ___GUI_H__
+#define ___GUI_H__
 #include "imgui.h"
 #include "impl/imgui_impl_glfw.h"
 #include "impl/imgui_impl_opengl3.h"
@@ -19,3 +25,4 @@ public:
 };
 
 extern Gui _Gui;
+#endif // ___GUI_H__

@@ -1,4 +1,10 @@
-#pragma once
+struct Vertex;
+struct Texture;
+class Mesh;
+////////////////////////////
+
+#ifndef __MESH_H__
+#define __MESH_H__
 
 #include <glad/glad.h> // holds all OpenGL type declarations
 
@@ -236,3 +242,4 @@ private:
         // glDeleteShader(fragmentShader);
     }
 };
+#endif // __MESH_H__

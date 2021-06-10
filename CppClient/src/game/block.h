@@ -1,4 +1,5 @@
-#pragma once
+class BlockManager;
+class CommonBlockInfo;
 #include "base.h"
 #include "blocks_uv_setter/base_blocks_uv_setter.h"
 
@@ -6,6 +7,12 @@
 #include "graph/Mesh.h"
 
 #include "enum.h"
+
+#ifndef __BLOCK_H__
+#define __BLOCK_H__
+
+// #pragma once
+
 // class CommonBlockMeshModel
 // {
 // private:
@@ -27,7 +34,7 @@
 //
 
 //代表最普通的方块状态。
-class App;
+
 ///////////////////////////
 class CommonBlockInfo
 {
@@ -96,3 +103,5 @@ public:
         return commonBlockInfos[blockId - 1];
     }
 };
+
+#endif // __BLOCK_H__

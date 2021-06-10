@@ -1,12 +1,12 @@
-#pragma once
 #include "base.h"
 #include "chunk.h"
 #include "block.h"
 #include "main_player.h"
-struct ChunkKey;
-class Chunk;
-class ChunkManager;
-class BlockManager;
+class Game;
+
+#ifndef __GAME_H__
+#define __GAME_H__
+
 //////////////////////////////
 
 class Game
@@ -23,3 +23,5 @@ public:
 
     void start();
 };
+
+#endif // __GAME_H__

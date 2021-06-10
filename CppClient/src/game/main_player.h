@@ -1,15 +1,19 @@
+
 //向前声明
 class MainPlayer;
+// enum MainPlayer::Movement;
+// namespace _MainPlayer
+// {
+//     enum Movement;
+// }
 #include "graph/Camera.h"
 #include "chunk.h"
-#pragma once
 
-//当前玩家，并非指任意玩家
-class MainPlayer
+#ifndef __MAIN_PLAYER_H__
+#define __MAIN_PLAYER_H__
+
+namespace N_MainPlayer
 {
-
-public:
-    // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
     enum Movement
     {
         FORWARD,
@@ -17,6 +21,20 @@ public:
         LEFT,
         RIGHT
     };
+}
+//当前玩家，并非指任意玩家
+class MainPlayer
+{
+private:
+public:
+    // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
+    // enum Movement
+    // {
+    //     FORWARD,
+    //     BACKWARD,
+    //     LEFT,
+    //     RIGHT
+    // };
     float MovementSpeed = 2.5f;
     float MouseSensitivity = 0.1f;
 
@@ -33,9 +51,9 @@ public:
     }
     void setPosition(glm::vec3 pos)
     {
-        chunkX = (int)pos.x / ChunkWidth;
-        chunkY = (int)pos.y / ChunkWidth;
-        chunkZ = (int)pos.z / ChunkWidth;
+        chunkX = (int)pos.x / VF_ChunkWidth;
+        chunkY = (int)pos.y / VF_ChunkWidth;
+        chunkZ = (int)pos.z / VF_ChunkWidth;
 
         cameraPtr->Position = pos;
     }
@@ -44,19 +62,19 @@ public:
      * Player Control
     */
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
-    void ProcessKeyboard(Movement direction, float deltaTime)
+    void ProcessKeyboard(N_MainPlayer::Movement direction, float deltaTime)
     {
         float velocity = MovementSpeed * deltaTime;
-        if (direction == FORWARD)
+        if (direction == N_MainPlayer::FORWARD)
             // cameraPtr->Position += cameraPtr->Front * velocity;
             setPosition(getPosition() + cameraPtr->Front * velocity);
-        if (direction == BACKWARD)
+        if (direction == N_MainPlayer::BACKWARD)
             // cameraPtr->Position -= cameraPtr->Front * velocity;
             setPosition(getPosition() - cameraPtr->Front * velocity);
-        if (direction == LEFT)
+        if (direction == N_MainPlayer::LEFT)
             // cameraPtr->Position -= cameraPtr->Right * velocity;
             setPosition(getPosition() - cameraPtr->Right * velocity);
-        if (direction == RIGHT)
+        if (direction == N_MainPlayer::RIGHT)
             // cameraPtr->Position += cameraPtr->Right * velocity;
             setPosition(getPosition() + cameraPtr->Right * velocity);
     }
@@ -94,3 +112,4 @@ public:
             Zoom = 45.0f;
     }
 };
+#endif // __MAIN_PLAYER_H__
