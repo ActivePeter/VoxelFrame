@@ -2,7 +2,9 @@
 
 load the submodules
 
-
+```
+git submodule update --init
+```
 
 ## Windows（current developing
 
@@ -15,6 +17,7 @@ load the submodules
 3. ![image-20210205004947972](https://gitee.com/zhongyichen33/testtupian/raw/master/20210205004948.png)
 4. ![image-20210205004918480](https://gitee.com/zhongyichen33/testtupian/raw/master/20210205004918.png)
 5. ![image-20210205154117520](https://gitee.com/zhongyichen33/testtupian/raw/master/20210205154117.png)
+6. ![image-20210610195339763](https://hanbaoaaa.xyz/tuchuang/images/2021/06/10/image-20210610195339763.png)
 
 #### 2.cmake and cmake extensions in vscode above
 
