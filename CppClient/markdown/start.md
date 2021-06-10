@@ -36,7 +36,7 @@ load the submodules
 
 #### 4.choose tool
 
-![image-20210503215712461](https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503215712461.png)
+<img src="https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503215712461.png" alt="image-20210503215712461" style="zoom:33%;" />
 
 #### 5.Then open setting.json under the root directory
 
@@ -62,27 +62,17 @@ also you can set other parameters according to [official instruction](https://gi
 
 > #### Then we start building
 
-#### 6.first build protobuf
+#### 6.first conan
 
-1. 切换到protobuf文件夹
+Make sure you've installed conan.
 
-   <img src="https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503220635983.png" alt="image-20210503220635983" style="zoom: 25%;" />
+Then get into the build folder and run
 
-   
+ conan install .. 
 
-2. 选择release
+it will load necessary libs
 
-   ![image-20210503231321994](https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503231321994.png)
 
-3. all build
-
-   <img src="https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503221242855.png" alt="image-20210503221242855" style="zoom: 33%;" />
-
-4. 命令面板 cmake build
-
-5. 检查是否生成文件
-
-   <img src="https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503232453588.png" alt="image-20210503232453588" style="zoom:50%;" />
 
 #### 7.Then build the mainprj
 
