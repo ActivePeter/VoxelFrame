@@ -114,7 +114,9 @@
 			"typeindex": "cpp",
 			"unordered_set": "cpp",
 			"charconv": "cpp",
-			"complex": "cpp"
+			"complex": "cpp",
+			"codecvt": "cpp",
+			"csignal": "cpp"
 		}
 	}
 }

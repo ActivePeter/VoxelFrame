@@ -8,6 +8,7 @@
 // #include "io/Input.h"
 #include "io/_IO.h"
 #include "./gui/_gui.h"
+#include "game/chunk_manager.h"
 // #include "Models/WindowInfoModel.h"
 // Graph _g_Graph;
 
@@ -146,19 +147,22 @@ void Graph::drawMesh()
     camShader.setMat4("view", view);
 
     _textureManagerPtr->bindChunkTexture();
-    //遍历需要绘制的区块网格
-    for (int i = 0; i < chunks2Draw.size(); i++)
     {
-        chunks2Draw[i]->draw();
+        auto &chunks2Draw = App::getInstance().gamePtr->chunkManager->chunks2Draw;
+        //遍历需要绘制的区块网格
+        for (int i = 0; i < chunks2Draw.size(); i++)
+        {
+            chunks2Draw[i]->draw();
+        }
     }
 }
 
-void Graph::addChunk2DrawList(std::shared_ptr<Chunk> chunkPtr)
-{
+// void Graph::addChunk2DrawList(std::shared_ptr<Chunk> chunkPtr)
+// {
 
-    chunks2Draw.push_back(chunkPtr);
-    chunkPtr->constructMesh();
-}
+//     chunks2Draw.push_back(chunkPtr);
+//     chunkPtr->constructMesh();
+// }
 
 void Graph::doDraw()
 {

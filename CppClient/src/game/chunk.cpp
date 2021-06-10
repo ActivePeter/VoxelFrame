@@ -1,40 +1,9 @@
 #include "chunk.h"
 #include "app.h"
 #include "enum.h"
+// N_Chunk /////////////////////////////////////////////////////////////////////////////////////////
 
-void ChunkManager::addNewChunk(int32_t x, int32_t y, int32_t z)
-{
-    ChunkKey ck(x, y, z);
-    auto newChunk = std::make_shared<Chunk>(ck);
-
-    // newChunk->constructMesh();
-    chunkKey2chunkPtr[ck] = newChunk;
-    App::getInstance().graphPtr->addChunk2DrawList(newChunk);
-}
-
-/**
- * 如果玩家所在区块。就需要加载新的未绘制的区块，
- * 同时将不在视野内的区块加入倒计时销毁队列
- * 当然，如果在时间内又再次回来。那么将区块再次从销毁队列中移除
- * 
- * 思考
- * 用什么来做销毁队列：易于遍历和增删，
- * 目前来看可以用list，list增删方便 遍历也不差
-*/
-void ChunkManager::checkPlayerChunkPosChanged()
-{
-    //上一次player所在区块的坐标
-    static int lastX = 0, lastY = 0, lastZ = 0;
-    //计算坐标，如果改变，就重新计算范围内区块
-    if (true)
-    {
-    }
-    if (chunksDestroyQuene.size() > 0)
-    {
-        //遍历，更新区块销毁倒计时，到点销毁
-    }
-}
-
+// Chunk /////////////////////////////////////////////////////////////////////////////////////////
 void Chunk::constructMesh()
 {
     //仅改变size，实际内存占用不变
@@ -105,6 +74,32 @@ void Chunk::constructMesh()
         }
     }
     setupMesh();
+}
+
+/**
+ * 构造chunk
+ * 测试阶段初始化数组为一半土方快，一半空
+*/
+Chunk::Chunk(ChunkKey ck)
+{
+    chunkKey = ck;
+    for (int x = 0; x < VF_ChunkWidth; x++)
+    {
+        for (int y = 0; y < VF_ChunkWidth; y++)
+        {
+            for (int z = 0; z < VF_ChunkWidth; z++)
+            {
+                if (y > VF_ChunkWidth / 2)
+                {
+                    data[x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth] = 0;
+                }
+                else
+                {
+                    data[x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth] = 1;
+                }
+            }
+        }
+    }
 }
 
 void Chunk::constructMeshInOneDim(int blockx, int blocky, int blockz,

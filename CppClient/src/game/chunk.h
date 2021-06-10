@@ -4,7 +4,6 @@
 #endif
 struct ChunkKey;
 class Chunk;
-class ChunkManager;
 
 /////////////////////////////////////////////////
 #ifndef __CHUNK_H__
@@ -16,11 +15,8 @@ class ChunkManager;
 // #include "game.h"
 #include "app.h"
 #include "block.h"
-/////////////////////////////
-// class Game;
-class Mesh;
-class CommonBlockInfo;
-//////////////////////////
+#include "game.h"
+
 struct ChunkKey
 {
     int32_t x;
@@ -74,45 +70,8 @@ public:
     //首次加载、数据变更（修改地形，都要构造（前提是在视野内
     void constructMesh();
 
-    Chunk(ChunkKey ck)
-    {
-        chunkKey = ck;
-        for (int x = 0; x < VF_ChunkWidth; x++)
-        {
-            for (int y = 0; y < VF_ChunkWidth; y++)
-            {
-                for (int z = 0; z < VF_ChunkWidth; z++)
-                {
-                    if (y > VF_ChunkWidth / 2)
-                    {
-                        data[x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth] = 0;
-                    }
-                    else
-                    {
-                        data[x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth] = 1;
-                    }
-                }
-            }
-        }
-    }
+    Chunk(ChunkKey ck);
     Chunk() {}
 };
 
-class ChunkManager
-{
-private:
-    // Game &game;
-    /* data */
-    phmap::flat_hash_map<ChunkKey, std::shared_ptr<Chunk>> chunkKey2chunkPtr;
-    std::list<std::shared_ptr<Chunk>> chunksDestroyQuene;
-
-public:
-    ChunkManager()
-    {
-        // addNewChunk(0, 0, 0);
-    }
-    void addNewChunk(int32_t x, int32_t y, int32_t z);
-
-    void checkPlayerChunkPosChanged();
-};
 #endif // __CHUNK_H__
