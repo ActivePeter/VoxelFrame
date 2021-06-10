@@ -20,6 +20,8 @@ load the submodules
 
 #### 3.vs2017 or vs2019
 
+#### 4.conan c++ lib manager
+
 ### Operation：
 
 #### 1.open project

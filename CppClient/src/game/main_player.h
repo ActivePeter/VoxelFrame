@@ -1,6 +1,7 @@
 //向前声明
 class MainPlayer;
 #include "graph/Camera.h"
+#include "chunk.h"
 #pragma once
 
 //当前玩家，并非指任意玩家
@@ -26,8 +27,18 @@ public:
     std::shared_ptr<Camera> cameraPtr;
 
     MainPlayer();
-    void getPosition();
-    void setPosition();
+    glm::vec3 getPosition()
+    {
+        return cameraPtr->Position;
+    }
+    void setPosition(glm::vec3 pos)
+    {
+        chunkX = (int)pos.x / ChunkWidth;
+        chunkY = (int)pos.y / ChunkWidth;
+        chunkZ = (int)pos.z / ChunkWidth;
+
+        cameraPtr->Position = pos;
+    }
 
     /**
      * Player Control
@@ -37,13 +48,17 @@ public:
     {
         float velocity = MovementSpeed * deltaTime;
         if (direction == FORWARD)
-            cameraPtr->Position += cameraPtr->Front * velocity;
+            // cameraPtr->Position += cameraPtr->Front * velocity;
+            setPosition(getPosition() + cameraPtr->Front * velocity);
         if (direction == BACKWARD)
-            cameraPtr->Position -= cameraPtr->Front * velocity;
+            // cameraPtr->Position -= cameraPtr->Front * velocity;
+            setPosition(getPosition() - cameraPtr->Front * velocity);
         if (direction == LEFT)
-            cameraPtr->Position -= cameraPtr->Right * velocity;
+            // cameraPtr->Position -= cameraPtr->Right * velocity;
+            setPosition(getPosition() - cameraPtr->Right * velocity);
         if (direction == RIGHT)
-            cameraPtr->Position += cameraPtr->Right * velocity;
+            // cameraPtr->Position += cameraPtr->Right * velocity;
+            setPosition(getPosition() + cameraPtr->Right * velocity);
     }
 
     // processes input received from a mouse input system. Expects the offset value in both the x and y direction.
