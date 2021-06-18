@@ -51,7 +51,7 @@ namespace N_MainPlayer
         auto window = App::getInstance().graphPtr->window;
         if (app.gamePtr)
         {
-            auto player = *app.gamePtr->mainPlayer;
+            auto &player = *app.gamePtr->mainPlayer;
             if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
             {
                 player.ProcessKeyboard(N_MainPlayer::FORWARD, app.deltaTime);

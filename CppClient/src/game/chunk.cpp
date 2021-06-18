@@ -4,8 +4,19 @@
 // N_Chunk /////////////////////////////////////////////////////////////////////////////////////////
 
 // Chunk /////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * 多线程访问函数
+ * 
+ * //首次加载、数据变更（修改地形，都要构造（前提是在视野内
+ * 构造的时候要给indices 和vertices 加锁
+ * 
+*/
 void Chunk::constructMesh()
 {
+    // dataMut.lock();
+    // 貌似不用加锁，因为访问顶点数据的只可能时这个函数
+    dataMut.lock();
     //仅改变size，实际内存占用不变
     indices.clear();
     vertices.clear();
@@ -83,6 +94,10 @@ void Chunk::constructMesh()
 Chunk::Chunk(ChunkKey ck)
 {
     chunkKey = ck;
+    mesh_position.x = ck.x * VF_ChunkWidth;
+    mesh_position.y = ck.y * VF_ChunkWidth;
+    mesh_position.z = ck.z * VF_ChunkWidth;
+
     for (int x = 0; x < VF_ChunkWidth; x++)
     {
         for (int y = 0; y < VF_ChunkWidth; y++)

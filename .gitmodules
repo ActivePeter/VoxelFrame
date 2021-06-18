@@ -22,3 +22,6 @@
 [submodule "CppClient/third/paecs"]
 	path = CppClient/third/paecs
 	url = https://github.com/ActivePeter/paecs.git
+[submodule "CppClient/third/ThreadPool"]
+	path = CppClient/third/ThreadPool
+	url = https://github.com/VoxelFrame/ThreadPool.git

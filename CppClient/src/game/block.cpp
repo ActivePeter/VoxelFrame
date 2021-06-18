@@ -18,7 +18,9 @@ void CommonBlockInfo::pushOneFace2Mesh(int blockx, int blocky, int blockz, Block
     {
         // printf("dir: %d \r\n", dir);
         Vertex vertex;
-        vertex.setPosition(blockx, blocky, blockz);
+        vertex.setPosition(mesh.mesh_position.x + blockx,
+                           mesh.mesh_position.y + blocky,
+                           mesh.mesh_position.z + blockz);
         for (int i = 0; i < 4; i++)
         {
             mesh.vertices.push_back(vertex);
@@ -33,6 +35,7 @@ void CommonBlockInfo::pushOneFace2Mesh(int blockx, int blocky, int blockz, Block
         mesh.indices.push_back((unsigned int)(mesh.vertices.size() - 1));
         // this->setVertexUVOnDir(dir, mesh);
         blockUVSetter->setVertexUVOnDir(dir, mesh);
+
         // printf("%d %d\r\n", mesh.vertices.size(), mesh.indices.size());
     }
 }

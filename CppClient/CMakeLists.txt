@@ -50,6 +50,10 @@ include_directories (${BRYNET_DIR}/include)
 # parallel_hashmap
 set (parallel_hashmap_dir ${3RD_DIR}/parallel-hashmap)
 include_directories (${parallel_hashmap_dir})
+
+# ThreadPool
+set (ThreadPool_dir ${3RD_DIR}/ThreadPool)
+include_directories(${ThreadPool_dir})
 # # sparsepp
 # set (sparsepp_dir ${3RD_DIR}/sparsepp)
 # include_directories (${sparsepp_dir})

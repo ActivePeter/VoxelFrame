@@ -55,6 +55,11 @@ public:
         chunkY = (int)pos.y / VF_ChunkWidth;
         chunkZ = (int)pos.z / VF_ChunkWidth;
 
+        printf("player setPosition %f,%f,%f,\r\n%d,%d,%d\r\n",
+
+               pos.x, pos.y, pos.z, chunkX,
+               chunkY,
+               chunkZ);
         cameraPtr->Position = pos;
     }
 

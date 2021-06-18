@@ -6,7 +6,7 @@ void Game::start()
     chunkManager = std::make_shared<ChunkManager>();
     blockManager = std::make_shared<BlockManager>();
     mainPlayer = std::make_shared<MainPlayer>();
-    chunkManager->addNewChunk(0, 0, 0);
+    // chunkManager->addNewChunk(0, 0, 0);
 
     // this
 }

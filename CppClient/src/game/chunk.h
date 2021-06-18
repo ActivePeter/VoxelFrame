@@ -1,5 +1,5 @@
 #ifndef VF_ChunkWidth
-#define VF_ChunkWidth 64
+#define VF_ChunkWidth 16
 #define VF_ChunkSize (VF_ChunkWidth * VF_ChunkWidth * VF_ChunkWidth)
 #endif
 struct ChunkKey;
@@ -10,6 +10,7 @@ class Chunk;
 #define __CHUNK_H__
 // heads ///////////////////////////
 #include "parallel_hashmap/phmap.h"
+#include "chunk_key.h"
 #include "graph/Mesh.h"
 #include "graph/_Graph.h"
 // #include "game.h"
@@ -17,26 +18,6 @@ class Chunk;
 #include "block.h"
 #include "game.h"
 
-struct ChunkKey
-{
-    int32_t x;
-    int32_t y;
-    int32_t z;
-
-    bool operator==(const ChunkKey &o) const
-    {
-        return x == o.x && y == o.y && z == o.z;
-    }
-    friend size_t hash_value(const ChunkKey &p)
-    {
-        return phmap::HashState().combine(0, p.x, p.y, p.z);
-    }
-
-    ChunkKey(int32_t x, int32_t y, int32_t z) : x(x), y(y), z(z)
-    {
-    }
-    ChunkKey() {}
-};
 class Chunk : public Mesh
 {
 private:
@@ -67,7 +48,6 @@ public:
     ChunkKey chunkKey;
     // Game &game;
 
-    //首次加载、数据变更（修改地形，都要构造（前提是在视野内
     void constructMesh();
 
     Chunk(ChunkKey ck);

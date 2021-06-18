@@ -1,4 +1,5 @@
 #include "chunk_manager.h"
+
 namespace N_Chunk_Manager
 {
     void checkPlayerChunkPosChanged(Game &game)
@@ -7,6 +8,9 @@ namespace N_Chunk_Manager
     }
     /**
      * 更新区块清除列表中区块的状态
+     *      1.若在范围内，则从销毁列表中清除
+     *      2.不在范围内，进行倒计时，
+     *      3.若倒计时为0，则执行清除
     */
     void updateChunksDestroyState(Game &game)
     {
@@ -40,6 +44,9 @@ namespace N_Chunk_Manager
 */
 ChunkManager::ChunkManager()
 {
+    //构造区块网格的线程池
+    threadPool2BuildChunkMeshes = make_shared<ThreadPool>(4);
+
     //1.构造视野区块数组
     {
         inRangeChunksPos.resize(
@@ -56,6 +63,7 @@ ChunkManager::ChunkManager()
                     //如果在范围内。加入inRangeChunkPos
                     if (isChunkInRange(x, y, z))
                     {
+                        //创建chunkkey
                         inRangeChunksPos[cnt] = ChunkKey(x, y, z);
                         cnt++;
                     }
@@ -68,8 +76,14 @@ ChunkManager::ChunkManager()
 
     // 2.注册区块相关的周期检测
     {
-        App::getInstance().gamePtr->registTCallback(1, N_Chunk_Manager::checkPlayerChunkPosChanged);
-        App::getInstance().gamePtr->registTCallback(50, N_Chunk_Manager::updateChunksDestroyState);
+        App::getInstance()
+            .gamePtr
+            ->registTCallback(1,
+                              N_Chunk_Manager::checkPlayerChunkPosChanged);
+        App::getInstance()
+            .gamePtr
+            ->registTCallback(50,
+                              N_Chunk_Manager::updateChunksDestroyState);
     }
     // addNewChunk(0, 0, 0);
 }
@@ -86,8 +100,9 @@ ChunkManager::ChunkManager()
 void ChunkManager::checkPlayerChunkPosChanged()
 {
     //上一次player所在区块的坐标
-    static int lastX = 0, lastY = 0, lastZ = 0;
-    auto &player = *App::getInstance().gamePtr->mainPlayer;
+    static int lastX = -1, lastY = -1, lastZ = -1;
+    auto playerPtr = App::getInstance().gamePtr->mainPlayer;
+    auto &player = *playerPtr;
     if (lastX != player.chunkX ||
         lastY != player.chunkY ||
         lastZ != player.chunkZ)
@@ -96,19 +111,46 @@ void ChunkManager::checkPlayerChunkPosChanged()
         //遍历原来的区块，把原来的旧的区块加入销毁列表
         for (int i = 0; i < chunks2Draw.size(); i++)
         {
-            if (!isChunkInRange(chunks2Draw[i]->chunkKey), player.chunkX, player.chunkY, player.chunkZ)
+            if (chunks2Draw[i])
             {
-                chunksDestroyQuene.push_back(chunks2Draw[i]);
+                if (!isChunkInRange(chunks2Draw[i]->chunkKey), player.chunkX, player.chunkY, player.chunkZ)
+                {
+                    chunksDestroyQuene.push_back(chunks2Draw[i]);
+                }
             }
         }
         //遍历球体范围的区块
         for (int i = 0; i < inRangeChunksPos.size(); i++)
         {
             auto &cur = inRangeChunksPos[i];
-            chunks2Draw[i] = getChunkOfKey(ChunkKey(
+            auto chunk2Draw = getChunkOfKey(ChunkKey(
                 player.chunkX + cur.x,
                 player.chunkY + cur.y,
                 player.chunkZ + cur.z));
+            chunks2Draw[i] = chunk2Draw;
+
+            //这里的 construct mesh 要换成多线程
+            //往线程池加入构造网格函数
+            /**
+             * 出现了一个bug
+             * 在draw chunk时 chunk似乎被释放了
+            */
+            threadPool2BuildChunkMeshes->enqueue(
+                [chunk2Draw]
+                {
+                    chunk2Draw->constructMesh();
+                    // chunks2Draw[i] = chunk2Draw;
+                });
+            // chunks2Draw[i]->constructMesh();
         }
     }
+    // std::cout << "checkPlayerChunkPosChanged" << std::endl;
+    printf("checkPlayerChunkPosChanged %d,%d,%d",
+           player.chunkX,
+           player.chunkY,
+           player.chunkZ);
+
+    lastX = player.chunkX;
+    lastY = player.chunkY;
+    lastZ = player.chunkZ;
 }

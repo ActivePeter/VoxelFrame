@@ -3,7 +3,9 @@ class ChunkManager;
 ////////////////////////////////
 #ifndef __CHUNK_MANAGER_H__
 #define __CHUNK_MANAGER_H__
+#include "chunk_key.h"
 #include "chunk.h"
+#include "ThreadPool.h"
 
 class ChunkManager
 {
@@ -15,7 +17,7 @@ private:
     /* data */
     phmap::flat_hash_map<ChunkKey, std::shared_ptr<Chunk>> chunkKey2chunkPtr;
 
-    const int ChunkLoadRangeRadius = 4; //加载区块的半径
+    const int ChunkLoadRangeRadius = 3; //加载区块的半径
 
     /**
      * 需要加载区块相对坐标，用于区块变更时重新加载
@@ -37,6 +39,8 @@ public:
     */
     std::vector<std::shared_ptr<Chunk>> chunks2Draw;
 
+    std::shared_ptr<ThreadPool> threadPool2BuildChunkMeshes;
+
     /******************
      * funcs
     *******************/
@@ -56,7 +60,7 @@ public:
     }
 
     ChunkManager();
-    std::shared_ptr<Chunk> getChunkOfKey(ChunkKey ck)
+    std::shared_ptr<Chunk> getChunkOfKey(ChunkKey &ck)
     {
         if (!chunkKey2chunkPtr.contains(ck))
         {
@@ -67,7 +71,7 @@ public:
         }
         return chunkKey2chunkPtr[ck];
     }
-    void addNewChunk(int32_t x, int32_t y, int32_t z);
+    // void addNewChunk(int32_t x, int32_t y, int32_t z);
 
     void checkPlayerChunkPosChanged();
 };

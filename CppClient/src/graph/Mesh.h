@@ -16,6 +16,8 @@ class Mesh;
 
 #include <string>
 #include <vector>
+#include <mutex>
+
 using namespace std;
 
 struct Vertex
@@ -60,10 +62,13 @@ struct Texture
 class Mesh
 {
 public:
+    std::mutex dataMut;
     // mesh Data
     vector<Vertex> vertices;
     vector<unsigned int> indices;
+
     vector<Texture> textures;
+    glm::vec3 mesh_position;
     unsigned int VAO;
 
     Mesh()
@@ -120,8 +125,15 @@ public:
 
         // // draw mesh
         // glUseProgram(shaderProgram);
-        glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+        if (inited && dataMut.try_lock())
+        {
+            //如果锁成功了
+            glBindVertexArray(VAO);
+            glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+
+            //解锁
+            dataMut.unlock();
+        }
         // glBindVertexArray(0); // no need to unbind it every time
 
         // // always good practice to set everything back to defaults once configured.
@@ -129,54 +141,60 @@ public:
     }
     void setupMesh()
     {
-        if (!inited)
+
+        //这里需要mutex
+        dataMut.lock();
         {
-            setupResourceTest();
-            glGenVertexArrays(1, &VAO);
-            glGenBuffers(1, &VBO);
-            glGenBuffers(1, &EBO);
-            inited = true;
+            if (!inited)
+            {
+                setupResourceTest();
+                glGenVertexArrays(1, &VAO);
+                glGenBuffers(1, &VBO);
+                glGenBuffers(1, &EBO);
+                inited = true;
+            }
+            // create buffers/arrays
+
+            glBindVertexArray(VAO);
+            // // load data into vertex buffers
+            glBindBuffer(GL_ARRAY_BUFFER, VBO);
+            // // A great thing about structs is that their memory layout is sequential for all its items.
+            // // The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
+            // // again translates to 3/2 floats which translates to a byte array.
+            glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
+            // // set the vertex attribute pointers
+            // // vertex Positions
+
+            //坐标 对齐
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)0);
+            glEnableVertexAttribArray(0);
+
+            //uv 对齐
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(sizeof(glm::vec3)));
+            glEnableVertexAttribArray(1);
+
+            // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            // // vertex normals
+            // glEnableVertexAttribArray(1);
+            // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Normal));
+            // // vertex texture coords
+            // glEnableVertexAttribArray(2);
+            // glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, TexCoords));
+            // // vertex tangent
+            // glEnableVertexAttribArray(3);
+            // glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Tangent));
+            // // vertex bitangent
+            // glEnableVertexAttribArray(4);
+            // glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Bitangent));
+
+            glBindVertexArray(0);
         }
-        // create buffers/arrays
-
-        glBindVertexArray(VAO);
-        // // load data into vertex buffers
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        // // A great thing about structs is that their memory layout is sequential for all its items.
-        // // The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
-        // // again translates to 3/2 floats which translates to a byte array.
-        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
-
-        // // set the vertex attribute pointers
-        // // vertex Positions
-
-        //坐标 对齐
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)0);
-        glEnableVertexAttribArray(0);
-
-        //uv 对齐
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(sizeof(glm::vec3)));
-        glEnableVertexAttribArray(1);
-
-        // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        // // vertex normals
-        // glEnableVertexAttribArray(1);
-        // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Normal));
-        // // vertex texture coords
-        // glEnableVertexAttribArray(2);
-        // glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, TexCoords));
-        // // vertex tangent
-        // glEnableVertexAttribArray(3);
-        // glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Tangent));
-        // // vertex bitangent
-        // glEnableVertexAttribArray(4);
-        // glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Bitangent));
-
-        glBindVertexArray(0);
+        dataMut.unlock();
     }
 
 private:

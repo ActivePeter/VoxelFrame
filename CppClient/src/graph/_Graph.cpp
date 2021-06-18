@@ -152,7 +152,14 @@ void Graph::drawMesh()
         //遍历需要绘制的区块网格
         for (int i = 0; i < chunks2Draw.size(); i++)
         {
-            chunks2Draw[i]->draw();
+            if (chunks2Draw[i])
+            {
+                chunks2Draw[i]->draw();
+            }
+            else
+            {
+                // std::cout << "invalid chunk ptr 2 draw" << i << std::endl;
+            }
         }
     }
 }
