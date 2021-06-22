@@ -6,6 +6,8 @@
 // #include "Models/WindowInfoModel.h"
 // IO _g_IO_IO;
 #include "app.h"
+
+#include "io_sys.h"
 //处理输入
 void process_IO_callabck(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
@@ -55,8 +57,8 @@ void framebuff_size_callback(GLFWwindow *window, int width, int height)
     // WindowInfoModel &wim = WindowInfoModel::getInstance();
     // wim.Height = height;
     // wim.Width = width;
-    App::getInstance().graphPtr->windowH = height;
-    App::getInstance().graphPtr->windowW = width;
+    App::getInstance().graphPtr->gameWindow.windowH = height;
+    App::getInstance().graphPtr->gameWindow.windowW = width;
     // _g_Graph.windowH = height;
     // _g_Graph.windowW = width;
 }
@@ -64,10 +66,19 @@ void framebuff_size_callback(GLFWwindow *window, int width, int height)
 void mouse_callback(GLFWwindow *window, double xpos, double ypos)
 {
     auto &io = *App::getInstance().ioPtr;
+    io.cursorX = xpos;
+    io.cursorY = ypos;
+
+    auto gameWindow = App::getInstance().graphPtr->gameWindow;
+    int x = gameWindow.windowW / 2, y = gameWindow.windowH / 2;
+
     for (int i = 0; i < io.mouseMoveCallbacks.size(); i++)
     {
-        io.mouseMoveCallbacks[i](xpos, ypos);
+        io.mouseMoveCallbacks[i](xpos, ypos, xpos - x, ypos - y);
     }
+
+    gameWindow.pos2Screen(x, y);
+    N_IO::setCursorPos(x, y);
     // camera 操作
     // {
     //     static bool firstMouse = true;
@@ -127,15 +138,17 @@ void IO::processInput(GLFWwindow *window)
 //在graph init之后调用
 void IO::init()
 {
-    auto &app = App::getInstance();
-    glfwSetFramebufferSizeCallback(app.graphPtr->window, framebuff_size_callback);
+    // auto &app = App::getInstance();
+    auto window = App::getInstance().graphPtr->gameWindow.window;
+    //窗口size 改变
+    glfwSetFramebufferSizeCallback(window, framebuff_size_callback);
     //处理输入
     // glfwSetCursorPosCallback(_g_Graph.window, mouse_callback);
     // glfwSetKeyCallback(app.graphPtr->window, process_IO_callabck);
-    glfwSetCursorPosCallback(app.graphPtr->window, mouse_callback);
+    glfwSetCursorPosCallback(window, mouse_callback);
 }
 
-int IO::getKey()
-{
-    return glfwGetKey(App::getInstance().graphPtr->window, GLFW_KEY_W);
-}
+// int IO::getKey()
+// {
+//     return glfwGetKey(App::getInstance().graphPtr->window, GLFW_KEY_W);
+// }

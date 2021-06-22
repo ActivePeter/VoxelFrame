@@ -46,6 +46,8 @@ private:
 public:
     uint8_t data[VF_ChunkSize];
     ChunkKey chunkKey;
+
+    // bool need
     // Game &game;
 
     void constructMesh();

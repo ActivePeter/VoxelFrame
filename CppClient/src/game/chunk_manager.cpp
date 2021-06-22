@@ -17,8 +17,12 @@ namespace N_Chunk_Manager
         auto &destroyQuene = game.chunkManager->chunksDestroyQuene;
         if (destroyQuene.size() > 0)
         {
+            // int cnt = 0;
             for (auto iter = destroyQuene.begin(); iter != destroyQuene.end();)
             {
+                // std::cout << "left destroy quene cnt " << cnt << std::endl;
+                // cnt++;
+                *iter++;
                 // iter->copyTo(imageROI);
                 // blockFacesBuffer.erase(iter++);
             }
@@ -134,21 +138,27 @@ void ChunkManager::checkPlayerChunkPosChanged()
             /**
              * 出现了一个bug
              * 在draw chunk时 chunk似乎被释放了
+             * 发现是因为gl的函数不能被多线程调用，即使是无关函数，也可能操作相关数据
+             * 
+             * 又有了一个问题，纵向移动时一加载区块就直接无法操作，也不是无响应
             */
+            // auto &chunkR = *chunk2Draw;
             threadPool2BuildChunkMeshes->enqueue(
-                [chunk2Draw]
-                {
-                    chunk2Draw->constructMesh();
+                [](std::shared_ptr<Chunk> chunkPtr) { // Chunk *chunkPtr)
+                    // chunkPtr->dataMut.lock();
+                    chunkPtr->constructMesh();
+                    // chunkPtr->dataMut.unlock();
                     // chunks2Draw[i] = chunk2Draw;
-                });
+                },
+                chunk2Draw);
             // chunks2Draw[i]->constructMesh();
         }
     }
     // std::cout << "checkPlayerChunkPosChanged" << std::endl;
-    printf("checkPlayerChunkPosChanged %d,%d,%d",
-           player.chunkX,
-           player.chunkY,
-           player.chunkZ);
+    // printf("checkPlayerChunkPosChanged %d,%d,%d",
+    //        player.chunkX,
+    //        player.chunkY,
+    //        player.chunkZ);
 
     lastX = player.chunkX;
     lastY = player.chunkY;

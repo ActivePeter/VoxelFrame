@@ -6,7 +6,7 @@
 #include "GLFW/glfw3.h"
 #include <iostream>
 // #include "io/Input.h"
-#include "io/_IO.h"
+#include "system/io/_IO.h"
 #include "./gui/_gui.h"
 #include "game/chunk_manager.h"
 // #include "Models/WindowInfoModel.h"
@@ -65,20 +65,10 @@ bool Graph::init()
     ////////////////////////////////////////////////////////////////
 
     // 创建窗口 /////////////////////////////////////////////////////
-    this->window = glfwCreateWindow(
-        this->windowW,
-        this->windowH, "OpenGLTest", NULL, NULL);
+    this->gameWindow.createWindow();
 
-    // windowInfoModel.window = window;
-    if (window == NULL)
-    {
-        std::cout << "Failed to create GLFW window " << std::endl;
-        //销毁所有窗口
-        glfwTerminate();
-        return false;
-    }
     //将该窗口作为当前线程的主上下文
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(this->gameWindow.window);
     //GLAD是管理OpenGL指针的，在调用任何OpenGL的函数之前需要初始化GLAD
     if (!gladLoadGL())
     {
@@ -139,7 +129,7 @@ void Graph::drawMesh()
     // glUseProgram(shaderProgram);
 
     // pass projection matrix to shader (note that in this case it could change every frame)
-    glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)windowW / (float)windowH, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)gameWindow.windowW / (float)gameWindow.windowH, 0.1f, 100.0f);
     camShader.setMat4("projection", projection);
 
     // camera/view transformation
@@ -198,7 +188,8 @@ inline void Graph::drawBegin()
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // 开启面剔除
-    // glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
     // glCullFace(GL_FRONT);
 }
 
@@ -206,7 +197,7 @@ inline void Graph::drawEnd()
 {
 
     //将存储在缓冲区中的像素颜色进行绘制，这里涉及到双缓冲的问题
-    glfwSwapBuffers(window);
+    glfwSwapBuffers(gameWindow.window);
     //检查有没有触发什么事件（键盘输入、鼠标移动等)、窗口改变
     glfwPollEvents();
     // glfwSetKeyCallback(_Graph.window, processInput);

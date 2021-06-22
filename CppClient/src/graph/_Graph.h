@@ -12,9 +12,7 @@ class Graph;
 #include "gui/_gui.h"
 #include "shader_m.h"
 #include "texture.h"
-
-////////////////////////
-
+#include "system/GameWindow.h"
 class Graph
 {
 private:
@@ -24,13 +22,12 @@ private:
 public:
     std::shared_ptr<Gui> _guiPtr;
     std::shared_ptr<TextureManager> _textureManagerPtr;
-    int windowH = 800;
-    int windowW = 1000;
-    GLFWwindow *window;
+
     float highDPIscaleFactor = 1;
+    bool mouseIsLocked = false;
     std::shared_ptr<Camera> cameraPtr;
     std::shared_ptr<Shader> camShaderPtr;
-
+    GameWindow gameWindow;
     // timing
     // float deltaTime = 0.0f; // time between current frame and last frame
     // float lastFrame = 0.0f;
@@ -44,7 +41,7 @@ public:
 
     inline bool running()
     {
-        return !glfwWindowShouldClose(window);
+        return !glfwWindowShouldClose(gameWindow.window);
     }
     inline void end()
     {

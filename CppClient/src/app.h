@@ -11,7 +11,7 @@ class App;
 #include "game/game.h"
 #include "graph/_Graph.h"
 #include "net/_net.h"
-#include "io/_IO.h"
+#include "system/io/_IO.h"
 
 ////////////////////////////////////////
 struct A
@@ -49,7 +49,7 @@ public:
     // }
     inline void calcTimePerLoop()
     {
-        float currentFrame = glfwGetTime();
+        float currentFrame = (float)glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
     }

@@ -15,7 +15,7 @@ void Gui::init()
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
 
-    ImGui_ImplGlfw_InitForOpenGL(graph.window, true);
+    ImGui_ImplGlfw_InitForOpenGL(graph.gameWindow.window, true);
     ImGui_ImplOpenGL3_Init();
 
     // Setup style
@@ -99,6 +99,15 @@ void Gui::renderGui()
             {
                 char buff[90] = {0};
                 sprintf(buff, "cam pos: %.2f %.2f %.2f", camPtr->Position.x, camPtr->Position.y, camPtr->Position.z);
+                ImGui::Text(buff);
+            }
+        }
+        {
+            auto io = App::getInstance().ioPtr;
+            if (io)
+            {
+                char buff[50] = {0};
+                sprintf(buff, "cursor x:%.2f, y:%.2f", io->cursorX, io->cursorY);
                 ImGui::Text(buff);
             }
         }

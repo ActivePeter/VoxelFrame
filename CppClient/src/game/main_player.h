@@ -51,15 +51,46 @@ public:
     }
     void setPosition(glm::vec3 pos)
     {
-        chunkX = (int)pos.x / VF_ChunkWidth;
-        chunkY = (int)pos.y / VF_ChunkWidth;
-        chunkZ = (int)pos.z / VF_ChunkWidth;
+        { //recalc chunk pos
+            if (pos.x >= 0)
+            {
+                chunkX = (int)pos.x / VF_ChunkWidth;
+            }
+            else
+            {
+                chunkX = ((int)pos.x / VF_ChunkWidth) - 1;
+            }
+            if (pos.y >= 0)
+            {
+                chunkY = (int)pos.y / VF_ChunkWidth;
+            }
+            else
+            {
+                chunkY = ((int)pos.y / VF_ChunkWidth) - 1;
+            }
+            if (pos.z >= 0)
+            {
+                chunkZ = (int)pos.z / VF_ChunkWidth;
+            }
+            else
+            {
+                chunkZ = ((int)pos.z / VF_ChunkWidth) - 1;
+            }
+        }
 
-        printf("player setPosition %f,%f,%f,\r\n%d,%d,%d\r\n",
+        // int intx=(int)pos.x;
+        // int inty=(int)pos.y;
+        // int intz=(int)pos.z;
+        // if(intx)
 
-               pos.x, pos.y, pos.z, chunkX,
-               chunkY,
-               chunkZ);
+        // chunkY = (int)pos.y / VF_ChunkWidth;
+        // chunkZ = (int)pos.z / VF_ChunkWidth;
+
+        // printf("player setPosition %f,%f,%f,\r\n%d,%d,%d\r\n",
+
+        //        pos.x, pos.y, pos.z, chunkX,
+        //        chunkY,
+        //        chunkZ);
         cameraPtr->Position = pos;
     }
 

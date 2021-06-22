@@ -14,9 +14,9 @@
 */
 void Chunk::constructMesh()
 {
-    // dataMut.lock();
-    // 貌似不用加锁，因为访问顶点数据的只可能时这个函数
     dataMut.lock();
+    // 貌似不用加锁，因为访问顶点数据的只可能时这个函数
+
     //仅改变size，实际内存占用不变
     indices.clear();
     vertices.clear();
@@ -84,7 +84,14 @@ void Chunk::constructMesh()
             }
         }
     }
-    setupMesh();
+    dataMut.unlock();
+
+    // dataMut.lock();
+    needSetupBeforeDraw = true;
+    indicesSize = indices.size();
+    printf("chunk %d %d %d is constructed\r\n", chunkKey.x, chunkKey.y, chunkKey.z);
+
+    // setupMesh();
 }
 
 /**

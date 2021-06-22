@@ -4,7 +4,7 @@
 
 namespace N_MainPlayer
 {
-    void mouse_callback(double xpos, double ypos)
+    void mouse_callback(double xpos, double ypos, double dx, double dy)
     {
         // camera 操作
         static bool firstMouse = true;
@@ -25,7 +25,7 @@ namespace N_MainPlayer
         auto gamePtr = App::getInstance().gamePtr;
         if (gamePtr)
         {
-            gamePtr->mainPlayer->ProcessMouseMovement(xoffset, yoffset);
+            gamePtr->mainPlayer->ProcessMouseMovement(dx, -dy);
         }
         // if (App::getInstance().graphPtr && App::getInstance().graphPtr->cameraPtr)
         // {
@@ -48,7 +48,7 @@ namespace N_MainPlayer
         // //             camera.ProcessKeyboard(FORWARD, app.deltaTime);
 
         auto &app = App::getInstance();
-        auto window = App::getInstance().graphPtr->window;
+        auto window = App::getInstance().graphPtr->gameWindow.window;
         if (app.gamePtr)
         {
             auto &player = *app.gamePtr->mainPlayer;

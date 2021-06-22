@@ -17,6 +17,7 @@ class Mesh;
 #include <string>
 #include <vector>
 #include <mutex>
+#include <atomic>
 
 using namespace std;
 
@@ -71,7 +72,10 @@ public:
     glm::vec3 mesh_position;
     unsigned int VAO;
 
-    Mesh()
+    atomic<int> indicesSize;
+    atomic<bool> needSetupBeforeDraw;
+
+    Mesh() : needSetupBeforeDraw(false), indicesSize(0)
     {
     }
     // constructor
@@ -125,15 +129,29 @@ public:
 
         // // draw mesh
         // glUseProgram(shaderProgram);
-        if (inited && dataMut.try_lock())
+        // if (inited && dataMut.try_lock())
+        // {
+        if (needSetupBeforeDraw)
+        {
+            // dataMut.unlock();
+            setupMesh();
+        }
+        if (inited)
         {
             //如果锁成功了
-            glBindVertexArray(VAO);
-            glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+            // dataMut.lock();
 
-            //解锁
-            dataMut.unlock();
+            // dataMut.lock();
+            int sizeCopy = indicesSize;
+            // dataMut.unlock();
+
+            glBindVertexArray(VAO);
+            glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
         }
+
+        //解锁
+
+        // }
         // glBindVertexArray(0); // no need to unbind it every time
 
         // // always good practice to set everything back to defaults once configured.
@@ -143,7 +161,7 @@ public:
     {
 
         //这里需要mutex
-        dataMut.lock();
+        // dataMut.lock();
         {
             if (!inited)
             {
@@ -161,11 +179,14 @@ public:
             // // A great thing about structs is that their memory layout is sequential for all its items.
             // // The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
             // // again translates to 3/2 floats which translates to a byte array.
+            dataMut.lock();
             glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+            dataMut.unlock();
 
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+            dataMut.lock();
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
-
+            dataMut.unlock();
             // // set the vertex attribute pointers
             // // vertex Positions
 
@@ -194,7 +215,9 @@ public:
 
             glBindVertexArray(0);
         }
-        dataMut.unlock();
+        // needSetupBeforeDraw = true;
+        // dataMut.unlock();
+        needSetupBeforeDraw = false;
     }
 
 private:

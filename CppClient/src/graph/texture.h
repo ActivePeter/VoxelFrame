@@ -46,7 +46,7 @@ public:
     }
     void registBlockFacesEnd()
     {
-        int sqrCnt = sqrt(faceCnt);
+        int sqrCnt = (int)sqrt(faceCnt);
         if (sqrCnt * sqrCnt == faceCnt)
         {
             blocksMixedTextureW = sqrCnt;
