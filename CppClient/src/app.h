@@ -11,7 +11,9 @@ class App;
 #include "game/game.h"
 #include "graph/_Graph.h"
 #include "net/_net.h"
-#include "system/io/_IO.h"
+#include "system_related/_Input.h"
+// #include "system/io/_IO.h"
+// #include "s"
 
 ////////////////////////////////////////
 struct A
@@ -37,7 +39,7 @@ public:
     std::shared_ptr<paecs::Scene> ecsPtr;
     std::shared_ptr<Game> gamePtr;
     std::shared_ptr<Graph> graphPtr;
-    std::shared_ptr<IO> ioPtr;
+    std::shared_ptr<Input> inputPtr;
 
     // timing
     float deltaTime = 0.0f; // time between current frame and last frame

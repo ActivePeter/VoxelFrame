@@ -6,21 +6,21 @@ namespace N_MainPlayer
 {
     void mouse_callback(double xpos, double ypos, double dx, double dy)
     {
-        // camera 操作
-        static bool firstMouse = true;
-        static double lastX, lastY;
-        if (firstMouse)
-        {
-            lastX = xpos;
-            lastY = ypos;
-            firstMouse = false;
-        }
+        // // camera 操作
+        // static bool firstMouse = true;
+        // static double lastX, lastY;
+        // if (firstMouse)
+        // {
+        //     lastX = xpos;
+        //     lastY = ypos;
+        //     firstMouse = false;
+        // }
 
-        float xoffset = xpos - lastX;
-        float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+        // float xoffset = xpos - lastX;
+        // float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
 
-        lastX = xpos;
-        lastY = ypos;
+        // lastX = xpos;
+        // lastY = ypos;
 
         auto gamePtr = App::getInstance().gamePtr;
         if (gamePtr)
@@ -32,7 +32,7 @@ namespace N_MainPlayer
         //     App::getInstance().graphPtr->cameraPtr->ProcessMouseMovement(xoffset, yoffset);
         // }
     }
-    void processInput(IO &io)
+    void processInput(Input &io)
     {
         // for (int i = 0; i < processInputCallbacks.size(); i++)
         // {
@@ -77,7 +77,7 @@ namespace N_MainPlayer
 MainPlayer::MainPlayer()
 {
     cameraPtr = App::getInstance().getInstance().graphPtr->cameraPtr;
-    auto &io = *App::getInstance().ioPtr;
-    io.registerMouseMove(N_MainPlayer::mouse_callback);
-    io.registerProcessInput(N_MainPlayer::processInput);
+    auto &input = *App::getInstance().inputPtr;
+    input.registerMouseMove(N_MainPlayer::mouse_callback);
+    input.registerProcessInput(N_MainPlayer::processInput);
 }

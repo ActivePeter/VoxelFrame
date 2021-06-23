@@ -1,17 +1,17 @@
 #include "glad/glad.h"
-#include "_IO.h"
+#include "_Input.h"
 
 #include "GLFW/glfw3.h"
 #include "graph/_Graph.h"
 // #include "Models/WindowInfoModel.h"
-// IO _g_IO_IO;
+// Input _g_Input_Input;
 #include "app.h"
 
-#include "io_sys.h"
+// #include "Input_sys.h"
 //处理输入
-void process_IO_callabck(GLFWwindow *window, int key, int scancode, int action, int mods)
+void process_Input_callabck(GLFWwindow *window, int key, int scancode, int actInputn, int mods)
 {
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+    if (key == GLFW_KEY_ESCAPE && actInputn == GLFW_PRESS)
     {
         glfwSetWindowShouldClose(window, true);
     }
@@ -19,7 +19,7 @@ void process_IO_callabck(GLFWwindow *window, int key, int scancode, int action, 
     // if (app.graphPtr && app.graphPtr->cameraPtr)
     // {
     //     auto &camera = *(App::getInstance().graphPtr->cameraPtr);
-    //     if (action == GLFW_PRESS || action == GLFW_REPEAT)
+    //     if (actInputn == GLFW_PRESS || actInputn == GLFW_REPEAT)
     //     {
     //         switch (key)
     //         {
@@ -65,20 +65,25 @@ void framebuff_size_callback(GLFWwindow *window, int width, int height)
 
 void mouse_callback(GLFWwindow *window, double xpos, double ypos)
 {
-    auto &io = *App::getInstance().ioPtr;
-    io.cursorX = xpos;
-    io.cursorY = ypos;
+    auto &input = *App::getInstance().inputPtr;
+    // Input.cursorX = xpos;
+    // Input.cursorY = ypos;
 
-    auto gameWindow = App::getInstance().graphPtr->gameWindow;
+    auto &gameWindow = App::getInstance().graphPtr->gameWindow;
+
     int x = gameWindow.windowW / 2, y = gameWindow.windowH / 2;
+    gameWindow.cursor.cursorX = xpos - x;
+    gameWindow.cursor.cursorY = ypos - y;
 
-    for (int i = 0; i < io.mouseMoveCallbacks.size(); i++)
+    for (int i = 0; i < input.mouseMoveCallbacks.size(); i++)
     {
-        io.mouseMoveCallbacks[i](xpos, ypos, xpos - x, ypos - y);
+        input.mouseMoveCallbacks[i](xpos, ypos, xpos - x, ypos - y);
     }
 
-    gameWindow.pos2Screen(x, y);
-    N_IO::setCursorPos(x, y);
+    gameWindow.cursor.resetCursorPosIfLocked();
+    // gameWindow.pos2Screen(x, y);
+
+    // N_Input::setCursorPos(x, y);
     // camera 操作
     // {
     //     static bool firstMouse = true;
@@ -101,7 +106,7 @@ void mouse_callback(GLFWwindow *window, double xpos, double ypos)
     //     }
     // }
 }
-void IO::processInput(GLFWwindow *window)
+void Input::processInput(GLFWwindow *window)
 {
     for (int i = 0; i < processInputCallbacks.size(); i++)
     {
@@ -109,7 +114,7 @@ void IO::processInput(GLFWwindow *window)
     }
     // auto &app = App::getInstance();
     // auto &camera = *(App::getInstance().graphPtr->cameraPtr);
-    // //     if (action == GLFW_PRESS || action == GLFW_REPEAT)
+    // //     if (actInputn == GLFW_PRESS || actInputn == GLFW_REPEAT)
     // //     {
     // //         switch (key)
     // //         {
@@ -136,7 +141,7 @@ void IO::processInput(GLFWwindow *window)
 // camera
 
 //在graph init之后调用
-void IO::init()
+void Input::init()
 {
     // auto &app = App::getInstance();
     auto window = App::getInstance().graphPtr->gameWindow.window;
@@ -144,11 +149,11 @@ void IO::init()
     glfwSetFramebufferSizeCallback(window, framebuff_size_callback);
     //处理输入
     // glfwSetCursorPosCallback(_g_Graph.window, mouse_callback);
-    // glfwSetKeyCallback(app.graphPtr->window, process_IO_callabck);
+    // glfwSetKeyCallback(app.graphPtr->window, process_Input_callabck);
     glfwSetCursorPosCallback(window, mouse_callback);
 }
 
-// int IO::getKey()
+// int Input::getKey()
 // {
 //     return glfwGetKey(App::getInstance().graphPtr->window, GLFW_KEY_W);
 // }

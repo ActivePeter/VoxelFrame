@@ -1,15 +1,19 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "base.h"
-#include "io_sys.h"
-
-class IO;
+// #include "Input_sys.h"
+/**
+ * 
+ * handle input
+ * 
+*/
+class Input;
 #pragma once
 
-class IO
+class Input
 {
 public:
-    using ProcessInputFunc = void (*)(IO &io);
+    using ProcessInputFunc = void (*)(Input &Input);
     using MouseMoveFunc = void (*)(double xpos, double ypos, double dx, double dy);
 
 private:

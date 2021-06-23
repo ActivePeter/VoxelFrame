@@ -5,13 +5,13 @@ void App::run()
     ecsPtr = paecs::createScene();
     gamePtr = std::make_shared<Game>();
     graphPtr = std::make_shared<Graph>();
-    ioPtr = std::make_shared<IO>();
+    inputPtr = std::make_shared<Input>();
     auto &graph = *graphPtr;
     if (!graph.init())
     {
         return; //启动失败
     }
-    ioPtr->init();
+    inputPtr->init();
 
     auto &ecs = *ecsPtr;
     ecs.createEntity()
@@ -25,7 +25,7 @@ void App::run()
     while (graph.running())
     {
         calcTimePerLoop();
-        ioPtr->processInput(graph.gameWindow.window);
+        inputPtr->processInput(graph.gameWindow.window);
         // DrawSys::doDraw();
         graph.doDraw();
         gamePtr->loop();

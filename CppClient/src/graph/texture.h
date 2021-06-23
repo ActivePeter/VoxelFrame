@@ -40,7 +40,7 @@ public:
         faceCnt++;
         //读取文件，加入总的材质面板里
         auto a = cv::imread("./resource/images/" + TextureFileName + ".png");
-        cv::imshow("ss", a);
+        // cv::imshow("ss", a);
         blockFacesBuffer.push_back(a);
         return faceCnt - 1;
     }
@@ -78,7 +78,7 @@ public:
         // cv::imshow("combine", dst);
         //将图片注册为opengl的材质
         bindChunkTexture();
-        cv::imshow("mixed", dst);
+        // cv::imshow("mixed", dst);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, dst.cols, dst.rows, 0, GL_BGR, GL_UNSIGNED_BYTE,
                      dst.data);
         glGenerateMipmap(GL_TEXTURE_2D);

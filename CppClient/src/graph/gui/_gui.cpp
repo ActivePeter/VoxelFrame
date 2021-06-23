@@ -103,13 +103,14 @@ void Gui::renderGui()
             }
         }
         {
-            auto io = App::getInstance().ioPtr;
-            if (io)
-            {
-                char buff[50] = {0};
-                sprintf(buff, "cursor x:%.2f, y:%.2f", io->cursorX, io->cursorY);
-                ImGui::Text(buff);
-            }
+            auto &cursor = App::getInstance().graphPtr->gameWindow.cursor;
+            // auto io = App::getInstance().ioPtr;
+            // if (io)
+            // {
+            char buff[50] = {0};
+            sprintf(buff, "cursor x:%.2f, y:%.2f", cursor.cursorX, cursor.cursorY);
+            ImGui::Text(buff);
+            // }
         }
 
         ImGui::SliderFloat("float", &f, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f

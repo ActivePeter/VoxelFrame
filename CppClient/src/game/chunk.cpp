@@ -101,9 +101,9 @@ void Chunk::constructMesh()
 Chunk::Chunk(ChunkKey ck)
 {
     chunkKey = ck;
-    mesh_position.x = ck.x * VF_ChunkWidth;
-    mesh_position.y = ck.y * VF_ChunkWidth;
-    mesh_position.z = ck.z * VF_ChunkWidth;
+    mesh_position.x = (float)(ck.x * VF_ChunkWidth);
+    mesh_position.y = (float)(ck.y * VF_ChunkWidth);
+    mesh_position.z = (float)(ck.z * VF_ChunkWidth);
 
     for (int x = 0; x < VF_ChunkWidth; x++)
     {

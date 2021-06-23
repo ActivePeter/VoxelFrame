@@ -6,7 +6,8 @@
 #include "GLFW/glfw3.h"
 #include <iostream>
 // #include "io/Input.h"
-#include "system/io/_IO.h"
+// #include "system/io/_IO.h"
+#include "system_related/_Input.h"
 #include "./gui/_gui.h"
 #include "game/chunk_manager.h"
 // #include "Models/WindowInfoModel.h"
@@ -67,20 +68,7 @@ bool Graph::init()
     // 创建窗口 /////////////////////////////////////////////////////
     this->gameWindow.createWindow();
 
-    //将该窗口作为当前线程的主上下文
-    glfwMakeContextCurrent(this->gameWindow.window);
-    //GLAD是管理OpenGL指针的，在调用任何OpenGL的函数之前需要初始化GLAD
-    if (!gladLoadGL())
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return false;
-    }
-
-    //设置视口Viewport
-    //前两个参数控制渲染窗口左下角的相对位置，第三和第四个参数控制渲染窗口的宽度和高度
-    //OpenGL会在此窗口大小范围内进行坐标变换
-    glViewport(0, 0, 1080, 960);
-    //监听窗口大小变化
+        //监听窗口大小变化
     _guiPtr = std::make_shared<Gui>();
     _guiPtr->init();
 

@@ -12,7 +12,7 @@ class Graph;
 #include "gui/_gui.h"
 #include "shader_m.h"
 #include "texture.h"
-#include "system/GameWindow.h"
+#include "system_related/GameWindow.h"
 class Graph
 {
 private:
