@@ -18,9 +18,9 @@ c++(client), golang(server)
 
 ## Current Progress Preview
 
-Im now focusing on client and writing the foundation framework 
+able to load and draw chunks dynamically with threadpool
 
-![image-20210609124342573](https://hanbaoaaa.xyz/tuchuang/images/2021/06/09/image-20210609124342573.png)
+![image-20210623125854873](https://hanbaoaaa.xyz/tuchuang/images/2021/06/23/image-20210623125854873.png)
 
 ## Development Record
 
