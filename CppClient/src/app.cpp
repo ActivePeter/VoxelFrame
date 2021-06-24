@@ -25,7 +25,7 @@ void App::run()
     while (graph.running())
     {
         calcTimePerLoop();
-        inputPtr->processInput(graph.gameWindow.window);
+        inputPtr->processInput();
         // DrawSys::doDraw();
         graph.doDraw();
         gamePtr->loop();

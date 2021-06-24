@@ -3,13 +3,23 @@
 
 struct GameWindow;
 //
-struct Cursor
+class Cursor
 {
-    GameWindow *gameWindow;
+private:
     bool locked;
+
+public:
+    GameWindow *gameWindow;
     double cursorX;
     double cursorY;
-    void setCursorState(bool locked);
+    /**
+     * locked getter & setter
+    */
+    void setLocked(bool locked);
+    inline bool getLocked()
+    {
+        return locked;
+    }
     void resetCursorPosIfLocked();
     // Cursor();
     void init(GameWindow *gameWindow);

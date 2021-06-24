@@ -1,6 +1,6 @@
 #include "main_player.h"
 #include "App.h"
-#include "io.h"
+// #include "io.h"
 
 namespace N_MainPlayer
 {
@@ -23,9 +23,10 @@ namespace N_MainPlayer
         // lastY = ypos;
 
         auto gamePtr = App::getInstance().gamePtr;
-        if (gamePtr)
+        auto &cursor = App::getInstance().graphPtr->gameWindow.cursor;
+        if (gamePtr && cursor.getLocked())
         {
-            gamePtr->mainPlayer->ProcessMouseMovement(dx, -dy);
+            gamePtr->mainPlayer->ProcessMouseMovement((float)dx, (float)-dy);
         }
         // if (App::getInstance().graphPtr && App::getInstance().graphPtr->cameraPtr)
         // {

@@ -98,7 +98,7 @@ void Gui::renderGui()
             if (camPtr)
             {
                 char buff[90] = {0};
-                sprintf(buff, "cam pos: %.2f %.2f %.2f", camPtr->Position.x, camPtr->Position.y, camPtr->Position.z);
+                sprintf_s(buff, "cam pos: %.2f %.2f %.2f", camPtr->Position.x, camPtr->Position.y, camPtr->Position.z);
                 ImGui::Text(buff);
             }
         }
@@ -108,7 +108,7 @@ void Gui::renderGui()
             // if (io)
             // {
             char buff[50] = {0};
-            sprintf(buff, "cursor x:%.2f, y:%.2f", cursor.cursorX, cursor.cursorY);
+            sprintf_s(buff, "cursor x:%.2f, y:%.2f", cursor.cursorX, cursor.cursorY);
             ImGui::Text(buff);
             // }
         }

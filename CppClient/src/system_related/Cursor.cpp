@@ -2,22 +2,29 @@
 #include "Windows.h"
 #include "base.h"
 HWND handle;
-void Cursor::setCursorState(bool locked)
+void Cursor::setLocked(bool locked)
 {
-    this->locked = locked;
-    if (locked)
+    if (locked != this->locked)
     {
-        // auto handle = GetActiveWindow();
-        RECT wr;
-        GetWindowRect(handle, &wr);
-        wr.top += 100;
-        wr.bottom -= 100;
-        wr.left += 100;
-        wr.right -= 100;
-        ClipCursor(&wr);
-    }
-    else
-    {
+        this->locked = locked;
+        if (locked)
+        {
+            // auto handle = GetActiveWindow();
+            RECT wr;
+            GetWindowRect(handle, &wr);
+            wr.top += 100;
+            wr.bottom -= 100;
+            wr.left += 100;
+            wr.right -= 100;
+            ClipCursor(&wr);
+            ShowCursor(FALSE);
+        }
+        else
+        {
+            // ReleaseCapture();
+            ClipCursor(NULL);
+            ShowCursor(TRUE);
+        }
     }
 }
 
@@ -47,5 +54,5 @@ void Cursor::init(GameWindow *gameWindow)
     this->gameWindow = gameWindow;
     handle = GetActiveWindow();
 
-    setCursorState(true);
+    // setCursorState(true);
 }

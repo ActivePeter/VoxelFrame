@@ -106,37 +106,21 @@ void mouse_callback(GLFWwindow *window, double xpos, double ypos)
     //     }
     // }
 }
-void Input::processInput(GLFWwindow *window)
+void mouseBtn_callback(GLFWwindow *, int btn, int action, int mods)
+{
+    auto &input = *App::getInstance().inputPtr;
+    for (auto iter = input.mouseBtnCallbacks.begin(); iter != input.mouseBtnCallbacks.end(); iter++)
+    {
+        (*iter)(btn, action);
+    }
+}
+
+void Input::processInput()
 {
     for (int i = 0; i < processInputCallbacks.size(); i++)
     {
         processInputCallbacks[i](*this);
     }
-    // auto &app = App::getInstance();
-    // auto &camera = *(App::getInstance().graphPtr->cameraPtr);
-    // //     if (actInputn == GLFW_PRESS || actInputn == GLFW_REPEAT)
-    // //     {
-    // //         switch (key)
-    // //         {
-    // //         case GLFW_KEY_W:
-    // //             camera.ProcessKeyboard(FORWARD, app.deltaTime);
-    // if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    // {
-    //     camera.ProcessKeyboard(FORWARD, app.deltaTime);
-    // }
-    // if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-    // {
-    //     camera.ProcessKeyboard(BACKWARD, app.deltaTime);
-    // }
-    // if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-    // {
-    //     camera.ProcessKeyboard(LEFT, app.deltaTime);
-    // }
-    // if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-    // {
-    //     camera.ProcessKeyboard(RIGHT, app.deltaTime);
-    // }
-    // glfwSetWindowShouldClose(window, true);
 }
 // camera
 
@@ -151,6 +135,12 @@ void Input::init()
     // glfwSetCursorPosCallback(_g_Graph.window, mouse_callback);
     // glfwSetKeyCallback(app.graphPtr->window, process_Input_callabck);
     glfwSetCursorPosCallback(window, mouse_callback);
+    glfwSetMouseButtonCallback(window, mouseBtn_callback);
+}
+
+Input_KeyState Input::getKey(int M_KeyCode)
+{
+    return (Input_KeyState)glfwGetKey(App::getInstance().graphPtr->gameWindow.window, M_KeyCode);
 }
 
 // int Input::getKey()

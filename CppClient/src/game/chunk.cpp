@@ -88,7 +88,7 @@ void Chunk::constructMesh()
 
     // dataMut.lock();
     needSetupBeforeDraw = true;
-    indicesSize = indices.size();
+    indicesSize = (int)indices.size();
     printf("chunk %d %d %d is constructed\r\n", chunkKey.x, chunkKey.y, chunkKey.z);
 
     // setupMesh();
