@@ -14,7 +14,7 @@ I likes playing minecraft very much and it's always been my dream to write a mc.
 
 ## Language
 
-c++(client), golang(server)
+c++(client), rust~~golang~~(server)
 
 ## Current Progress Preview
 
@@ -24,7 +24,7 @@ able to load and draw chunks dynamically with threadpool
 
 ## Development Record
 
-[client](./CppClient/markdown/record.md)
+[all](./markdown/record.md)
 
 ## Start Development
 

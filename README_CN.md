@@ -14,17 +14,17 @@
 
 ## 语言
 
-c++(client), golang(server)
+c++(client),rust ~~golang~~(server)
 
 ## 当前进度预览
 
-目前正专注于客户端整体框架的构建和基础效果的实现
+可以通过线程池动态构建区块网格了
 
-![image-20210609124342573](https://hanbaoaaa.xyz/tuchuang/images/2021/06/09/image-20210609124342573.png)
+![image-20210623125854873](https://hanbaoaaa.xyz/tuchuang/images/2021/06/23/image-20210623125854873.png)
 
 ## 开发记录
 
-[client](./CppClient/markdown/record.md)
+[all](./markdown/record.md)
 
 ## 开始开发
 
