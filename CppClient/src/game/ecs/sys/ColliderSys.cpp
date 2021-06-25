@@ -14,5 +14,6 @@ namespace EcsSys
          * 通过collider可以跟周围方块进行碰撞
         */
         printf_s("checkCapsuleCollider2aroundChunkData\r\n");
+        printf_s("%f %f %f\r\n", pos.x, pos.y, pos.z);
     }
 }

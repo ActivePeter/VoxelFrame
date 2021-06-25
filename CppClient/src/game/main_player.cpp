@@ -49,11 +49,14 @@ void MainPlayer::setPosition(glm::vec3 pos)
             chunkZ = ((int)pos.z / VF_ChunkWidth) - 1;
         }
     }
-    EcsComp::Position3D ecspos;
+    EcsComp::Position3D *ecspos;
     if (App::getInstance().ecsPtr->randomAccessEntity(
             entityId,
             ecspos))
     {
+        ecspos->x = pos.x;
+        ecspos->y = pos.y;
+        ecspos->z = pos.z;
     }
     cameraPtr->Position = pos;
     // App::getInstance().ecsPtr->
