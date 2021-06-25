@@ -11,4 +11,4 @@ git submodule update --init
 
 ## 开始
 
-[start.md](./markdown/start.md)
+[start.md](../markdown/start.md)

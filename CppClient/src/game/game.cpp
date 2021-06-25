@@ -1,5 +1,5 @@
 #include "game.h"
-
+#include "ecs/sys/ColliderSys.h"
 /**
  * 
  *game start 之前应当加载完毕所有引擎层内容 
@@ -17,6 +17,9 @@ void Game::start()
     // registry::game_ControllingSwitch();
     IRegister_regist();
     playing = true;
+
+    App::getInstance()
+        .ecsPtr->addSysByFunc(EcsSys::checkCapsuleCollider2aroundChunkData);
     // this
 }
 
@@ -33,7 +36,7 @@ void Game::loop()
             TCallers[i].callAll(*this);
         }
     }
-
+    App::getInstance().ecsPtr->loop();
     gameTick++;
 }
 /**注册周期性回调函数

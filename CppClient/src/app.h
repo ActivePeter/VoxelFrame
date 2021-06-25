@@ -16,17 +16,17 @@ class App;
 // #include "s"
 
 ////////////////////////////////////////
-struct A
-{
-    int id;
-};
-struct B
-{
-    int id;
-    char testChar;
-};
+// struct A
+// {
+//     int id;
+// };
+// struct B
+// {
+//     int id;
+//     char testChar;
+// };
 
-void helloworld_sys(B &a);
+// void helloworld_sys(B &a);
 
 //the global one
 //全局唯一单例 存储，访问 所有动静态资源

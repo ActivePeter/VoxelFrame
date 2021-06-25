@@ -5,9 +5,15 @@
 - [x] 注册回调做一些调整
 - [x] 完成点击锁定 esc 解锁
 
-bullet
+碰撞实现
 
-smallcv
+既然要考虑碰撞了，之前写的ecs也要用起来了
+
+怎么样让mainplayer单例的坐标数据跟ecs组件绑定起来，目前想到的是让mainplayer 直接存放raw archtype的地址，然后确保这个数据不被销毁（可以添加一个createFinalEntity的函数
+
+或者存放ecs的entity_id，通过map进行随机访问
+
+
 
 ## 6.23
 

@@ -6,11 +6,13 @@ class MainPlayer;
 // {
 //     enum Movement;
 // }
-#include "graph/Camera.h"
-#include "chunk.h"
 
 #ifndef __MAIN_PLAYER_H__
 #define __MAIN_PLAYER_H__
+#include "graph/Camera.h"
+#include "chunk.h"
+#include "interface/IRegister.h"
+// #include "ecs/VectorAbout.h"
 
 namespace N_MainPlayer
 {
@@ -23,9 +25,11 @@ namespace N_MainPlayer
     };
 }
 //当前玩家，并非指任意玩家
-class MainPlayer
+class MainPlayer : IRegister
 {
 private:
+    void IRegister_regist() override;
+
 public:
     // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
     // enum Movement
@@ -43,56 +47,14 @@ public:
     int chunkZ = 0;
     //将camera移到player下
     std::shared_ptr<Camera> cameraPtr;
+    paecs::EntityID entityId;
 
     MainPlayer();
     glm::vec3 getPosition()
     {
         return cameraPtr->Position;
     }
-    void setPosition(glm::vec3 pos)
-    {
-        { //recalc chunk pos
-            if (pos.x >= 0)
-            {
-                chunkX = (int)pos.x / VF_ChunkWidth;
-            }
-            else
-            {
-                chunkX = ((int)pos.x / VF_ChunkWidth) - 1;
-            }
-            if (pos.y >= 0)
-            {
-                chunkY = (int)pos.y / VF_ChunkWidth;
-            }
-            else
-            {
-                chunkY = ((int)pos.y / VF_ChunkWidth) - 1;
-            }
-            if (pos.z >= 0)
-            {
-                chunkZ = (int)pos.z / VF_ChunkWidth;
-            }
-            else
-            {
-                chunkZ = ((int)pos.z / VF_ChunkWidth) - 1;
-            }
-        }
-
-        // int intx=(int)pos.x;
-        // int inty=(int)pos.y;
-        // int intz=(int)pos.z;
-        // if(intx)
-
-        // chunkY = (int)pos.y / VF_ChunkWidth;
-        // chunkZ = (int)pos.z / VF_ChunkWidth;
-
-        // printf("player setPosition %f,%f,%f,\r\n%d,%d,%d\r\n",
-
-        //        pos.x, pos.y, pos.z, chunkX,
-        //        chunkY,
-        //        chunkZ);
-        cameraPtr->Position = pos;
-    }
+    void setPosition(glm::vec3 pos);
 
     /**
      * Player Control

@@ -13,11 +13,10 @@ void App::run()
     }
     inputPtr->init();
 
-    auto &ecs = *ecsPtr;
-    ecs.createEntity()
-        .addEmptyComponent<A>()
-        .addEmptyComponent<B>();
-    ecs.addSysByFunc(helloworld_sys);
+    // ecs.createEntity()
+    //     .addEmptyComponent<A>()
+    //     .addEmptyComponent<B>();
+    // ecs.addSysByFunc(helloworld_sys);
     // _g_net.start();
     // NetSys::start();
     // WindowInfoModel &windowInfoModel = WindowInfoModel::getInstance();
@@ -33,7 +32,7 @@ void App::run()
         // glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         // glClear(GL_COLOR_BUFFER_BIT);
 
-        ecs.loop();
+        // ecs.loop();
     }
 
     // //循环渲染，在退出前一直不断地绘制图像
@@ -57,7 +56,7 @@ App &App::getInstance()
     return instance;
 }
 
-void helloworld_sys(B &a)
-{
-    std::cout << "helloworld" << std::endl;
-}
+// void helloworld_sys(B &a)
+// {
+//     std::cout << "helloworld" << std::endl;
+// }

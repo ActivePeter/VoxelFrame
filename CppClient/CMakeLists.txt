@@ -9,63 +9,61 @@ project (${PROJECT_NAME})
 set (CMAKE_CXX_STAND 11)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g")
 
-#conan
-include(${VoxelFrame_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
+# libs
+    #conan
+    include(${VoxelFrame_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup()
 
-set (3RD_DIR ${PROJECT_SOURCE_DIR}/third)
-# message(${3RD_DIR})
-set(CMAKE_MODULE_PATH ${3RD_DIR})
+    set (3RD_DIR ${PROJECT_SOURCE_DIR}/third)
+    # message(${3RD_DIR})
+    set(CMAKE_MODULE_PATH ${3RD_DIR})
 
-# glfw
-set (GLFW_DIR ${3RD_DIR}/glfw)
-# 保证glfw dir被编译
-add_subdirectory (${GLFW_DIR})
-# 添加头文件搜索路径
-include_directories (${GLFW_DIR}/include)
+    # glfw
+    set (GLFW_DIR ${3RD_DIR}/glfw)
+    # 保证glfw dir被编译
+    add_subdirectory (${GLFW_DIR})
+    # 添加头文件搜索路径
+    include_directories (${GLFW_DIR}/include)
 
-# GLM
-set (GLM_DIR ${3RD_DIR}/glm)
-include_directories (${GLM_DIR}/include)
+    # GLM
+    set (GLM_DIR ${3RD_DIR}/glm)
+    include_directories (${GLM_DIR}/include)
 
-#stb
-set (STB_DIR ${3RD_DIR}/stb_image)
-include_directories(${STB_DIR}/include)
-# glad
-set (GLAD_DIR ${3RD_DIR}/glad)
-include_directories (${GLAD_DIR}/include)
-# 生成链接库
-add_library (glad ${GLAD_DIR}/src/glad.c)
+    #stb
+    set (STB_DIR ${3RD_DIR}/stb_image)
+    include_directories(${STB_DIR}/include)
+    # glad
+    set (GLAD_DIR ${3RD_DIR}/glad)
+    include_directories (${GLAD_DIR}/include)
+    # 生成链接库
+    add_library (glad ${GLAD_DIR}/src/glad.c)
 
-#imgui
-set (IMGUI_DIR ${3RD_DIR}/vf_imgui)
-add_subdirectory(${IMGUI_DIR})
-include_directories (${IMGUI_DIR}/imgui)
+    #imgui
+    set (IMGUI_DIR ${3RD_DIR}/vf_imgui)
+    add_subdirectory(${IMGUI_DIR})
+    include_directories (${IMGUI_DIR}/imgui)
 
-#brynet
-set (BRYNET_DIR ${3RD_DIR}/brynet)
-add_subdirectory(${BRYNET_DIR}) 
-include_directories (${BRYNET_DIR}/include)
+    #brynet
+    set (BRYNET_DIR ${3RD_DIR}/brynet)
+    add_subdirectory(${BRYNET_DIR}) 
+    include_directories (${BRYNET_DIR}/include)
 
-# parallel_hashmap
-set (parallel_hashmap_dir ${3RD_DIR}/parallel-hashmap)
-include_directories (${parallel_hashmap_dir})
+    # parallel_hashmap
+    set (parallel_hashmap_dir ${3RD_DIR}/parallel-hashmap)
+    include_directories (${parallel_hashmap_dir})
 
-# ThreadPool
-set (ThreadPool_dir ${3RD_DIR}/ThreadPool)
-include_directories(${ThreadPool_dir})
-# # sparsepp
-# set (sparsepp_dir ${3RD_DIR}/sparsepp)
-# include_directories (${sparsepp_dir})
+    # ThreadPool
+    set (ThreadPool_dir ${3RD_DIR}/ThreadPool)
+    include_directories(${ThreadPool_dir})
 
-# protobuf
-set (PROTO_DIR ${3RD_DIR}/protobuff)
-# # add_subdirectory(${PROTO_DIR}/cmake)
-# include_directories (${PROTO_DIR}/src)
+    # protobuf
+    set (PROTO_DIR ${3RD_DIR}/protobuff)
+    # # add_subdirectory(${PROTO_DIR}/cmake)
+    # include_directories (${PROTO_DIR}/src)
 
-set (PAECS_DIR ${3RD_DIR}/paecs)
-add_subdirectory(${PAECS_DIR}) 
-include_directories (${PAECS_DIR}/src)
+    set (PAECS_DIR ${3RD_DIR}/paecs)
+    add_subdirectory(${PAECS_DIR}) 
+    include_directories (${PAECS_DIR}/src)
 
 # file(GLOB protobuf_libs
 #         ${PROJECT_SOURCE_DIR}/build/third/protobuff/cmake/*.lib
@@ -166,6 +164,7 @@ if(MSVC)
     
     target_link_libraries (${PROJECT_NAME} 
         general glfw glad imgui ws2_32  paecs ${CONAN_LIBS}
+        
         # ${protolibs}
         # debug ${protolibsd}
         # optimized ${protolibs}

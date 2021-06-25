@@ -15,7 +15,8 @@
                 "${workspaceFolder}/third/parallel-hashmap",
                 "${workspaceFolder}/third/paecs/src",
                 "E:/pa_files/thd_libs/opencv450/build/include",
-                "${workspaceFolder}/third/ThreadPool"
+                "${workspaceFolder}/third/ThreadPool",
+                "${workspaceFolder}/third/smallcv/"
             ],
             "defines": [
                 "_DEBUG",
