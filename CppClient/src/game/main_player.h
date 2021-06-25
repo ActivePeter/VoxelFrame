@@ -54,27 +54,28 @@ public:
     {
         return cameraPtr->Position;
     }
-    void setPosition(glm::vec3 pos);
+    void syncPositionFromEcs(glm::vec3 pos);
 
     /**
      * Player Control
     */
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
-    void ProcessKeyboard(N_MainPlayer::Movement direction, float deltaTime)
+    void Key_Move(N_MainPlayer::Movement direction, float deltaTime,
+                  glm::vec3 &pos)
     {
         float velocity = MovementSpeed * deltaTime;
         if (direction == N_MainPlayer::FORWARD)
             // cameraPtr->Position += cameraPtr->Front * velocity;
-            setPosition(getPosition() + cameraPtr->Front * velocity);
+            pos = (pos + cameraPtr->Front * velocity);
         if (direction == N_MainPlayer::BACKWARD)
             // cameraPtr->Position -= cameraPtr->Front * velocity;
-            setPosition(getPosition() - cameraPtr->Front * velocity);
+            pos = (pos - cameraPtr->Front * velocity);
         if (direction == N_MainPlayer::LEFT)
             // cameraPtr->Position -= cameraPtr->Right * velocity;
-            setPosition(getPosition() - cameraPtr->Right * velocity);
+            pos = (pos - cameraPtr->Right * velocity);
         if (direction == N_MainPlayer::RIGHT)
             // cameraPtr->Position += cameraPtr->Right * velocity;
-            setPosition(getPosition() + cameraPtr->Right * velocity);
+            pos = (pos + cameraPtr->Right * velocity);
     }
 
     // processes input received from a mouse input system. Expects the offset value in both the x and y direction.

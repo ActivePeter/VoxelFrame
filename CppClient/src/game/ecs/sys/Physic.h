@@ -8,7 +8,7 @@ namespace EcsSys
     /**
      * get check collider for entities in
     */
-    void checkCapsuleCollider2aroundChunkData(
+    void gravity(
         EcsComp::CapsuleCollider &collider,
         EcsComp::Position3D &pos,
         EcsComp::ChunkRelated &chunks);

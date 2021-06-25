@@ -61,9 +61,15 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g")
     # # add_subdirectory(${PROTO_DIR}/cmake)
     # include_directories (${PROTO_DIR}/src)
 
+    # paecs
     set (PAECS_DIR ${3RD_DIR}/paecs)
     add_subdirectory(${PAECS_DIR}) 
     include_directories (${PAECS_DIR}/src)
+
+    # # smallcv
+    # set (smallcv_dir ${3RD_DIR}/smallcv)
+    # add_subdirectory(${smallcv_dir})
+    # include_directories(${smallcv_dir})
 
 # file(GLOB protobuf_libs
 #         ${PROJECT_SOURCE_DIR}/build/third/protobuff/cmake/*.lib

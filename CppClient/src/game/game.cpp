@@ -1,5 +1,5 @@
 #include "game.h"
-#include "ecs/sys/ColliderSys.h"
+#include "ecs/sys/Physic.h"
 /**
  * 
  *game start 之前应当加载完毕所有引擎层内容 
@@ -19,7 +19,7 @@ void Game::start()
     playing = true;
 
     App::getInstance()
-        .ecsPtr->addSysByFunc(EcsSys::checkCapsuleCollider2aroundChunkData);
+        .ecsPtr->addSysByFunc(EcsSys::gravity);
     // this
 }
 

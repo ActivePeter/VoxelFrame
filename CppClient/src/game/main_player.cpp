@@ -4,8 +4,8 @@
 #include "ecs/CapsuleCollider.h"
 #include "ecs/ChunkRelated.h"
 #include "ecs/VectorAbout.h"
-#include "ecs/sys/ColliderSys.h"
-
+#include "ecs/sys/SyncPlayer.h"
+#include "ecs/Tags.h"
 // #include "io.h"
 
 MainPlayer::MainPlayer()
@@ -17,12 +17,16 @@ MainPlayer::MainPlayer()
                          .addEmptyComponent<EcsComp::CapsuleCollider>()
                          .addEmptyComponent<EcsComp::ChunkRelated>()
                          .addEmptyComponent<EcsComp::Position3D>()
+                         .addEmptyComponent<EcsComp::PlayerTag>()
                          .entityId;
+
+    App::getInstance()
+        .ecsPtr->addSysByFunc(EcsSys::SyncPlayer);
 }
 
-void MainPlayer::setPosition(glm::vec3 pos)
+void MainPlayer::syncPositionFromEcs(glm::vec3 pos)
 {
-
+    // setPositionNoEcs(pos.x, pos.y, pos.z);
     { //recalc chunk pos
         if (pos.x >= 0)
         {
@@ -49,16 +53,8 @@ void MainPlayer::setPosition(glm::vec3 pos)
             chunkZ = ((int)pos.z / VF_ChunkWidth) - 1;
         }
     }
-    EcsComp::Position3D *ecspos;
-    if (App::getInstance().ecsPtr->randomAccessEntity(
-            entityId,
-            ecspos))
-    {
-        ecspos->x = pos.x;
-        ecspos->y = pos.y;
-        ecspos->z = pos.z;
-    }
     cameraPtr->Position = pos;
+    // cameraPtr->Position = pos;
     // App::getInstance().ecsPtr->
 }
 
@@ -95,30 +91,30 @@ void MainPlayer::IRegister_regist()
             //     App::getInstance().graphPtr->cameraPtr->ProcessMouseMovement(xoffset, yoffset);
             // }
         });
-    input.registerProcessInput(
-        [](Input &input)
-        {
-            auto &app = App::getInstance();
-            auto window = App::getInstance().graphPtr->gameWindow.window;
-            if (app.gamePtr)
-            {
-                auto &player = *app.gamePtr->mainPlayer;
-                if (input.getKey(M_Input_KEY_W) == GLFW_PRESS)
-                {
-                    player.ProcessKeyboard(N_MainPlayer::FORWARD, app.deltaTime);
-                }
-                if (input.getKey(M_Input_KEY_S) == GLFW_PRESS)
-                {
-                    player.ProcessKeyboard(N_MainPlayer::BACKWARD, app.deltaTime);
-                }
-                if (input.getKey(M_Input_KEY_A) == GLFW_PRESS)
-                {
-                    player.ProcessKeyboard(N_MainPlayer::LEFT, app.deltaTime);
-                }
-                if (input.getKey(M_Input_KEY_D) == GLFW_PRESS)
-                {
-                    player.ProcessKeyboard(N_MainPlayer::RIGHT, app.deltaTime);
-                }
-            }
-        });
+    // input.registerProcessInput(
+    //     [](Input &input)
+    //     {
+    //         auto &app = App::getInstance();
+    //         auto window = App::getInstance().graphPtr->gameWindow.window;
+    //         if (app.gamePtr)
+    //         {
+    //             auto &player = *app.gamePtr->mainPlayer;
+    //             if (input.getKey(M_Input_KEY_W) == GLFW_PRESS)
+    //             {
+    //                 player.ProcessKeyboard(N_MainPlayer::FORWARD, app.deltaTime);
+    //             }
+    //             if (input.getKey(M_Input_KEY_S) == GLFW_PRESS)
+    //             {
+    //                 player.ProcessKeyboard(N_MainPlayer::BACKWARD, app.deltaTime);
+    //             }
+    //             if (input.getKey(M_Input_KEY_A) == GLFW_PRESS)
+    //             {
+    //                 player.ProcessKeyboard(N_MainPlayer::LEFT, app.deltaTime);
+    //             }
+    //             if (input.getKey(M_Input_KEY_D) == GLFW_PRESS)
+    //             {
+    //                 player.ProcessKeyboard(N_MainPlayer::RIGHT, app.deltaTime);
+    //             }
+    //         }
+    //     });
 }
