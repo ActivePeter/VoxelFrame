@@ -38,11 +38,12 @@ struct ChunkKey
     /**
      * 获取一个整数点对应的chunk坐标
     */
-    static void getChunkKeyOfPoint(ChunkKey &_return, int32_t x, int32_t y, int32_t z);
+    template <typename PosVType>
+    static void getChunkKeyOfPoint(ChunkKey &_return, PosVType x, PosVType y, PosVType z);
     /**
      * 获取一个点对应的chunk坐标
     */
-    static void getChunkKeyOfPoint(ChunkKey &_return, float x, float y, float z);
+    // static void getChunkKeyOfPoint(ChunkKey &_return, float x, float y, float z);
     // ChunkKey(float px, float py, float pz);
     ChunkKey() {}
 };
@@ -73,6 +74,8 @@ private:
 
 public:
     uint8_t data[VF_ChunkSize];
+    bitset<VF_ChunkSize> blockActiveState;
+
     ChunkKey chunkKey;
 
     // bool need
@@ -80,6 +83,26 @@ public:
 
     void constructMesh();
 
+    /**
+     * 在计算完激活状态后
+     * 更新active2physic
+    */
+    void updatePhysic();
+    /**
+     * 设置范围内的方块为激活状态（加载碰撞器
+    */
+    void setInRangeBlockActive(int minBx, int minBy, int minBz,
+                               int maxBx, int maxBy, int maxBz);
+
+    /**
+     * 在重新遍历所有实体以加载区块碰撞器状态之前，将所有方块都设置为未激活
+     * 设置范围内的方块为激活状态（加载碰撞器
+    */
+    void resetAllBlock2inactive()
+    {
+        // blockActiveState
+        memset(&blockActiveState, 0, sizeof(blockActiveState));
+    }
     Chunk(ChunkKey ck);
     Chunk() {}
 };
