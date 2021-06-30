@@ -1,5 +1,6 @@
 #include "game.h"
 #include "ecs/sys/Physic.h"
+#include "physic_engine/physic_engine.h"
 /**
  * 
  *game start 之前应当加载完毕所有引擎层内容 
@@ -17,10 +18,9 @@ void Game::start()
     // registry::game_ControllingSwitch();
     IRegister_regist();
     playing = true;
-
-    App::getInstance()
-        .ecsPtr->addSysByFunc(EcsSys::gravity);
-    // this
+    App::getInstance().ecsPtr->addSys2Group(
+        this->beforePhysicSysGroup,
+        EcsSys::updateChunkColliderForChunkRelated);
 }
 
 /**
@@ -36,7 +36,16 @@ void Game::loop()
             TCallers[i].callAll(*this);
         }
     }
-    App::getInstance().ecsPtr->loop();
+
+    this->beforePhysicSysGroup.runAll();
+    physic_engine::physicWorld().update(1.0f / 60);
+    this->afterPhysicSysGroup.runAll();
+    for (auto &i : iUpdaterAfterPhysics)
+    {
+        i->updateAfterPhysic();
+    }
+    // App::getInstance().ecsPtr->loop();
+
     gameTick++;
 }
 /**注册周期性回调函数

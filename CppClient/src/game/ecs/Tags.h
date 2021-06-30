@@ -5,5 +5,7 @@ namespace EcsComp
     {
         /* data */
     };
-
+    struct ChunkRelatedTag
+    {
+    };
 }

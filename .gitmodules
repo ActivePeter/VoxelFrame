@@ -25,3 +25,6 @@
 [submodule "CppClient/third/ThreadPool"]
 	path = CppClient/third/ThreadPool
 	url = https://github.com/VoxelFrame/ThreadPool.git
+[submodule "CppClient/third/reactphysics3d"]
+	path = CppClient/third/reactphysics3d
+	url = https://github.com/VoxelFrame/reactphysics3d.git

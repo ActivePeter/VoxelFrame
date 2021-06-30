@@ -11,6 +11,8 @@ class TCallbackRegister;
 #include "main_player.h"
 #include "interface/IRegister.h"
 
+// #include "paecs/paecs.h"
+
 using TCallbackFunc = void (*)(Game &game);
 //////////////////////////////
 class TCaller : IRegister
@@ -39,6 +41,15 @@ public:
     std::shared_ptr<ChunkManager> chunkManager;
     std::shared_ptr<BlockManager> blockManager;
     std::shared_ptr<MainPlayer> mainPlayer;
+
+    paecs::SysGroup beforePhysicSysGroup;
+    paecs::SysGroup afterPhysicSysGroup;
+
+    /**
+     * all the interfaces after physic will add themselves to this vector
+    */
+    std::deque<IUpdaterAfterPhysic *> iUpdaterAfterPhysics;
+
     bool playing = false;
 
     uint64_t gameTick;

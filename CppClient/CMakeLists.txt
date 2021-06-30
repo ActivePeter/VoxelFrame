@@ -66,6 +66,10 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g")
     add_subdirectory(${PAECS_DIR}) 
     include_directories (${PAECS_DIR}/src)
 
+    #reactphysics3d
+    SET (reactphysics3d_DIR ${3RD_DIR}/reactphysics3d)
+    add_subdirectory(${reactphysics3d_DIR})
+    include_directories(${reactphysics3d_DIR}/include)
     # # smallcv
     # set (smallcv_dir ${3RD_DIR}/smallcv)
     # add_subdirectory(${smallcv_dir})
@@ -170,7 +174,7 @@ if(MSVC)
     
     target_link_libraries (${PROJECT_NAME} 
         general glfw glad imgui ws2_32  paecs ${CONAN_LIBS}
-        
+        reactphysics3d
         # ${protolibs}
         # debug ${protolibsd}
         # optimized ${protolibs}

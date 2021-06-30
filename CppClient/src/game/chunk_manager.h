@@ -3,7 +3,7 @@ class ChunkManager;
 ////////////////////////////////
 #ifndef __CHUNK_MANAGER_H__
 #define __CHUNK_MANAGER_H__
-#include "chunk_key.h"
+// #include "chunk_key.h"
 #include "chunk.h"
 #include "ThreadPool.h"
 
