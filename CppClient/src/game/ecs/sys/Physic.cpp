@@ -24,6 +24,7 @@ namespace EcsSys
         int minX = floor(minP.x);
         int minY = floor(minP.y);
         int minZ = floor(minP.z);
+
         ChunkKey maxChunkKey, minChunkKey;
         ChunkKey::getChunkKeyOfPoint(maxChunkKey, maxX, maxY, maxZ);
         ChunkKey::getChunkKeyOfPoint(minChunkKey, minX, minY, minZ);
