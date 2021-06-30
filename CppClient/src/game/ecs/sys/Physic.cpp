@@ -18,6 +18,7 @@ namespace EcsSys
         auto aabb = collider.body->getAABB();
         auto &maxP = aabb.getMax();
         auto &minP = aabb.getMin();
+        //边界占用方块坐标
         int maxX = floor(maxP.x);
         int maxY = floor(maxP.y);
         int maxZ = floor(maxP.z);
@@ -27,6 +28,51 @@ namespace EcsSys
         ChunkKey maxChunkKey, minChunkKey;
         ChunkKey::getChunkKeyOfPoint(maxChunkKey, maxX, maxY, maxZ);
         ChunkKey::getChunkKeyOfPoint(minChunkKey, minX, minY, minZ);
+        for (int cx = minChunkKey.x; cx <= maxChunkKey.x; cx++)
+        {
+            int chunkBlockMinX = 0;
+            int chunkBlockMaxX = VF_ChunkWidth - 1;
+            if (cx == minChunkKey.x)
+            {
+                //方块相对区块的坐标
+                chunkBlockMinX = minX - cx * VF_ChunkWidth;
+            }
+            if (cx == maxChunkKey.x)
+            {
+                chunkBlockMaxX = maxX - cx * VF_ChunkWidth;
+            }
+            for (int cy = minChunkKey.y; cy <= maxChunkKey.y; cy++)
+            {
+                int chunkBlockMinY = 0;
+                int chunkBlockMaxY = VF_ChunkWidth - 1;
+                if (cy == minChunkKey.y)
+                {
+                    chunkBlockMinY = minY - cy * VF_ChunkWidth;
+                }
+                if (cy == maxChunkKey.y)
+                {
+                    chunkBlockMaxY = maxY - cy * VF_ChunkWidth;
+                }
+                for (int cz = minChunkKey.z; cz <= maxChunkKey.z; cz++)
+                {
+                    int chunkBlockMinZ = 0;
+                    int chunkBlockMaxZ = VF_ChunkWidth - 1;
+                    if (cz == minChunkKey.z)
+                    {
+                        chunkBlockMinZ = minZ - cz * VF_ChunkWidth;
+                    }
+                    if (cz == maxChunkKey.z)
+                    {
+                        chunkBlockMaxZ = maxZ - cz * VF_ChunkWidth;
+                    }
+                    auto chunkPtr = App::getInstance().gamePtr->chunkManager->getChunkOfKey(ChunkKey(cx, cy, cz));
+                    chunkPtr->setInRangeBlockActive(chunkBlockMinX, chunkBlockMinY, chunkBlockMinZ,
+                                                    chunkBlockMaxX, chunkBlockMaxY, chunkBlockMaxZ);
+                    //至此以及提取出了方块遍历范围，
+                    //遍历区块范围内的感兴趣方块，
+                }
+            }
+        }
         // ChunkKey()
 
         //2.根据方块序列设置区块中方块的active状态
