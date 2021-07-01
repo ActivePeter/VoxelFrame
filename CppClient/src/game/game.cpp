@@ -38,6 +38,7 @@ void Game::loop()
     }
 
     this->beforePhysicSysGroup.runAll();
+    // this->chunkManager->
     physic_engine::physicWorld().update(1.0f / 60);
     this->afterPhysicSysGroup.runAll();
     for (auto &i : iUpdaterAfterPhysics)

@@ -73,7 +73,17 @@ private:
         BlockAbout::FaceDirection negDir);
 
 public:
+    /**
+     * 方块id信息
+    */
     uint8_t data[VF_ChunkSize];
+    /**
+     * 方块碰撞器
+    */
+    rp3d::RigidBody *blockRigids[VF_ChunkSize];
+    /**
+     * 方块激活状态
+    */
     bitset<VF_ChunkSize> blockActiveState;
 
     ChunkKey chunkKey;
@@ -85,7 +95,7 @@ public:
 
     /**
      * 在计算完激活状态后
-     * 更新active2physic
+     * 更新active状态到physic上
     */
     void updatePhysic();
     /**
@@ -105,6 +115,17 @@ public:
     }
     Chunk(ChunkKey ck);
     Chunk() {}
+
+    static inline int blockPos2blockIndex(int x, int y, int z)
+    {
+        return x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth;
+    }
+    static inline void blockIndex2blockPos(int index, int &returnX, int &returnY, int &returnZ)
+    {
+        returnX = index % VF_ChunkWidth;
+        returnY = (index / VF_ChunkWidth) % VF_ChunkWidth;
+        returnZ = index / VF_ChunkWidth / VF_ChunkWidth;
+    }
 };
 #include "chunk.temp.h"
 #endif // __CHUNK_H__

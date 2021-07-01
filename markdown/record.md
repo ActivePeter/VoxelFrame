@@ -18,7 +18,11 @@ a，b为对边界外扩取整后的边界坐标，可以发现映射到方块坐
 
 ​		这样可以获得到一组chunk的指针。
 
-​		遍历
+​		分别再每个chunk范围内遍历范围内的方块，生成bitset
+
+- 如何获取区块内的感兴趣范围
+
+  ![image-20210701015502297](https://hanbaoaaa.xyz/tuchuang/images/2021/06/30/image-20210701015502297.png)
 
 ，然后操作区块中方块active状态的bitset
 

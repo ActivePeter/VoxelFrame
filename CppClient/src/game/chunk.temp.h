@@ -30,15 +30,6 @@ void ChunkKey::getChunkKeyOfPoint(ChunkKey &_return, PosVType px, PosVType py, P
     }
 }
 
-void Chunk::setInRangeBlockActive(int minBx, int minBy, int minBz,
-                                  int maxBx, int maxBy, int maxBz)
-{
-}
-
-void Chunk::updatePhysic()
-{
-}
-
 // void ChunkKey::getChunkKeyOfPoint(ChunkKey &_return, float px, float py, float pz)
 // {
 //     if (px >= 0)

@@ -113,11 +113,11 @@ Chunk::Chunk(ChunkKey ck)
             {
                 if (y > VF_ChunkWidth / 2)
                 {
-                    data[x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth] = 0;
+                    data[Chunk::blockPos2blockIndex(x, y, z)] = 0;
                 }
                 else
                 {
-                    data[x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth] = 1;
+                    data[Chunk::blockPos2blockIndex(x, y, z)] = 1;
                 }
             }
         }
@@ -156,5 +156,66 @@ void Chunk::constructMeshInOneDim(int blockx, int blocky, int blockz,
              blockInfo_p.hasStandardFace(negDir))
     {
         blockInfo_p.pushOneFace2Mesh(blockx_p, blocky_p, blockz_p, negDir, *this);
+    }
+}
+
+void Chunk::setInRangeBlockActive(int minBx, int minBy, int minBz,
+                                  int maxBx, int maxBy, int maxBz)
+{
+    for (int bx = minBx; bx <= maxBx; bx++)
+    {
+        for (int by = minBy; by <= maxBy; by++)
+        {
+            for (int bz = minBz; bz <= maxBz; bz++)
+            {
+                this->blockActiveState.set(Chunk::blockPos2blockIndex(bx, by, bz));
+            }
+        }
+    }
+}
+
+void Chunk::updatePhysic()
+{
+    for (int i = 0; i < blockActiveState.size(); i++)
+    {
+        if (blockActiveState[i])
+        {
+            //lazy load
+            if (!blockRigids[i])
+            {
+                int bx, by, bz;
+                Chunk::blockIndex2blockPos(i, bx, by, bz);
+                blockRigids[i] = physic_engine::physicWorld().createRigidBody(
+                    rp3d::Transform(
+                        rp3d::Vector3(bx, by, bz),
+                        rp3d::Quaternion::identity()));
+                //同时要根据方块类型配置它的collider
+                blockRigids[i]->setType((rp3d::BodyType::STATIC));
+                if (this->data[i])
+                {
+                    blockRigids[i]->addCollider(
+                        App::getInstance().gamePtr->blockManager->getBlockInfo(i).getBlockColliderShape(),
+                        rp3d::Transform(
+                            rp3d::Vector3(0.5, 0.5, 0.5),
+                            rp3d::Quaternion::identity()));
+                }
+            }
+            if (this->data[i])
+            {
+                blockRigids[i]->setIsActive(true);
+            }
+            else
+            {
+                //empty block
+                blockRigids[i]->setIsActive(false);
+            }
+        }
+        else
+        { //inactived
+            if (blockRigids[i])
+            {
+                blockRigids[i]->setIsActive(false);
+            }
+        }
     }
 }

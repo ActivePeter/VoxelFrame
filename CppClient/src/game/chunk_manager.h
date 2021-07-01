@@ -73,6 +73,16 @@ public:
     }
     // void addNewChunk(int32_t x, int32_t y, int32_t z);
 
+    /**
+     * 根据计算完的激活标志更新所有区块中的方块物理碰撞
+    */
+    void updateAllChunkPhysic();
+
+    /**
+     * 在重新遍历所有碰撞实体前，将所有区块的激活标志置0
+    */
+    void resetAllChunkInactived();
+
     void checkPlayerChunkPosChanged();
 };
 #endif // __CHUNK_MANAGER_H__
