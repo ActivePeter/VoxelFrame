@@ -4,49 +4,24 @@
 #endif
 
 class Chunk;
+// struct ChunkKey;
 
 /////////////////////////////////////////////////
-#ifndef __CHUNK_H__
-#define __CHUNK_H__
+#ifndef __VF_CHUNK_H__
+#define __VF_CHUNK_H__
 // heads ///////////////////////////
 #include "parallel_hashmap/phmap.h"
 // #include "chunk_key.h"
 #include "graph/Mesh.h"
 #include "graph/_Graph.h"
 // #include "game.h"
-#include "app.h"
+// #include "app.h"
 #include "block.h"
-#include "game.h"
-struct ChunkKey
-{
-    int32_t x;
-    int32_t y;
-    int32_t z;
+// #include "game.h"
+#include "physic_engine/physic_engine.h"
 
-    bool operator==(const ChunkKey &o) const
-    {
-        return x == o.x && y == o.y && z == o.z;
-    }
-    friend size_t hash_value(const ChunkKey &p)
-    {
-        return phmap::HashState().combine(0, p.x, p.y, p.z);
-    }
+#include "chunk_key.h"
 
-    ChunkKey(int32_t x, int32_t y, int32_t z) : x(x), y(y), z(z)
-    {
-    }
-    /**
-     * 获取一个整数点对应的chunk坐标
-    */
-    template <typename PosVType>
-    static void getChunkKeyOfPoint(ChunkKey &_return, PosVType x, PosVType y, PosVType z);
-    /**
-     * 获取一个点对应的chunk坐标
-    */
-    // static void getChunkKeyOfPoint(ChunkKey &_return, float x, float y, float z);
-    // ChunkKey(float px, float py, float pz);
-    ChunkKey() {}
-};
 class Chunk : public Mesh
 {
 private:
@@ -127,5 +102,8 @@ public:
         returnZ = index / VF_ChunkWidth / VF_ChunkWidth;
     }
 };
+
 #include "chunk.temp.h"
+// #include "chunk_manager.h"
+
 #endif // __CHUNK_H__

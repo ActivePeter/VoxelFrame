@@ -7,9 +7,13 @@ class TCallbackRegister;
 #include "base.h"
 #include "chunk.h"
 #include "chunk_manager.h"
+
 #include "block.h"
 #include "main_player.h"
 #include "interface/IRegister.h"
+
+#include "interfaces/IUpdaterBeforePhysic.h"
+#include "interfaces/IUpdaterAfterPhysic.h"
 
 // #include "paecs/paecs.h"
 
@@ -49,6 +53,7 @@ public:
      * all the interfaces after physic will add themselves to this vector
     */
     std::deque<IUpdaterAfterPhysic *> iUpdaterAfterPhysics;
+    std::deque<IUpdaterBeforePhysic *> iUpdaterBeforePhysics;
 
     bool playing = false;
 

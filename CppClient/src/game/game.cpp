@@ -36,9 +36,14 @@ void Game::loop()
             TCallers[i].callAll(*this);
         }
     }
-
+    chunkManager->resetAllChunkInactived();
     this->beforePhysicSysGroup.runAll();
+    chunkManager->updateAllChunkPhysic();
     // this->chunkManager->
+    for (auto &i : iUpdaterBeforePhysics)
+    {
+        i->updateBeforePhysic();
+    }
     physic_engine::physicWorld().update(1.0f / 60);
     this->afterPhysicSysGroup.runAll();
     for (auto &i : iUpdaterAfterPhysics)

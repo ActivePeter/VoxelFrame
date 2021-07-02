@@ -16,6 +16,7 @@ MainPlayer::MainPlayer()
     this->getRigid().addCollider(Capsule_normal(), physic_engine::Transform_normal());
 
     App::getInstance().getInstance().gamePtr->iUpdaterAfterPhysics.emplace_back(this);
+    App::getInstance().getInstance().gamePtr->iUpdaterBeforePhysics.emplace_back(this);
 
     auto &ecs = *App::getInstance().ecsPtr;
     this->entityId =
@@ -104,25 +105,25 @@ void MainPlayer::syncPositionAfterPhysic()
 //     // App::getInstance().ecsPtr->
 // }
 
-void MainPlayer::Key_Move(N_MainPlayer::Movement direction, float deltaTime,
-                          glm::vec3 &pos)
-{
-    {
-        float velocity = MovementSpeed * deltaTime;
-        if (direction == N_MainPlayer::FORWARD)
-            // cameraPtr->Position += cameraPtr->Front * velocity;
-            pos = (pos + cameraPtr->Front * velocity);
-        if (direction == N_MainPlayer::BACKWARD)
-            // cameraPtr->Position -= cameraPtr->Front * velocity;
-            pos = (pos - cameraPtr->Front * velocity);
-        if (direction == N_MainPlayer::LEFT)
-            // cameraPtr->Position -= cameraPtr->Right * velocity;
-            pos = (pos - cameraPtr->Right * velocity);
-        if (direction == N_MainPlayer::RIGHT)
-            // cameraPtr->Position += cameraPtr->Right * velocity;
-            pos = (pos + cameraPtr->Right * velocity);
-    }
-}
+// void MainPlayer::Key_Move(N_MainPlayer::Movement direction, float deltaTime,
+//                           glm::vec3 &pos)
+// {
+//     {
+//         float velocity = MovementSpeed * deltaTime;
+//         if (direction == N_MainPlayer::FORWARD)
+//             // cameraPtr->Position += cameraPtr->Front * velocity;
+//             pos = (pos + cameraPtr->Front * velocity);
+//         if (direction == N_MainPlayer::BACKWARD)
+//             // cameraPtr->Position -= cameraPtr->Front * velocity;
+//             pos = (pos - cameraPtr->Front * velocity);
+//         if (direction == N_MainPlayer::LEFT)
+//             // cameraPtr->Position -= cameraPtr->Right * velocity;
+//             pos = (pos - cameraPtr->Right * velocity);
+//         if (direction == N_MainPlayer::RIGHT)
+//             // cameraPtr->Position += cameraPtr->Right * velocity;
+//             pos = (pos + cameraPtr->Right * velocity);
+//     }
+// }
 
 void MainPlayer::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
 {
@@ -192,35 +193,43 @@ void MainPlayer::IRegister_regist()
             //     App::getInstance().graphPtr->cameraPtr->ProcessMouseMovement(xoffset, yoffset);
             // }
         });
-    input.registerProcessInput(
-        [](Input &input)
-        {
-            auto &app = App::getInstance();
-            auto window = App::getInstance().graphPtr->gameWindow.window;
-            if (app.gamePtr)
-            {
-                auto &player = *app.gamePtr->mainPlayer;
-                if (input.getKey(M_Input_KEY_W) == GLFW_PRESS)
-                {
-                    player.Key_Move(N_MainPlayer::FORWARD, app.deltaTime);
-                }
-                if (input.getKey(M_Input_KEY_S) == GLFW_PRESS)
-                {
-                    player.Key_Move(N_MainPlayer::BACKWARD, app.deltaTime);
-                }
-                if (input.getKey(M_Input_KEY_A) == GLFW_PRESS)
-                {
-                    player.Key_Move(N_MainPlayer::LEFT, app.deltaTime);
-                }
-                if (input.getKey(M_Input_KEY_D) == GLFW_PRESS)
-                {
-                    player.Key_Move(N_MainPlayer::RIGHT, app.deltaTime);
-                }
-            }
-        });
 }
 
 void MainPlayer::updateAfterPhysic()
 {
     this->syncPositionAfterPhysic();
+}
+
+void MainPlayer::updateBeforePhysic()
+{
+    this->checkControl();
+}
+void MainPlayer::checkControl()
+{
+    auto &app = App::getInstance();
+    auto &input = *App::getInstance().inputPtr;
+
+    rp3d::Vector3 velocity(0, 0, 0);
+
+    if (input.getKey(M_Input_KEY_W) == GLFW_PRESS)
+    {
+        velocity += rp3d::Vector3(cameraPtr->Front.x, cameraPtr->Front.y, cameraPtr->Front.z);
+    }
+    if (input.getKey(M_Input_KEY_S) == GLFW_PRESS)
+    {
+        velocity -= rp3d::Vector3(cameraPtr->Front.x, cameraPtr->Front.y, cameraPtr->Front.z);
+        // this->Key_Move(N_MainPlayer::BACKWARD, app.deltaTime);
+    }
+    if (input.getKey(M_Input_KEY_A) == GLFW_PRESS)
+    {
+        // this->Key_Move(N_MainPlayer::LEFT, app.deltaTime);
+        velocity -= rp3d::Vector3(cameraPtr->Right.x, cameraPtr->Right.y, cameraPtr->Right.z);
+    }
+    if (input.getKey(M_Input_KEY_D) == GLFW_PRESS)
+    {
+        // this->Key_Move(N_MainPlayer::RIGHT, app.deltaTime);
+        velocity += rp3d::Vector3(cameraPtr->Right.x, cameraPtr->Right.y, cameraPtr->Right.z);
+    }
+    // }
+    this->getRigid().setLinearVelocity(velocity);
 }

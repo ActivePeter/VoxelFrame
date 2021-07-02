@@ -4,7 +4,7 @@ class Capsule
 {
 private:
     /* data */
-    virtual rp3d::CapsuleShape *Capsule_normal() {}
+    virtual rp3d::CapsuleShape *Capsule_normal() = 0;
 
 public:
     // Capsule(/* args */);

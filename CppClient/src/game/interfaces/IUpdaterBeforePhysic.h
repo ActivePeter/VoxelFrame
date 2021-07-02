@@ -9,5 +9,5 @@ class IUpdaterBeforePhysic
 private:
     /* data */
 public:
-    virtual void updaterBeforePhysic() {}
+    virtual void updateBeforePhysic() {}
 };

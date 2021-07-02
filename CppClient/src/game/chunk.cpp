@@ -122,6 +122,7 @@ Chunk::Chunk(ChunkKey ck)
             }
         }
     }
+    memset(this->blockRigids, 0, sizeof(this->blockRigids));
 }
 
 void Chunk::constructMeshInOneDim(int blockx, int blocky, int blockz,

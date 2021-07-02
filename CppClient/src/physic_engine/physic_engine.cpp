@@ -26,4 +26,13 @@ namespace physic_engine
         ptr->setHeight(h);
         return *ptr;
     }
+
+    rp3d::Transform Transform_normal()
+    {
+        {
+            return rp3d::Transform(
+                rp3d::Vector3(0, 0, 0),
+                rp3d::Quaternion::identity());
+        }
+    }
 }

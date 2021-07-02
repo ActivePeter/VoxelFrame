@@ -15,6 +15,7 @@ class MainPlayer;
 #include "physics/rigid.h"
 #include "physics/collision_shape.h"
 #include "game/interfaces/IUpdaterAfterPhysic.h"
+#include "game/interfaces/IUpdaterBeforePhysic.h"
 // #include "ecs/VectorAbout.h"
 
 namespace N_MainPlayer
@@ -28,16 +29,29 @@ namespace N_MainPlayer
     };
 }
 //当前玩家，并非指任意玩家
-class MainPlayer : IRegister, Rigid, Capsule, IUpdaterAfterPhysic
+class MainPlayer : public IRegister, public Rigid, public Capsule, public IUpdaterAfterPhysic, public IUpdaterBeforePhysic
 {
     ///////////////////////
     //
-    //      IGameUpdater
+    //      IUpdaterAfterPhysic
 public:
-    // void updateBeforePhysic() override;
+    /**
+     * 在物理更新前
+    */
     void updateAfterPhysic() override;
 
-private: //var
+    ///////////////////////
+    //
+    //      IUpdaterBeforePhysic
+public:
+    /**
+     * 在物理更新后
+    */
+    void updateBeforePhysic() override;
+
+    ///////////////////////
+    //
+    //      Capsule
 private: //func
     rp3d::CapsuleShape *Capsule_normal() override
     {
@@ -50,6 +64,10 @@ private: //func
         }
         return normal;
     }
+
+    ///////////////////////
+    //
+    //      IRegister
     void IRegister_regist() override;
 
 public: //var
@@ -87,13 +105,18 @@ public: //func
      * Player Control
     */
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
-    void Key_Move(N_MainPlayer::Movement direction, float deltaTime,
-                  glm::vec3 &pos);
+    // void Key_Move(N_MainPlayer::Movement direction, float deltaTime,
+    //               glm::vec3 &pos);
 
     // processes input received from a mouse input system. Expects the offset value in both the x and y direction.
     void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
 
     // processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
     void ProcessMouseScroll(float yoffset);
+
+    /**
+     * 检查控制操作
+    */
+    void checkControl();
 };
 #endif // __MAIN_PLAYER_H__
