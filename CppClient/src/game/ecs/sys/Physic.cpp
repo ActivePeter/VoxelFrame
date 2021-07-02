@@ -19,12 +19,12 @@ namespace EcsSys
         auto &maxP = aabb.getMax();
         auto &minP = aabb.getMin();
         //边界占用方块坐标
-        int maxX = floor(maxP.x);
-        int maxY = floor(maxP.y);
-        int maxZ = floor(maxP.z);
-        int minX = floor(minP.x);
-        int minY = floor(minP.y);
-        int minZ = floor(minP.z);
+        int maxX = floor(maxP.x) + 1;
+        int maxY = floor(maxP.y) + 1;
+        int maxZ = floor(maxP.z) + 1;
+        int minX = floor(minP.x) - 1;
+        int minY = floor(minP.y) - 1;
+        int minZ = floor(minP.z) - 1;
         ChunkKey maxChunkKey, minChunkKey;
         ChunkKey::getChunkKeyOfPoint(maxChunkKey, maxX, maxY, maxZ);
         ChunkKey::getChunkKeyOfPoint(minChunkKey, minX, minY, minZ);

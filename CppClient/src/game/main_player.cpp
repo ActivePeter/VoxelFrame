@@ -14,7 +14,8 @@ MainPlayer::MainPlayer()
     IRegister_regist();
     this->getRigid().setType((rp3d::BodyType::DYNAMIC));
     this->getRigid().addCollider(Capsule_normal(), physic_engine::Transform_normal());
-
+    this->getRigid().getCollider(0)->getMaterial().setBounciness(0);
+    // this->getRigid().setType(rp3d::BodyType:)
     App::getInstance().getInstance().gamePtr->iUpdaterAfterPhysics.emplace_back(this);
     App::getInstance().getInstance().gamePtr->iUpdaterBeforePhysics.emplace_back(this);
 
@@ -61,7 +62,7 @@ void MainPlayer::syncPositionAfterPhysic()
         }
     }
     //2. sync camera
-    cameraPtr->setPosition(pos.x, pos.y, pos.z);
+    cameraPtr->setPosition(pos.x, pos.y + 0.8, pos.z);
     // cameraPtr->Position;
 }
 /**
@@ -213,23 +214,25 @@ void MainPlayer::checkControl()
 
     if (input.getKey(M_Input_KEY_W) == GLFW_PRESS)
     {
-        velocity += rp3d::Vector3(cameraPtr->Front.x, cameraPtr->Front.y, cameraPtr->Front.z);
+        velocity += rp3d::Vector3(cameraPtr->Front.x, 0, cameraPtr->Front.z);
     }
     if (input.getKey(M_Input_KEY_S) == GLFW_PRESS)
     {
-        velocity -= rp3d::Vector3(cameraPtr->Front.x, cameraPtr->Front.y, cameraPtr->Front.z);
+        velocity -= rp3d::Vector3(cameraPtr->Front.x, 0, cameraPtr->Front.z);
         // this->Key_Move(N_MainPlayer::BACKWARD, app.deltaTime);
     }
     if (input.getKey(M_Input_KEY_A) == GLFW_PRESS)
     {
         // this->Key_Move(N_MainPlayer::LEFT, app.deltaTime);
-        velocity -= rp3d::Vector3(cameraPtr->Right.x, cameraPtr->Right.y, cameraPtr->Right.z);
+        velocity -= rp3d::Vector3(cameraPtr->Right.x, 0, cameraPtr->Right.z);
     }
     if (input.getKey(M_Input_KEY_D) == GLFW_PRESS)
     {
         // this->Key_Move(N_MainPlayer::RIGHT, app.deltaTime);
-        velocity += rp3d::Vector3(cameraPtr->Right.x, cameraPtr->Right.y, cameraPtr->Right.z);
+        velocity += rp3d::Vector3(cameraPtr->Right.x, 0, cameraPtr->Right.z);
     }
+    velocity = velocity.getUnit() * app.deltaTime * 90;
+    velocity.y = this->getRigid().getLinearVelocity().y;
     // }
     this->getRigid().setLinearVelocity(velocity);
 }

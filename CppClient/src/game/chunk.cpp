@@ -113,7 +113,14 @@ Chunk::Chunk(ChunkKey ck)
             {
                 if (y > VF_ChunkWidth / 2)
                 {
-                    data[Chunk::blockPos2blockIndex(x, y, z)] = 0;
+                    if (x == 8 && z == 8)
+                    {
+                        data[Chunk::blockPos2blockIndex(x, y, z)] = 1;
+                    }
+                    else
+                    {
+                        data[Chunk::blockPos2blockIndex(x, y, z)] = 0;
+                    }
                 }
                 else
                 {
@@ -204,6 +211,7 @@ void Chunk::updatePhysic()
                         rp3d::Quaternion::identity()));
                 //同时要根据方块类型配置它的collider
                 blockRigids[i]->setType((rp3d::BodyType::STATIC));
+
                 if (this->data[i])
                 {
                     blockRigids[i]->addCollider(
@@ -211,6 +219,8 @@ void Chunk::updatePhysic()
                         rp3d::Transform(
                             rp3d::Vector3(0.5, 0.5, 0.5),
                             rp3d::Quaternion::identity()));
+
+                    blockRigids[i]->getCollider(0)->getMaterial().setBounciness(0);
                 }
             }
             if (this->data[i])
