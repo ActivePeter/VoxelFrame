@@ -36,9 +36,14 @@ void Game::loop()
             TCallers[i].callAll(*this);
         }
     }
+    int t1 = (int)(1000 * glfwGetTime());
     chunkManager->resetAllChunkInactived();
+    int t2 = (int)(1000 * glfwGetTime());
     this->beforePhysicSysGroup.runAll();
+    int t3 = (int)(1000 * glfwGetTime());
     chunkManager->updateAllChunkPhysic();
+    int t4 = (int)(1000 * glfwGetTime());
+    printf_s("time spent %d %d %d\r\n", t2 - t1, t3 - t2, t4 - t3);
     // this->chunkManager->
     for (auto &i : iUpdaterBeforePhysics)
     {

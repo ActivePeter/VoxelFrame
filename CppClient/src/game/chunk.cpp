@@ -163,13 +163,19 @@ void Chunk::constructMeshInOneDim(int blockx, int blocky, int blockz,
 void Chunk::setInRangeBlockActive(int minBx, int minBy, int minBz,
                                   int maxBx, int maxBy, int maxBz)
 {
+    printf_s("setInRangeBlockActive\r\n");
+    printf_s("%d %d %d\r\n", minBx, minBy, minBz);
+
+    printf_s("%d %d %d\r\n", maxBx, maxBy, maxBz);
     for (int bx = minBx; bx <= maxBx; bx++)
     {
         for (int by = minBy; by <= maxBy; by++)
         {
             for (int bz = minBz; bz <= maxBz; bz++)
             {
-                this->blockActiveState.set(Chunk::blockPos2blockIndex(bx, by, bz));
+                auto index = Chunk::blockPos2blockIndex(bx, by, bz);
+                this->blockActiveState[index / 8] |= 0x01 << (index % 8);
+                // this->blockActiveState.set(Chunk::blockPos2blockIndex(bx, by, bz));
             }
         }
     }
@@ -177,18 +183,24 @@ void Chunk::setInRangeBlockActive(int minBx, int minBy, int minBz,
 
 void Chunk::updatePhysic()
 {
-    for (int i = 0; i < blockActiveState.size(); i++)
+    // printf_s("sizeof blockActiveState\r\n");
+    // printf_s("%d\r\n", sizeof(blockActiveState));
+    for (int i = 0; i < VF_ChunkSize; i++)
     {
-        if (blockActiveState[i])
+        bool state = blockActiveState[i / 8] & (0x01 << (i % 8));
+        if (state)
         {
+            int bx, by, bz;
+            Chunk::blockIndex2blockPos(i, bx, by, bz);
             //lazy load
             if (!blockRigids[i])
             {
-                int bx, by, bz;
-                Chunk::blockIndex2blockPos(i, bx, by, bz);
+
                 blockRigids[i] = physic_engine::physicWorld().createRigidBody(
                     rp3d::Transform(
-                        rp3d::Vector3(bx, by, bz),
+                        rp3d::Vector3(this->chunkKey.x * VF_ChunkWidth + bx,
+                                      this->chunkKey.y * VF_ChunkWidth + by,
+                                      this->chunkKey.z * VF_ChunkWidth + bz),
                         rp3d::Quaternion::identity()));
                 //同时要根据方块类型配置它的collider
                 blockRigids[i]->setType((rp3d::BodyType::STATIC));
@@ -203,6 +215,8 @@ void Chunk::updatePhysic()
             }
             if (this->data[i])
             {
+                printf_s("updatePhysic\r\n");
+                printf_s("%d %d %d\r\n", bx, by, bz);
                 blockRigids[i]->setIsActive(true);
             }
             else

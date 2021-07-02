@@ -59,7 +59,9 @@ public:
     /**
      * 方块激活状态
     */
-    bitset<VF_ChunkSize> blockActiveState;
+    // bitset<VF_ChunkSize> blockActiveState;
+
+    char blockActiveState[VF_ChunkSize / 8];
 
     ChunkKey chunkKey;
 
