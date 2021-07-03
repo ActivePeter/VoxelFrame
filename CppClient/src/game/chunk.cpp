@@ -152,11 +152,11 @@ void Chunk::constructMeshInOneDim(int blockx, int blocky, int blockz,
         auto &vetex2 = mesh.vertices[mesh.vertices.size() - 3];
         auto &vetex3 = mesh.vertices[mesh.vertices.size() - 2];
         auto &vetex4 = mesh.vertices[mesh.vertices.size() - 1];
-        printf("vec added 1: %.2f %.2f %.2f \r\n", vetex1.Position.x, vetex1.Position.y, vetex1.Position.z);
-        printf("vec added 2: %.2f %.2f %.2f \r\n", vetex2.Position.x, vetex2.Position.y, vetex2.Position.z);
-        printf("vec added 3: %.2f %.2f %.2f \r\n", vetex3.Position.x, vetex3.Position.y, vetex3.Position.z);
-        printf("vec added 4: %.2f %.2f %.2f \r\n", vetex4.Position.x, vetex4.Position.y, vetex4.Position.z);
-        printf("\r\n");
+        // printf("vec added 1: %.2f %.2f %.2f \r\n", vetex1.Position.x, vetex1.Position.y, vetex1.Position.z);
+        // printf("vec added 2: %.2f %.2f %.2f \r\n", vetex2.Position.x, vetex2.Position.y, vetex2.Position.z);
+        // printf("vec added 3: %.2f %.2f %.2f \r\n", vetex3.Position.x, vetex3.Position.y, vetex3.Position.z);
+        // printf("vec added 4: %.2f %.2f %.2f \r\n", vetex4.Position.x, vetex4.Position.y, vetex4.Position.z);
+        // printf("\r\n");
     }
     //x为空 x+1为实,添加朝x负向的面
     else if (!block &&
@@ -170,10 +170,10 @@ void Chunk::constructMeshInOneDim(int blockx, int blocky, int blockz,
 void Chunk::setInRangeBlockActive(int minBx, int minBy, int minBz,
                                   int maxBx, int maxBy, int maxBz)
 {
-    printf_s("setInRangeBlockActive\r\n");
-    printf_s("%d %d %d\r\n", minBx, minBy, minBz);
+    // printf_s("setInRangeBlockActive\r\n");
+    // printf_s("%d %d %d\r\n", minBx, minBy, minBz);
 
-    printf_s("%d %d %d\r\n", maxBx, maxBy, maxBz);
+    // printf_s("%d %d %d\r\n", maxBx, maxBy, maxBz);
     for (int bx = minBx; bx <= maxBx; bx++)
     {
         for (int by = minBy; by <= maxBy; by++)
@@ -225,8 +225,8 @@ void Chunk::updatePhysic()
             }
             if (this->data[i])
             {
-                printf_s("updatePhysic\r\n");
-                printf_s("%d %d %d\r\n", bx, by, bz);
+                // printf_s("updatePhysic\r\n");
+                // printf_s("%d %d %d\r\n", bx, by, bz);
                 blockRigids[i]->setIsActive(true);
             }
             else

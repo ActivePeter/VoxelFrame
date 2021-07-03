@@ -10,7 +10,7 @@ class App;
 #include "paecs/paecs.h"
 #include "game/game.h"
 #include "graph/_Graph.h"
-#include "net/_net.h"
+// #include "net/_net.h"
 #include "system_related/_Input.h"
 // #include "system/io/_IO.h"
 // #include "s"
