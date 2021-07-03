@@ -28,7 +28,7 @@ namespace EcsSys
         ChunkKey maxChunkKey, minChunkKey;
         ChunkKey::getChunkKeyOfPoint(maxChunkKey, maxX, maxY, maxZ);
         ChunkKey::getChunkKeyOfPoint(minChunkKey, minX, minY, minZ);
-        printf_s("chunk_key %d %d %d\r\n", maxChunkKey.x, maxChunkKey.y, maxChunkKey.z);
+        // printf_s("chunk_key %d %d %d\r\n", maxChunkKey.x, maxChunkKey.y, maxChunkKey.z);
         for (int cx = minChunkKey.x; cx <= maxChunkKey.x; cx++)
         {
             int chunkBlockMinX = 0;

@@ -99,7 +99,7 @@ public:
     // render the mesh
     void draw()
     {
-        std::cout << "chunk on draw" << std::endl;
+        // std::cout << "chunk on draw" << std::endl;
         // Shader &shader;
         // // bind appropriate textures
         // unsigned int diffuseNr = 1;

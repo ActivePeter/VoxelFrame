@@ -42,7 +42,7 @@ void Cursor::resetCursorPosIfLocked()
         // RECT r;
         // GetClientRect(handle, &r);
         // printf("win rect %d %d\r\n", r.top, r.left);
-        printf("win rect %d %d\r\n", point.x, point.y);
+        // printf("win rect %d %d\r\n", point.x, point.y);
         // x = point.x;
         // y = point.y;
         SetCursorPos(point.x, point.y);

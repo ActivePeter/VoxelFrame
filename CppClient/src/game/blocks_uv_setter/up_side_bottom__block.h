@@ -36,7 +36,7 @@ public:
     //重写父类
     void setVertexUVOnDir(BlockAbout::FaceDirection dir, Mesh &mesh)
     {
-        printf("child is called\r\n");
+        // printf("child is called\r\n");
         auto size = mesh.vertices.size();
         switch (dir)
         {

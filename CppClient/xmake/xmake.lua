@@ -6,10 +6,15 @@ add_requires("conan::opencv/4.5.0",{alias = "opencv"})
 target("VoxelFrame")
     set_kind("binary")
     set_languages("c++11")
+    
+    if is_plat("windows") then
+        add_syslinks("ws2_32")
+    end
 
     add_packages(
         "glfw","glm","phmap","opencv"
     )
+
     -- main
     add_files("../src/**.cpp")
     add_includedirs("../src")
