@@ -1,8 +1,12 @@
+
 add_requires("glfw")
 add_requires("conan::glm/0.9.9.8",{alias="glm"})
 add_requires("conan::parallel-hashmap/1.33",{alias="phmap"})
-add_requires("conan::opencv/4.5.0",{alias = "opencv"})
+-- add_requires("conan::opencv/4.5.0",{alias = "opencv"})
+add_requires("opencv", {proxy = false})
 
+
+-- add_requires()
 target("VoxelFrame")
     set_kind("binary")
     set_languages("c++11")

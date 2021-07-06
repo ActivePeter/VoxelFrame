@@ -1,6 +1,5 @@
 [requires]
 opencv/4.5.0
-bullet3/3.17
 
 [generators]
 cmake

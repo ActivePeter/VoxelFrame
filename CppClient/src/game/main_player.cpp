@@ -231,7 +231,7 @@ void MainPlayer::checkControl()
         // this->Key_Move(N_MainPlayer::RIGHT, app.deltaTime);
         velocity += rp3d::Vector3(cameraPtr->Right.x, 0, cameraPtr->Right.z);
     }
-    velocity = velocity.getUnit() * app.deltaTime * 90;
+    velocity = velocity.getUnit() * app.deltaTime * 120;
     velocity.y = this->getRigid().getLinearVelocity().y;
     // }
     this->getRigid().setLinearVelocity(velocity);

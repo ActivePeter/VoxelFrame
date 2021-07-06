@@ -57,6 +57,18 @@ setting generator
 >
 > Visual Studio 16 Win64   vs2019 x64
 
+Recently I tested the ninja, it's very fast
+
+```
+"cmake.configureSettings": {
+      "CMAKE_MAKE_PROGRAM": "C:/Program Files/ninja-win/ninja"
+},
+ 
+"cmake.generator": "Ninja",
+```
+
+
+
 also you can set the cmake.parallelJobs
 
 also you can set other parameters according to [official instruction](https://github.com/microsoft/vscode-cmake-tools/blob/main/docs/cmake-settings.md)
