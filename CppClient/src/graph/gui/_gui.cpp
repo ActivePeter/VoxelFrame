@@ -1,5 +1,6 @@
 #include "_gui.h"
 #include "graph/_Graph.h"
+#include "system_related/imgui_impl_sys.h"
 // Gui _Gui;
 
 void Gui::init()
@@ -9,14 +10,14 @@ void Gui::init()
     // WindowInfoModel &wim = WindowInfoModel::getInstance();
     // Setup Dear ImGui binding
     IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
+    imguiContext = ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
     (void)io;
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
-
-    ImGui_ImplGlfw_InitForOpenGL(graph.gameWindow.window, true);
-    ImGui_ImplOpenGL3_Init();
+    ImGui_ImplSdl_Init(graph.gameWindow.window);
+    // ImGui_ImplGlfw_InitForOpenGL(graph.gameWindow.window, true);
+    // ImGui_ImplOpenGL3_Init();
 
     // Setup style
     //ImGui::StyleColorsDark();
@@ -58,15 +59,16 @@ void Gui::init()
 
 void Gui::drawGui()
 {
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    // ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void Gui::renderGui()
 {
     // Start the ImGui frame
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
+    // ImGui_ImplOpenGL3_NewFrame();
+    // ImGui_ImplGlfw_NewFrame();
+    ImGui_ImplSdl_NewFrame(App::getInstance().graphPtr->gameWindow.window);
+    // ImGui::NewFrame();
 
     static int font_current = 0;
     static int old_font_current = 0;

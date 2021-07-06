@@ -212,21 +212,21 @@ void MainPlayer::checkControl()
 
     rp3d::Vector3 velocity(0, 0, 0);
 
-    if (input.getKey(M_Input_KEY_W) == GLFW_PRESS)
+    if (input.getKey(M_Input_KEY_W) == Input_KeyState::E_KeyDown)
     {
         velocity += rp3d::Vector3(cameraPtr->Front.x, 0, cameraPtr->Front.z);
     }
-    if (input.getKey(M_Input_KEY_S) == GLFW_PRESS)
+    if (input.getKey(M_Input_KEY_S) == Input_KeyState::E_KeyDown)
     {
         velocity -= rp3d::Vector3(cameraPtr->Front.x, 0, cameraPtr->Front.z);
         // this->Key_Move(N_MainPlayer::BACKWARD, app.deltaTime);
     }
-    if (input.getKey(M_Input_KEY_A) == GLFW_PRESS)
+    if (input.getKey(M_Input_KEY_A) == Input_KeyState::E_KeyDown)
     {
         // this->Key_Move(N_MainPlayer::LEFT, app.deltaTime);
         velocity -= rp3d::Vector3(cameraPtr->Right.x, 0, cameraPtr->Right.z);
     }
-    if (input.getKey(M_Input_KEY_D) == GLFW_PRESS)
+    if (input.getKey(M_Input_KEY_D) == Input_KeyState::E_KeyDown)
     {
         // this->Key_Move(N_MainPlayer::RIGHT, app.deltaTime);
         velocity += rp3d::Vector3(cameraPtr->Right.x, 0, cameraPtr->Right.z);

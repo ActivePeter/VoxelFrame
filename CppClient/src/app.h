@@ -3,8 +3,8 @@ class App;
 #ifndef __APP_H__
 #define __APP_H__
 
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
+#include "system_related/_media_api.h"
+#include "system_related/_sys_api.h"
 
 #include "base.h"
 #include "paecs/paecs.h"
@@ -51,7 +51,7 @@ public:
     // }
     inline void calcTimePerLoop()
     {
-        float currentFrame = (float)glfwGetTime();
+        float currentFrame = (float)_sys_api_getTick() / 1000;
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
     }

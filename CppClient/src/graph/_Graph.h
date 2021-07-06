@@ -3,8 +3,8 @@ class Graph;
 ////////////////////////////////////////////////////////
 #ifndef ___GRAPH_H__
 #define ___GRAPH_H__
-#include <glad/glad.h>
-#include "GLFW/glfw3.h"
+#include "system_related/_media_api.h"
+// #include "GLFW/glfw3.h"
 #include "base.h"
 #include "Mesh.h"
 #include "game/chunk.h"
@@ -20,6 +20,7 @@ private:
     void drawMesh();
 
 public:
+    bool runningFlag = true;
     std::shared_ptr<Gui> _guiPtr;
     std::shared_ptr<TextureManager> _textureManagerPtr;
 
@@ -41,11 +42,14 @@ public:
 
     inline bool running()
     {
-        return !glfwWindowShouldClose(gameWindow.window);
+        return runningFlag;
     }
     inline void end()
     {
-        glfwTerminate();
+        SDL_GL_DeleteContext(gameWindow.GLContext);
+        SDL_DestroyWindow(gameWindow.window);
+        SDL_Quit();
+        // glfwTerminate();
     }
 };
 

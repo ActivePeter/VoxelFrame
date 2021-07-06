@@ -1,4 +1,5 @@
 #include "game.h"
+#include "system_related/_sys_api.h"
 #include "ecs/sys/Physic.h"
 #include "physic_engine/physic_engine.h"
 /**
@@ -36,13 +37,17 @@ void Game::loop()
             TCallers[i].callAll(*this);
         }
     }
-    int t1 = (int)(1000 * glfwGetTime());
+    // int t1 = (int)(1000 * glfwGetTime());
+    auto t1 = _sys_api_getTick();
     chunkManager->resetAllChunkInactived();
-    int t2 = (int)(1000 * glfwGetTime());
+    // int t2 = (int)(1000 * glfwGetTime());
+    auto t2 = _sys_api_getTick();
     this->beforePhysicSysGroup.runAll();
-    int t3 = (int)(1000 * glfwGetTime());
+    // int t3 = (int)(1000 * glfwGetTime());
+    auto t3 = _sys_api_getTick();
     chunkManager->updateAllChunkPhysic();
-    int t4 = (int)(1000 * glfwGetTime());
+    auto t4 = _sys_api_getTick();
+    // int t4 = (int)(1000 * glfwGetTime());
     // printf_s("time spent %d %d %d\r\n", t2 - t1, t3 - t2, t4 - t3);
     // this->chunkManager->
     for (auto &i : iUpdaterBeforePhysics)
