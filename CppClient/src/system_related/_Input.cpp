@@ -1,6 +1,6 @@
 #include "glad/glad.h"
 #include "_Input.h"
-
+#include "_media_api.h"
 // #include "GLFW/glfw3.h"
 #include "graph/_Graph.h"
 // #include "Models/WindowInfoModel.h"
@@ -117,6 +117,25 @@
 
 void Input::processInput()
 {
+    SDL_Event event;
+    while (SDL_PollEvent(&event))
+    {
+        if (SDL_QUIT == event.type)
+        {
+            // quit = true;
+        }
+        else if (SDL_MOUSEMOTION == event.type)
+        {
+            int x = event.motion.x; //- picture->w / 2;
+            int y = event.motion.y; //- picture->h / 2;
+            // printf("x = %d,y=%d", x, y);
+            // rect.x = x;
+            // rect.y = y;
+            // SDL_FillRect(surface, NULL, 0); //去除尾际
+            // SDL_BlitSurface(picture, NULL, surface, &rect);
+            // SDL_UpdateWindowSurface(window);
+        }
+    }
     // for (int i = 0; i < processInputCallbacks.size(); i++)
     // {
     //     processInputCallbacks[i](*this);

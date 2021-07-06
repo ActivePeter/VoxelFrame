@@ -7,8 +7,12 @@ set(PROJECT_NAME VoxelFrame)
 project (${PROJECT_NAME})
 
 set (CMAKE_CXX_STAND 11)
-add_definitions(-w) #disenable warning
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14  -g")
+
+if(NOT MSVC)
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14  -g")
+else()
+    add_definitions("/W4")
+endif()
 
 # libs
     ##########################################
