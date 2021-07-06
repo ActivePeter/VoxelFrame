@@ -95,13 +95,13 @@ void Game::IRegister_regist()
         [](int btn, int action)
         {
             auto &game = *App::getInstance().gamePtr;
-            if (btn == M_Input_MOUSE_BUTTON_LEFT && action == Input_KeyState::E_KeyDown)
-            {
-                if (game.playing)
-                {
-                    App::getInstance().graphPtr->gameWindow.cursor.setLocked(true);
-                }
-            }
+            // if (btn == M_Input_MOUSE_BUTTON_LEFT && action == Input_KeyState::E_KeyDown)
+            // {
+            //     if (game.playing)
+            //     {
+            //         App::getInstance().graphPtr->gameWindow.cursor.setLocked(true);
+            //     }
+            // }
         });
     input.registerProcessInput(
         [](Input &input)

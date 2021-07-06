@@ -120,20 +120,10 @@ void Input::processInput()
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
+        // printf("poll event\r\n");
         if (SDL_QUIT == event.type)
         {
             // quit = true;
-        }
-        else if (SDL_MOUSEMOTION == event.type)
-        {
-            int x = event.motion.x; //- picture->w / 2;
-            int y = event.motion.y; //- picture->h / 2;
-            // printf("x = %d,y=%d", x, y);
-            // rect.x = x;
-            // rect.y = y;
-            // SDL_FillRect(surface, NULL, 0); //去除尾际
-            // SDL_BlitSurface(picture, NULL, surface, &rect);
-            // SDL_UpdateWindowSurface(window);
         }
     }
     // for (int i = 0; i < processInputCallbacks.size(); i++)
@@ -159,7 +149,19 @@ void Input::init()
 
 Input_KeyState Input::getKey(int M_KeyCode)
 {
-    return Input_KeyState::E_KeyUp; //(Input_KeyState)glfwGetKey(App::getInstance().graphPtr->gameWindow.window, M_KeyCode);
+    // SDLK_LEFT
+    int len;
+    auto keyStates = SDL_GetKeyboardState(&len);
+    if (M_KeyCode >= len)
+    {
+        return Input_KeyState::E_KeyUp;
+    }
+    for (int i = 0; i < len; i++)
+    {
+        printf("%d", keyStates[M_KeyCode]);
+    }
+    printf("\r\n");
+    return (Input_KeyState)keyStates[M_KeyCode]; //(Input_KeyState)glfwGetKey(App::getInstance().graphPtr->gameWindow.window, M_KeyCode);
 }
 
 // int Input::getKey()

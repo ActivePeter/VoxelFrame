@@ -29,7 +29,7 @@ bool GameWindow::createWindow()
     //OpenGL会在此窗口大小范围内进行坐标变换
     // glViewport(0, 0, 1080, 960);
 
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
         std::cerr << "Error: %s\n"
                   << SDL_GetError() << '\n';
