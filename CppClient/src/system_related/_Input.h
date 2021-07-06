@@ -1,7 +1,8 @@
 // #include "glad/glad.h"
 // #include "GLFW/glfw3.h"
-#include "base.h"
+#include "vf_base.h"
 #include "_Input_Map.h"
+#include "MouseMoveEvent.h"
 // #include "Input_sys.h"
 /**
  * 
@@ -25,6 +26,7 @@ private:
     /* data */
     // vector<>
 public:
+    VF::MouseMoveEventPublisher mouseMovePublisher;
     std::vector<MouseMoveFunc> mouseMoveCallbacks;
     std::vector<void (*)(Input &Input)> processInputCallbacks;
     std::deque<void (*)(int btn, int action)> mouseBtnCallbacks;

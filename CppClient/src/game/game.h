@@ -4,7 +4,7 @@ class TCallbackRegister;
 #ifndef __GAME_H__
 #define __GAME_H__
 
-#include "base.h"
+#include "vf_base.h"
 #include "chunk.h"
 #include "chunk_manager.h"
 

@@ -3,7 +3,7 @@ class CommonBlockInfo;
 
 #ifndef __BLOCK_H__
 #define __BLOCK_H__
-#include "base.h"
+#include "vf_base.h"
 #include "blocks_uv_setter/base_blocks_uv_setter.h"
 
 #include "blocks_detailed/blocks_registry.h"

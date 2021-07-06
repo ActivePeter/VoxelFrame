@@ -27,7 +27,7 @@ MainPlayer::MainPlayer()
             // .addEmptyComponent<EcsComp::Position3D>()
             // .addEmptyComponent<EcsComp::PlayerTag>()
             .entityId;
-
+    App::getInstance().inputPtr->mouseMovePublisher.addListener((VF::MouseMoveEventListener *)this);
     // App::getInstance()
     //     .ecsPtr->addSysByFunc(EcsSys::SyncPlayer);
 }
@@ -235,4 +235,8 @@ void MainPlayer::checkControl()
     velocity.y = this->getRigid().getLinearVelocity().y;
     // }
     this->getRigid().setLinearVelocity(velocity);
+}
+void MainPlayer::ListenerCallback(MouseMove)(int x, int y, int dx, int dy)
+{
+    ProcessMouseMovement((float)dx, (float)-dy);
 }

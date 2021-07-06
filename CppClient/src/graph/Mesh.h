@@ -12,7 +12,7 @@ class Mesh;
 #include <glm/gtc/matrix_transform.hpp>
 
 // #include <learnopengl/shader.h>
-#include "base.h"
+#include "vf_base.h"
 
 #include <string>
 #include <vector>

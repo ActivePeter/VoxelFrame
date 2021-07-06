@@ -5,7 +5,7 @@ class Graph;
 #define ___GRAPH_H__
 #include "system_related/_media_api.h"
 // #include "GLFW/glfw3.h"
-#include "base.h"
+#include "vf_base.h"
 #include "Mesh.h"
 #include "game/chunk.h"
 #include "camera.h"

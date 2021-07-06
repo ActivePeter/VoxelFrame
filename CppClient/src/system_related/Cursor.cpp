@@ -1,6 +1,6 @@
 #include "Cursor.h"
 #include "Windows.h"
-#include "base.h"
+#include "vf_base.h"
 HWND handle;
 void Cursor::setLocked(bool locked)
 {

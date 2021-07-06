@@ -6,7 +6,7 @@ class App;
 #include "system_related/_media_api.h"
 #include "system_related/_sys_api.h"
 
-#include "base.h"
+#include "vf_base.h"
 #include "paecs/paecs.h"
 #include "game/game.h"
 #include "graph/_Graph.h"

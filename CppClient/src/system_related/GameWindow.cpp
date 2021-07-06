@@ -1,5 +1,5 @@
 #include "GameWindow.h"
-#include "base.h"
+#include "vf_base.h"
 // HWND handle;
 bool GameWindow::createWindow()
 {

@@ -1,10 +1,11 @@
 
-add_requires("glfw")
+-- add_requires("glfw")
 add_requires("conan::glm/0.9.9.8",{alias="glm"})
 add_requires("conan::parallel-hashmap/1.33",{alias="phmap"})
+-- add_requires("sdl/2.0.14",{alias="sdl"})
 -- add_requires("conan::opencv/4.5.0",{alias = "opencv"})
 add_requires("opencv", {proxy = false})
-
+-- add_requires()
 
 -- add_requires()
 target("VoxelFrame")
@@ -16,7 +17,7 @@ target("VoxelFrame")
     end
 
     add_packages(
-        "glfw","glm","phmap","opencv"
+        "sdl","glm","phmap","opencv"
     )
 
     -- main

@@ -3,7 +3,7 @@
 #include "../VectorAbout.h"
 // #include "../ChunkRelated.h"
 #include "../Tags.h"
-#include "base.h"
+#include "vf_base.h"
 
 namespace EcsSys
 {

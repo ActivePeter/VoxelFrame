@@ -16,6 +16,7 @@ class MainPlayer;
 #include "physics/collision_shape.h"
 #include "game/interfaces/IUpdaterAfterPhysic.h"
 #include "game/interfaces/IUpdaterBeforePhysic.h"
+#include "system_related/MouseMoveEvent.h"
 // #include "ecs/VectorAbout.h"
 
 namespace N_MainPlayer
@@ -29,8 +30,19 @@ namespace N_MainPlayer
     };
 }
 //当前玩家，并非指任意玩家
-class MainPlayer : public IRegister, public Rigid, public Capsule, public IUpdaterAfterPhysic, public IUpdaterBeforePhysic
+class MainPlayer
+    : public IRegister,
+      public Rigid,
+      public Capsule,
+      public IUpdaterAfterPhysic,
+      public IUpdaterBeforePhysic,
+      public VF::MouseMoveEventListener
+//   public VF::ListenerClass(MouseMove)
 {
+    ///////////////////////
+    //      MouseMove
+public:
+    void ListenerCallback(MouseMove)(int x, int y, int dx, int dy) override;
     ///////////////////////
     //
     //      IUpdaterAfterPhysic

@@ -130,6 +130,17 @@ void Input::processInput()
             // printf("hhhh");
             // std::cout << SDL_GetKeyName(event.key.keysym.sym) << std::endl;
         }
+        if (event.type == SDL_MOUSEMOTION)
+        {
+            static int oldX = 0;
+            static int oldY = 0;
+            for (auto *i : mouseMovePublisher.listeners)
+            {
+                i->MouseMoveListenerCallback(event.motion.x, event.motion.y, event.motion.x - oldX, event.motion.y - oldY);
+            }
+            oldX = event.motion.x;
+            oldY = event.motion.y;
+        }
     }
     for (int i = 0; i < processInputCallbacks.size(); i++)
     {
