@@ -106,7 +106,7 @@ void Game::IRegister_regist()
     input.registerProcessInput(
         [](Input &input)
         {
-            if (input.getKey(M_Input_KEY_ESCAPE))
+            if (input.getKey(Input_Key(ESCAPE)))
             {
                 App::getInstance().graphPtr->gameWindow.cursor.setLocked(false);
             }

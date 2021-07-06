@@ -125,11 +125,16 @@ void Input::processInput()
         {
             // quit = true;
         }
+        if (event.type == SDL_KEYDOWN)
+        {
+            // printf("hhhh");
+            // std::cout << SDL_GetKeyName(event.key.keysym.sym) << std::endl;
+        }
     }
-    // for (int i = 0; i < processInputCallbacks.size(); i++)
-    // {
-    //     processInputCallbacks[i](*this);
-    // }
+    for (int i = 0; i < processInputCallbacks.size(); i++)
+    {
+        processInputCallbacks[i](*this);
+    }
 }
 // camera
 
@@ -149,18 +154,25 @@ void Input::init()
 
 Input_KeyState Input::getKey(int M_KeyCode)
 {
+    // SDLK_a;
+    printf("keycode %d \r\n", M_KeyCode);
     // SDLK_LEFT
-    int len;
-    auto keyStates = SDL_GetKeyboardState(&len);
+    static int len;
+    static const Uint8 *keyStates = 0;
+    if (!keyStates)
+    {
+        keyStates = SDL_GetKeyboardState(&len);
+    }
+    // auto keyStates =
     if (M_KeyCode >= len)
     {
         return Input_KeyState::E_KeyUp;
     }
-    for (int i = 0; i < len; i++)
-    {
-        printf("%d", keyStates[M_KeyCode]);
-    }
-    printf("\r\n");
+    // for (int i = 0; i < len; i++)
+    // {
+    //     printf("%d", keyStates[M_KeyCode]);
+    // }
+    // printf("\r\n");
     return (Input_KeyState)keyStates[M_KeyCode]; //(Input_KeyState)glfwGetKey(App::getInstance().graphPtr->gameWindow.window, M_KeyCode);
 }
 
