@@ -28,3 +28,6 @@
 [submodule "CppClient/third/reactphysics3d"]
 	path = CppClient/third/reactphysics3d
 	url = https://github.com/VoxelFrame/reactphysics3d.git
+[submodule "VoxelFrame_UE4"]
+	path = VoxelFrame_UE4
+	url = https://github.com/ActivePeter/VoxelFrame_UE4.git
