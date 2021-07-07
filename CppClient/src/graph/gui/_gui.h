@@ -8,7 +8,8 @@ class Gui;
 #include "imgui.h"
 // #include "impl/imgui_impl_glfw.h"
 // #include "impl/imgui_impl_opengl3.h"
-
+#include "GuiNothingClickEvent.h"
+// VF::
 class Gui
 {
 private:
@@ -20,6 +21,8 @@ private:
 
     /* data */
 public:
+    VoxelFrame::GuiNothingClickEventPublisher guiNothingClickEventPuber;
+
     ImGuiContext *imguiContext;
     void init();
     void drawGui();

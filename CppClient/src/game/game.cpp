@@ -2,6 +2,8 @@
 #include "system_related/_sys_api.h"
 #include "ecs/sys/Physic.h"
 #include "physic_engine/physic_engine.h"
+#include "imgui.h"
+
 /**
  * 
  *game start 之前应当加载完毕所有引擎层内容 
@@ -22,6 +24,8 @@ void Game::start()
     App::getInstance().ecsPtr->addSys2Group(
         this->beforePhysicSysGroup,
         EcsSys::updateChunkColliderForChunkRelated);
+
+    App::getInstance().graphPtr->_guiPtr->guiNothingClickEventPuber.addListener(this);
 }
 
 /**
@@ -116,4 +120,12 @@ void Game::IRegister_regist()
             // {
             // }
         });
+}
+
+void Game::ListenerCallback(GuiNothingClick)()
+{
+    printf("gui nothing clicked");
+    // Imgui
+    // ImGui::GetIO().MouseDrawCursor = false;
+    App::getInstance().graphPtr->gameWindow.cursor.setLocked(true);
 }

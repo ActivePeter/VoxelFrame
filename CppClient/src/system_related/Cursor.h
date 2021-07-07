@@ -20,6 +20,7 @@ public:
     {
         return locked;
     }
+
     void resetCursorPosIfLocked();
     // Cursor();
     void init(GameWindow *gameWindow);

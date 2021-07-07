@@ -238,5 +238,8 @@ void MainPlayer::checkControl()
 }
 void MainPlayer::ListenerCallback(MouseMove)(int x, int y, int dx, int dy)
 {
-    ProcessMouseMovement((float)dx, (float)-dy);
+    if (App::getInstance().graphPtr->gameWindow.cursor.getLocked())
+    {
+        ProcessMouseMovement((float)dx, (float)-dy);
+    }
 }

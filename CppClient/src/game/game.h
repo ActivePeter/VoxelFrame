@@ -15,6 +15,8 @@ class TCallbackRegister;
 #include "interfaces/IUpdaterBeforePhysic.h"
 #include "interfaces/IUpdaterAfterPhysic.h"
 
+#include "graph/gui/GuiNothingClickEvent.h"
+
 // #include "paecs/paecs.h"
 
 using TCallbackFunc = void (*)(Game &game);
@@ -33,8 +35,14 @@ public:
         }
     }
 };
-class Game : IRegister
+class Game
+    : IRegister,
+      public VF::GuiNothingClickEventListener
 {
+    ////////////////////////////////////////////
+    //     GuiNothingClickEventListener
+public:
+    void ListenerCallback(GuiNothingClick)() override;
     // private:
     std::vector<TCaller> TCallers;
     /* data */

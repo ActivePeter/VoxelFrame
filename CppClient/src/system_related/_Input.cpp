@@ -117,6 +117,7 @@
 
 void Input::processInput()
 {
+    auto &gameWindow = App::getInstance().graphPtr->gameWindow;
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
@@ -134,14 +135,27 @@ void Input::processInput()
         {
             static int oldX = 0;
             static int oldY = 0;
-            for (auto *i : mouseMovePublisher.listeners)
+            if (gameWindow.cursor.getLocked())
             {
-                i->MouseMoveListenerCallback(event.motion.x, event.motion.y, event.motion.x - oldX, event.motion.y - oldY);
+                for (auto *i : mouseMovePublisher.listeners)
+                {
+                    i->MouseMoveListenerCallback(gameWindow.windowW / 2, gameWindow.windowH / 2, event.motion.x - gameWindow.windowW / 2, event.motion.y - gameWindow.windowH / 2);
+                }
             }
+            else
+            {
+                for (auto *i : mouseMovePublisher.listeners)
+                {
+                    i->MouseMoveListenerCallback(event.motion.x, event.motion.y, event.motion.x - oldX, event.motion.y - oldY);
+                }
+            }
+
             oldX = event.motion.x;
             oldY = event.motion.y;
         }
     }
+    gameWindow.cursor.resetCursorPosIfLocked();
+
     for (int i = 0; i < processInputCallbacks.size(); i++)
     {
         processInputCallbacks[i](*this);
@@ -166,7 +180,7 @@ void Input::init()
 Input_KeyState Input::getKey(int M_KeyCode)
 {
     // SDLK_a;
-    printf("keycode %d \r\n", M_KeyCode);
+    // printf("keycode %d \r\n", M_KeyCode);
     // SDLK_LEFT
     static int len;
     static const Uint8 *keyStates = 0;
