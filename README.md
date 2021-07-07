@@ -42,7 +42,7 @@ Able to load and draw chunks dynamically with threadpool
    git submodule update --init
    ```
 
-2. [client dev（客户端开发](./CppClient/markdown/start.md)
+2. [client dev（客户端开发](./markdown/client_start.md)
 
 ## Related Projects（相关项目
 

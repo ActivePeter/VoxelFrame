@@ -2,6 +2,8 @@
 
 load the submodules
 
+加载子模块
+
 ```
 git submodule update --init
 ```
@@ -21,29 +23,31 @@ git submodule update --init
 
 #### 2.cmake and cmake extensions in vscode above
 
-#### 3.vs2017 or vs2019
+#### 3.vs2017 or vs2019 |Ninja if you want fast compiling.
 
-#### 4.conan c++ lib manager
+#### 4.conan c++ lib manager(load the opencv and sdl2 lib easily
 
 ### Operation：
 
-#### 1.open project
+#### 1.Open project
 
-#### 2.open project directory
+#### 2.Open project directory
 
 <img src="https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503203305291.png" alt="image-20210503203305291" style="zoom:50%;" />
 
-#### 3.right click the workspace file，and click open with vscode
+#### 3.Right click the workspace file，and click open with vscode
 
 <img src="https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503203705074.png" alt="image-20210503203705074" style="zoom: 50%;" />
 
-#### 4.choose tool
+#### 4.Choose tool
 
 <img src="https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503215712461.png" alt="image-20210503215712461" style="zoom:33%;" />
 
-#### 5.Then open setting.json under the root directory
+#### 5.Then cmake settings are in  
 
-![image-20210503233624341](https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503233624341.png)
+#### 	VoxelFrameCppClient.code-workspace
+
+![](https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503233624341.png)
 
 setting generator
 
@@ -57,7 +61,7 @@ setting generator
 >
 > Visual Studio 16 Win64   vs2019 x64
 
-Recently I tested the ninja, it's very fast
+Recently I tested the ninja, which is very fast. So Ninja is very recommended.
 
 ```
 "cmake.configureSettings": {
@@ -65,9 +69,8 @@ Recently I tested the ninja, it's very fast
 },
  
 "cmake.generator": "Ninja",
+"cmake.parallelJobs": 30,
 ```
-
-
 
 also you can set the cmake.parallelJobs
 
@@ -77,7 +80,7 @@ also you can set other parameters according to [official instruction](https://gi
 
 > #### Then we start building
 
-#### 6.first conan
+#### 6.First, load libs with conan
 
 Make sure you've installed conan.
 
