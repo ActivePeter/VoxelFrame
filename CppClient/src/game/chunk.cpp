@@ -113,15 +113,23 @@ Chunk::Chunk(ChunkKey ck)
             {
                 if (y > VF_ChunkWidth / 2)
                 {
-                    data[x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth] = 0;
+                    if (x == 8 && z == 8)
+                    {
+                        data[Chunk::blockPos2blockIndex(x, y, z)] = 1;
+                    }
+                    else
+                    {
+                        data[Chunk::blockPos2blockIndex(x, y, z)] = 0;
+                    }
                 }
                 else
                 {
-                    data[x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth] = 1;
+                    data[Chunk::blockPos2blockIndex(x, y, z)] = 1;
                 }
             }
         }
     }
+    memset(this->blockRigids, 0, sizeof(this->blockRigids));
 }
 
 void Chunk::constructMeshInOneDim(int blockx, int blocky, int blockz,
@@ -144,11 +152,11 @@ void Chunk::constructMeshInOneDim(int blockx, int blocky, int blockz,
         auto &vetex2 = mesh.vertices[mesh.vertices.size() - 3];
         auto &vetex3 = mesh.vertices[mesh.vertices.size() - 2];
         auto &vetex4 = mesh.vertices[mesh.vertices.size() - 1];
-        printf("vec added 1: %.2f %.2f %.2f \r\n", vetex1.Position.x, vetex1.Position.y, vetex1.Position.z);
-        printf("vec added 2: %.2f %.2f %.2f \r\n", vetex2.Position.x, vetex2.Position.y, vetex2.Position.z);
-        printf("vec added 3: %.2f %.2f %.2f \r\n", vetex3.Position.x, vetex3.Position.y, vetex3.Position.z);
-        printf("vec added 4: %.2f %.2f %.2f \r\n", vetex4.Position.x, vetex4.Position.y, vetex4.Position.z);
-        printf("\r\n");
+        // printf("vec added 1: %.2f %.2f %.2f \r\n", vetex1.Position.x, vetex1.Position.y, vetex1.Position.z);
+        // printf("vec added 2: %.2f %.2f %.2f \r\n", vetex2.Position.x, vetex2.Position.y, vetex2.Position.z);
+        // printf("vec added 3: %.2f %.2f %.2f \r\n", vetex3.Position.x, vetex3.Position.y, vetex3.Position.z);
+        // printf("vec added 4: %.2f %.2f %.2f \r\n", vetex4.Position.x, vetex4.Position.y, vetex4.Position.z);
+        // printf("\r\n");
     }
     //x为空 x+1为实,添加朝x负向的面
     else if (!block &&
@@ -156,5 +164,83 @@ void Chunk::constructMeshInOneDim(int blockx, int blocky, int blockz,
              blockInfo_p.hasStandardFace(negDir))
     {
         blockInfo_p.pushOneFace2Mesh(blockx_p, blocky_p, blockz_p, negDir, *this);
+    }
+}
+
+void Chunk::setInRangeBlockActive(int minBx, int minBy, int minBz,
+                                  int maxBx, int maxBy, int maxBz)
+{
+    // printf_s("setInRangeBlockActive\r\n");
+    // printf_s("%d %d %d\r\n", minBx, minBy, minBz);
+
+    // printf_s("%d %d %d\r\n", maxBx, maxBy, maxBz);
+    for (int bx = minBx; bx <= maxBx; bx++)
+    {
+        for (int by = minBy; by <= maxBy; by++)
+        {
+            for (int bz = minBz; bz <= maxBz; bz++)
+            {
+                auto index = Chunk::blockPos2blockIndex(bx, by, bz);
+                this->blockActiveState[index / 8] |= 0x01 << (index % 8);
+                // this->blockActiveState.set(Chunk::blockPos2blockIndex(bx, by, bz));
+            }
+        }
+    }
+}
+
+void Chunk::updatePhysic()
+{
+    // printf_s("sizeof blockActiveState\r\n");
+    // printf_s("%d\r\n", sizeof(blockActiveState));
+    for (int i = 0; i < VF_ChunkSize; i++)
+    {
+        bool state = blockActiveState[i / 8] & (0x01 << (i % 8));
+        if (state)
+        {
+            int bx, by, bz;
+            Chunk::blockIndex2blockPos(i, bx, by, bz);
+            //lazy load
+            if (!blockRigids[i])
+            {
+
+                blockRigids[i] = physic_engine::physicWorld().createRigidBody(
+                    rp3d::Transform(
+                        rp3d::Vector3(this->chunkKey.x * VF_ChunkWidth + bx,
+                                      this->chunkKey.y * VF_ChunkWidth + by,
+                                      this->chunkKey.z * VF_ChunkWidth + bz),
+                        rp3d::Quaternion::identity()));
+                //同时要根据方块类型配置它的collider
+                blockRigids[i]->setType((rp3d::BodyType::STATIC));
+
+                if (this->data[i])
+                {
+                    blockRigids[i]->addCollider(
+                        App::getInstance().gamePtr->blockManager->getBlockInfo(i).getBlockColliderShape(),
+                        rp3d::Transform(
+                            rp3d::Vector3(0.5, 0.5, 0.5),
+                            rp3d::Quaternion::identity()));
+
+                    blockRigids[i]->getCollider(0)->getMaterial().setBounciness(0);
+                }
+            }
+            if (this->data[i])
+            {
+                // printf_s("updatePhysic\r\n");
+                // printf_s("%d %d %d\r\n", bx, by, bz);
+                blockRigids[i]->setIsActive(true);
+            }
+            else
+            {
+                //empty block
+                blockRigids[i]->setIsActive(false);
+            }
+        }
+        else
+        { //inactived
+            if (blockRigids[i])
+            {
+                blockRigids[i]->setIsActive(false);
+            }
+        }
     }
 }

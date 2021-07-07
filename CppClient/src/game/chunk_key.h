@@ -1,7 +1,7 @@
-#ifndef __CHUNK_KEY_H__
-#define __CHUNK_KEY_H__
-#include "base.h"
+#pragma once
+#include "vf_base.h"
 #include "parallel_hashmap/phmap.h"
+
 struct ChunkKey
 {
     int32_t x;
@@ -20,6 +20,16 @@ struct ChunkKey
     ChunkKey(int32_t x, int32_t y, int32_t z) : x(x), y(y), z(z)
     {
     }
+    /**
+     * 获取一个整数点对应的chunk坐标
+    */
+    template <typename PosVType>
+    static void getChunkKeyOfPoint(ChunkKey &_return, PosVType x, PosVType y, PosVType z);
+    /**
+     * 获取一个点对应的chunk坐标
+    */
+    // static void getChunkKeyOfPoint(ChunkKey &_return, float x, float y, float z);
+    // ChunkKey(float px, float py, float pz);
     ChunkKey() {}
 };
-#endif // __CHUNK_KEY_H__
+#include "chunk_key.temp.h"

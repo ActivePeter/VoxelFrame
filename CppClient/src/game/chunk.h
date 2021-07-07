@@ -2,21 +2,25 @@
 #define VF_ChunkWidth 16
 #define VF_ChunkSize (VF_ChunkWidth * VF_ChunkWidth * VF_ChunkWidth)
 #endif
-struct ChunkKey;
+
 class Chunk;
+// struct ChunkKey;
 
 /////////////////////////////////////////////////
-#ifndef __CHUNK_H__
-#define __CHUNK_H__
+#ifndef __VF_CHUNK_H__
+#define __VF_CHUNK_H__
 // heads ///////////////////////////
 #include "parallel_hashmap/phmap.h"
-#include "chunk_key.h"
+// #include "chunk_key.h"
 #include "graph/Mesh.h"
 #include "graph/_Graph.h"
 // #include "game.h"
-#include "app.h"
+// #include "app.h"
 #include "block.h"
-#include "game.h"
+// #include "game.h"
+#include "physic_engine/physic_engine.h"
+
+#include "chunk_key.h"
 
 class Chunk : public Mesh
 {
@@ -44,7 +48,21 @@ private:
         BlockAbout::FaceDirection negDir);
 
 public:
+    /**
+     * 方块id信息
+    */
     uint8_t data[VF_ChunkSize];
+    /**
+     * 方块碰撞器
+    */
+    rp3d::RigidBody *blockRigids[VF_ChunkSize];
+    /**
+     * 方块激活状态
+    */
+    // bitset<VF_ChunkSize> blockActiveState;
+
+    char blockActiveState[VF_ChunkSize / 8];
+
     ChunkKey chunkKey;
 
     // bool need
@@ -52,8 +70,42 @@ public:
 
     void constructMesh();
 
+    /**
+     * 在计算完激活状态后
+     * 更新active状态到physic上
+    */
+    void updatePhysic();
+    /**
+     * 设置范围内的方块为激活状态（加载碰撞器
+    */
+    void setInRangeBlockActive(int minBx, int minBy, int minBz,
+                               int maxBx, int maxBy, int maxBz);
+
+    /**
+     * 在重新遍历所有实体以加载区块碰撞器状态之前，将所有方块都设置为未激活
+     * 设置范围内的方块为激活状态（加载碰撞器
+    */
+    void resetAllBlock2inactive()
+    {
+        // blockActiveState
+        memset(&blockActiveState, 0, sizeof(blockActiveState));
+    }
     Chunk(ChunkKey ck);
     Chunk() {}
+
+    static inline int blockPos2blockIndex(int x, int y, int z)
+    {
+        return x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth;
+    }
+    static inline void blockIndex2blockPos(int index, int &returnX, int &returnY, int &returnZ)
+    {
+        returnX = index % VF_ChunkWidth;
+        returnY = (index / VF_ChunkWidth) % VF_ChunkWidth;
+        returnZ = index / VF_ChunkWidth / VF_ChunkWidth;
+    }
 };
+
+#include "chunk.temp.h"
+// #include "chunk_manager.h"
 
 #endif // __CHUNK_H__

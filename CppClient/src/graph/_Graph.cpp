@@ -3,7 +3,7 @@
 
 #include "_Graph.h"
 
-#include "GLFW/glfw3.h"
+// #include "GLFW/glfw3.h"
 #include <iostream>
 // #include "io/Input.h"
 // #include "system/io/_IO.h"
@@ -21,8 +21,8 @@
 // void drawBegin();
 // // void drawMain();
 // void drawEnd();
-void processInput(GLFWwindow *window, int key, int scancode, int action, int mode);
-void mouse_callback(GLFWwindow *window, double xpos, double ypos);
+// void processInput(GLFWwindow *window, int key, int scancode, int action, int mode);
+// void mouse_callback(GLFWwindow *window, double xpos, double ypos);
 
 //////////////////////////////////////
 //
@@ -40,7 +40,7 @@ unsigned int VBO, VAO;
 
 bool Graph::init()
 {
-    glfwInit(); //初始化GLFW
+    // glfwInit(); //初始化GLFW
     //指明OpenGL版本
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -51,9 +51,9 @@ bool Graph::init()
     // if it's a HighDPI monitor, try to scale everything
 
     // 适配高分屏 ///////////////////////////////////////////////////
-    GLFWmonitor *monitor = glfwGetPrimaryMonitor();
-    float xscale, yscale;
-    glfwGetMonitorContentScale(monitor, &xscale, &yscale);
+    // GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+    // float xscale, yscale;
+    // glfwGetMonitorContentScale(monitor, &xscale, &yscale);
     // if (xscale > 1 || yscale > 1)
     // {
     //     this->highDPIscaleFactor = xscale;
@@ -68,7 +68,7 @@ bool Graph::init()
     // 创建窗口 /////////////////////////////////////////////////////
     this->gameWindow.createWindow();
 
-        //监听窗口大小变化
+    //监听窗口大小变化
     _guiPtr = std::make_shared<Gui>();
     _guiPtr->init();
 
@@ -183,11 +183,11 @@ inline void Graph::drawBegin()
 
 inline void Graph::drawEnd()
 {
-
+    SDL_GL_SwapWindow(gameWindow.window);
     //将存储在缓冲区中的像素颜色进行绘制，这里涉及到双缓冲的问题
-    glfwSwapBuffers(gameWindow.window);
+    // glfwSwapBuffers(gameWindow.window);
     //检查有没有触发什么事件（键盘输入、鼠标移动等)、窗口改变
-    glfwPollEvents();
+    // glfwPollEvents();
     // glfwSetKeyCallback(_Graph.window, processInput);
     // glfwSetCursorPosCallback(_Graph.window, mouse_callback);
 }

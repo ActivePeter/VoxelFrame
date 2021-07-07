@@ -12,7 +12,7 @@ class Mesh;
 #include <glm/gtc/matrix_transform.hpp>
 
 // #include <learnopengl/shader.h>
-#include "base.h"
+#include "vf_base.h"
 
 #include <string>
 #include <vector>
@@ -99,7 +99,7 @@ public:
     // render the mesh
     void draw()
     {
-        std::cout << "chunk on draw" << std::endl;
+        // std::cout << "chunk on draw" << std::endl;
         // Shader &shader;
         // // bind appropriate textures
         // unsigned int diffuseNr = 1;

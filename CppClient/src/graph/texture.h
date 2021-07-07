@@ -1,5 +1,5 @@
 #pragma once
-#include "base.h"
+#include "vf_base.h"
 #include "opencv2/opencv.hpp"
 #include "math.h"
 //负责接收注册和构建贴图

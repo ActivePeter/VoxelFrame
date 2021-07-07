@@ -1,5 +1,9 @@
 #include "game.h"
-#include "ecs/sys/ColliderSys.h"
+#include "system_related/_sys_api.h"
+#include "ecs/sys/Physic.h"
+#include "physic_engine/physic_engine.h"
+#include "imgui.h"
+
 /**
  * 
  *game start 之前应当加载完毕所有引擎层内容 
@@ -17,10 +21,11 @@ void Game::start()
     // registry::game_ControllingSwitch();
     IRegister_regist();
     playing = true;
+    App::getInstance().ecsPtr->addSys2Group(
+        this->beforePhysicSysGroup,
+        EcsSys::updateChunkColliderForChunkRelated);
 
-    App::getInstance()
-        .ecsPtr->addSysByFunc(EcsSys::checkCapsuleCollider2aroundChunkData);
-    // this
+    App::getInstance().graphPtr->_guiPtr->guiNothingClickEventPuber.addListener(this);
 }
 
 /**
@@ -36,7 +41,31 @@ void Game::loop()
             TCallers[i].callAll(*this);
         }
     }
-    App::getInstance().ecsPtr->loop();
+    // int t1 = (int)(1000 * glfwGetTime());
+    auto t1 = _sys_api_getTick();
+    chunkManager->resetAllChunkInactived();
+    // int t2 = (int)(1000 * glfwGetTime());
+    auto t2 = _sys_api_getTick();
+    this->beforePhysicSysGroup.runAll();
+    // int t3 = (int)(1000 * glfwGetTime());
+    auto t3 = _sys_api_getTick();
+    chunkManager->updateAllChunkPhysic();
+    auto t4 = _sys_api_getTick();
+    // int t4 = (int)(1000 * glfwGetTime());
+    // printf_s("time spent %d %d %d\r\n", t2 - t1, t3 - t2, t4 - t3);
+    // this->chunkManager->
+    for (auto &i : iUpdaterBeforePhysics)
+    {
+        i->updateBeforePhysic();
+    }
+    physic_engine::physicWorld().update(1.0f / 60);
+    this->afterPhysicSysGroup.runAll();
+    for (auto &i : iUpdaterAfterPhysics)
+    {
+        i->updateAfterPhysic();
+    }
+    // App::getInstance().ecsPtr->loop();
+
     gameTick++;
 }
 /**注册周期性回调函数
@@ -70,18 +99,18 @@ void Game::IRegister_regist()
         [](int btn, int action)
         {
             auto &game = *App::getInstance().gamePtr;
-            if (btn == M_Input_MOUSE_BUTTON_LEFT && action == Input_KeyState::E_KeyDown)
-            {
-                if (game.playing)
-                {
-                    App::getInstance().graphPtr->gameWindow.cursor.setLocked(true);
-                }
-            }
+            // if (btn == M_Input_MOUSE_BUTTON_LEFT && action == Input_KeyState::E_KeyDown)
+            // {
+            //     if (game.playing)
+            //     {
+            //         App::getInstance().graphPtr->gameWindow.cursor.setLocked(true);
+            //     }
+            // }
         });
     input.registerProcessInput(
         [](Input &input)
         {
-            if (input.getKey(M_Input_KEY_ESCAPE))
+            if (input.getKey(Input_Key(ESCAPE)))
             {
                 App::getInstance().graphPtr->gameWindow.cursor.setLocked(false);
             }
@@ -91,4 +120,12 @@ void Game::IRegister_regist()
             // {
             // }
         });
+}
+
+void Game::ListenerCallback(GuiNothingClick)()
+{
+    printf("gui nothing clicked");
+    // Imgui
+    // ImGui::GetIO().MouseDrawCursor = false;
+    App::getInstance().graphPtr->gameWindow.cursor.setLocked(true);
 }

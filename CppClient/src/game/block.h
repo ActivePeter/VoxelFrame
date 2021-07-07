@@ -1,15 +1,16 @@
 class BlockManager;
 class CommonBlockInfo;
-#include "base.h"
+
+#ifndef __BLOCK_H__
+#define __BLOCK_H__
+#include "vf_base.h"
 #include "blocks_uv_setter/base_blocks_uv_setter.h"
 
 #include "blocks_detailed/blocks_registry.h"
 #include "graph/Mesh.h"
 
 #include "enum.h"
-
-#ifndef __BLOCK_H__
-#define __BLOCK_H__
+#include "physic_engine/physic_engine.h"
 
 // #pragma once
 
@@ -84,6 +85,15 @@ public:
      * 包含了三角形的顺序信息（indices
      * ***************************************/
     void pushOneFace2Mesh(int blockx, int blocky, int blockz, BlockAbout::FaceDirection dir, Mesh &mesh);
+    rp3d::BoxShape *getBlockColliderShape()
+    {
+        static rp3d::BoxShape *boxShape;
+        if (!boxShape)
+        {
+            boxShape = physic_engine::physicCommon().createBoxShape(rp3d::Vector3(0.5, 0.5, 0.5));
+        }
+        return boxShape;
+    }
 };
 class BlockManager
 {

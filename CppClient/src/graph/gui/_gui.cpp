@@ -1,5 +1,7 @@
 #include "_gui.h"
 #include "graph/_Graph.h"
+#include "system_related/imgui_impl_sys.h"
+#include "imgui.h"
 // Gui _Gui;
 
 void Gui::init()
@@ -9,14 +11,15 @@ void Gui::init()
     // WindowInfoModel &wim = WindowInfoModel::getInstance();
     // Setup Dear ImGui binding
     IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
+    imguiContext = ImGui::CreateContext();
+    ImGui::SetCurrentContext(imguiContext);
     ImGuiIO &io = ImGui::GetIO();
     (void)io;
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
-
-    ImGui_ImplGlfw_InitForOpenGL(graph.gameWindow.window, true);
-    ImGui_ImplOpenGL3_Init();
+    ImGui_ImplSdl_Init(graph.gameWindow.window);
+    // ImGui_ImplGlfw_InitForOpenGL(graph.gameWindow.window, true);
+    // ImGui_ImplOpenGL3_Init();
 
     // Setup style
     //ImGui::StyleColorsDark();
@@ -46,6 +49,8 @@ void Gui::init()
     // ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
     // IM_ASSERT(font != NULL);
     clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    // io.MouseDrawCursor = true;
+
     // if (view)
     // {
     //     const float dpi = (float)[view.window backingScaleFactor];
@@ -58,15 +63,16 @@ void Gui::init()
 
 void Gui::drawGui()
 {
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    // ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void Gui::renderGui()
 {
     // Start the ImGui frame
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
+    // ImGui_ImplOpenGL3_NewFrame();
+    // ImGui_ImplGlfw_NewFrame();
+    ImGui_ImplSdl_NewFrame(App::getInstance().graphPtr->gameWindow.window);
+    // ImGui::NewFrame();
 
     static int font_current = 0;
     static int old_font_current = 0;
@@ -142,7 +148,13 @@ void Gui::renderGui()
         ImGui::PopFont();
 
         if (ImGui::Button("Button")) // Buttons return true when clicked (NB: most widgets return true when edited/activated)
+        {
             counter++;
+            std::cout << "hhh" << std::endl;
+            // printf("no gui click\r\n");
+            // printf("no gui clic\r\n");
+        }
+
         if (ImGui::Button("Render"))
         {
             // isRender = !isRender;
@@ -152,8 +164,22 @@ void Gui::renderGui()
         ImGui::Text("counter = %d", counter);
 
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+        if ( //ImGui::GetIO().MouseClicked[0] &&
+            ImGui::GetIO().MouseClicked[0] &&
+            !ImGui::IsAnyItemHovered() &&
+            !ImGui::IsAnyWindowHovered())
+        {
+            std::cout << "hhhs" << std::endl;
+            for (auto i : guiNothingClickEventPuber.listeners)
+            {
+                i->GuiNothingClickListenerCallback();
+            }
+        }
     }
+
     ImGui::PopFont();
+
     // Rendering
     ImGui::Render();
 }

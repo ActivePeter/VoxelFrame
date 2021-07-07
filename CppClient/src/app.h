@@ -3,14 +3,14 @@ class App;
 #ifndef __APP_H__
 #define __APP_H__
 
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
+#include "system_related/_media_api.h"
+#include "system_related/_sys_api.h"
 
-#include "base.h"
+#include "vf_base.h"
 #include "paecs/paecs.h"
 #include "game/game.h"
 #include "graph/_Graph.h"
-#include "net/_net.h"
+// #include "net/_net.h"
 #include "system_related/_Input.h"
 // #include "system/io/_IO.h"
 // #include "s"
@@ -51,7 +51,7 @@ public:
     // }
     inline void calcTimePerLoop()
     {
-        float currentFrame = (float)glfwGetTime();
+        float currentFrame = (float)_sys_api_getTick() / 1000;
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
     }

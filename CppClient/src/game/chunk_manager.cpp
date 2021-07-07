@@ -92,6 +92,22 @@ ChunkManager::ChunkManager()
     // addNewChunk(0, 0, 0);
 }
 
+void ChunkManager::updateAllChunkPhysic()
+{
+    for (auto &i : this->chunks2Draw)
+    {
+        i->updatePhysic();
+    }
+}
+
+void ChunkManager::resetAllChunkInactived()
+{
+    for (auto &i : this->chunks2Draw)
+    {
+        i->resetAllBlock2inactive();
+    }
+}
+
 /**
  * 如果玩家所在区块。就需要加载新的未绘制的区块，
  * 同时将不在视野内的区块加入倒计时销毁队列

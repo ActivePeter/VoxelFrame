@@ -9,7 +9,7 @@
 // #pragma comment(lib,"lib文件名或路径")
 // #include "stb_image.h"
 
-int main()
+int main(int argc, char *argv[])
 {
     auto &app1 = App::getInstance();
     app1.run();

@@ -1,9 +1,11 @@
 #pragma once
 namespace EcsComp
 {
-    struct ChunkRelated
+    struct PlayerTag
     {
         /* data */
     };
-
+    struct ChunkRelatedTag
+    {
+    };
 }
