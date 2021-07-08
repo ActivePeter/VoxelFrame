@@ -22,11 +22,15 @@ c++(client), rust~~golang~~(server)
 
 ## Current Progress Preview（进度预览
 
-Able to load and draw chunks dynamically with threadpool
+Switched to sdl2 from glfw.
 
-可以通过线程池动态的加载和绘制区块了
+切换到了sdl平台
 
-![image-20210623125854873](https://hanbaoaaa.xyz/tuchuang/images/2021/06/23/image-20210623125854873.png)
+Walking on ground is available now.
+
+可以在区块地面上走路了
+
+![image-20210707185242601](https://hanbaoaaa.xyz/tuchuang/images/2021/07/07/image-20210707185242601.png)
 
 ## Development Record（开发记录
 
@@ -42,7 +46,7 @@ Able to load and draw chunks dynamically with threadpool
    git submodule update --init
    ```
 
-2. [client dev（客户端开发](./CppClient/markdown/start.md)
+2. [client dev（客户端开发](./markdown/client_start.md)
 
 ## Related Projects（相关项目
 
