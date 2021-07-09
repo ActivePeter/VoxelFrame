@@ -1,4 +1,21 @@
 {
+    ///////////////////////////////////////////////////////////////
+    // Visual Studio 15   vs2017 x86
+    // Visual Studio 15 Win64   vs2017 x64
+    // Visual Studio 16   vs2019 x86
+    // Visual Studio 16 Win64   vs2019 x64
+    // "cmake.generator": "Visual Studio 16",
+    "cmake.configureSettings": {
+        "CMAKE_MAKE_PROGRAM": "C:/Program Files/ninja-win/ninja.exe"
+    },
+    "cmake.generator": "Ninja",
+    "cmake.parallelJobs": 30,
+    ////////////////////////////////////////////////////////////////
+    //  当编译第三方库的时候取消注释
+    //  uncomment when prebuild the third libs
+    // "cmake.buildDirectory": "${workspaceRoot}/third/build",
+    // "cmake.sourceDirectory": "${workspaceRoot}/third",
+    ////////////////////////////////////////////////////////////////
     "files.associations": {
         "algorithm": "cpp",
         "any": "cpp",
