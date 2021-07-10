@@ -26,5 +26,18 @@ namespace VoxelFrame
         int endX = floor(endPointF.x);
         int endY = floor(endPointF.y);
         int endZ = floor(endPointF.z);
+
+        int curX = floor(startPoint.x);
+        int curY = floor(startPoint.y);
+        int curZ = floor(startPoint.z);
+        //未扫描到底，
+        while (curX != endX && curY != endY && curZ != endZ)
+        {
+            //1.获取分别x+1 y+1 z+1的block
+            //2.判断射线是否与其中一个（标准block)碰撞，若碰撞，则说明射线经过这个block
+            //3.判断是否实际block碰撞器与block碰撞
+            //4.若碰撞。返回
+            //  若未碰撞。讲curX curY curZ 设置为2步骤中检测的到的碰撞方块
+        }
     }
 } // namespace VoxelFrame
