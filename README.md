@@ -4,37 +4,48 @@
 
 ## Introduction（介绍
 
-I likes playing minecraft very much and it's always been my dream to write a mc.
+- I likes playing minecraft very much and it's always been my dream to write a mc.
 
-我非常喜欢玩minecraft，写一个mc是我长久以来一直想做到的事
+  我非常喜欢玩minecraft，写一个mc是我长久以来一直想做到的事
+
 
 ## Organization（组织
 
-[VoxelFrame (github.com)](https://github.com/VoxelFrame)   
+- [VoxelFrame (github.com)](https://github.com/VoxelFrame)   
 
-To store related projects.
+  To store related projects.
 
-用于存储相关项目
+  用于存储相关项目
 
 ## Language（语言
 
-c++(client), rust~~golang~~(server)
+- c++(client), rust~~golang~~(server)
+
 
 ## Current Progress Preview（进度预览
 
-Switched to sdl2 from glfw.
+- [ ] put and dig a block (raycast check with chunk)
 
-切换到了sdl平台
+  放置和挖掘方块（跟区块的射线碰撞检测）
 
-Walking on ground is available now.
+- [x] Event System (publisher & listener)
 
-可以在区块地面上走路了
+  事件系统（发布者和监听者）
+
+- [x] Switched to sdl2 from glfw.
+
+  切换到了sdl平台
+
+- [x] Walking on ground is available now.
+
+  可以在区块地面上走路了
+
 
 ![image-20210707185242601](https://hanbaoaaa.xyz/tuchuang/images/2021/07/07/image-20210707185242601.png)
 
 ## Development Record（开发记录
 
-[all](./markdown/record.md)
+- [all](./markdown/record.md)
 
 ## Start Development（开发
 
@@ -50,20 +61,20 @@ Walking on ground is available now.
 
 ## Related Projects（相关项目
 
-I'm also trying to implement a ecs lib and use it in my mc
+- I'm also trying to implement a ecs lib and use it in my mc
 
-我也在尝试实现一个ecs库并用在我的mc里
+  我也在尝试实现一个ecs库并用在我的mc里
 
-[ActivePeter/paecs: simple implementation of ECS game model (github.com)](https://github.com/ActivePeter/paecs)
+  [ActivePeter/paecs: simple implementation of ECS game model (github.com)](https://github.com/ActivePeter/paecs)
 
 ## Old (unity version)/旧版本（unity版
 
-This part was written in my high school period.
+- This part was written in my high school period.
 
-这部分是我高中时候做的
+  这部分是我高中时候做的
 
-[VoxelFrame/VoxelFrame_Abandoned (github.com)](https://github.com/VoxelFrame/VoxelFrame_Abandoned)
+  [VoxelFrame/VoxelFrame_Abandoned (github.com)](https://github.com/VoxelFrame/VoxelFrame_Abandoned)
 
-#### video（视频:
+  #### video（视频:
 
-https://www.bilibili.com/video/BV1d7411n7nK/
+  https://www.bilibili.com/video/BV1d7411n7nK/
