@@ -92,30 +92,27 @@ git submodule update --init
 
 - #### 7.Second, build the third parties
 
-  - ![image-20210707233216886](https://hanbaoaaa.xyz/tuchuang/images/2021/07/07/image-20210707233216886.png)
+  - In settings.json file, uncomment 
 
-  - ![image-20210707233258508](https://hanbaoaaa.xyz/tuchuang/images/2021/07/07/image-20210707233258508.png)
+    ![image-20210711020223937](https://hanbaoaaa.xyz/tuchuang/images/2021/07/10/image-20210711020223937.png)
 
-  - switch to **third** workspace folder
+    to change to build third-parties 
 
-  - switch to **release** build mode ![image-20210707233418586](https://hanbaoaaa.xyz/tuchuang/images/2021/07/07/image-20210707233418586.png)
+  - Switch to **release** build mode ![image-20210707233418586](https://hanbaoaaa.xyz/tuchuang/images/2021/07/07/image-20210707233418586.png)
 
-  - run cmake build
+  - Run cmake build
 
     ![image-20210707233600813](https://hanbaoaaa.xyz/tuchuang/images/2021/07/07/image-20210707233600813.png)
 
 - #### 8.Then build the mainprj
 
-  1. switch to **mainproject**
+  1. Comment back the settings.json
 
-     ![image-20210503234307536](https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503234307536.png)
-
-  2. 命令面板 cmake build
+  2. 命令面板 **cmake build** or **cmake debug**
 
      ![image-20210503233339025](https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503233339025.png)
 
      
-
 
 
 
