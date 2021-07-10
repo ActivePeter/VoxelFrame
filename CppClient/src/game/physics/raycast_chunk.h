@@ -44,7 +44,8 @@ namespace VoxelFrame
         //未扫描到底，
         while (curX != endX || curY != endY || curZ != endZ)
         {
-            //1.获取分别x+dirX y+dirY z+dirZ的block
+            //1.找到最先经过的方块
+            //  x+1
             float borderX = curX + dirX;
             float borderY = curY + dirY;
             float borderZ = curZ + dirZ;
@@ -55,20 +56,22 @@ namespace VoxelFrame
             if (scaleZ > scaleX && scaleY > scaleX)
             {
                 //scaleX is min
+                curX++;
             }
             else if (scaleZ > scaleY)
             {
                 //scaleY is min
+                curY++;
             }
             else
             {
                 //scaleZ is min
+                curZ++;
             }
-            //2.判断射线是否与其中一个（标准block)碰撞，若碰撞，则说明射线经过这个block
-            //  x+1
-            {
-            }
-            //3.判断是否实际block碰撞器与block碰撞
+
+            //2.判断是否实际block碰撞器与block碰撞
+            //  2.1目前都是普通方块，所以不为0（空气时），即为碰撞
+            //  2.2要考虑的是以后加入其他形状的方块，则需要跟每一个面检测碰撞。然后最近的碰撞点即为碰撞面。
             //4.若碰撞。返回
             //  若未碰撞。讲curX curY curZ 设置为2步骤中检测的到的碰撞方块
         }
