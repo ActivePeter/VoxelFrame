@@ -2,6 +2,9 @@
 #include <glm/glm.hpp>
 #include "vf_base.h"
 #include "chunk.h"
+#include "app.h"
+// #include "math.h"
+#include "tool/calc.h"
 // #include "main_player.h"
 namespace VoxelFrame
 {
@@ -14,9 +17,14 @@ namespace VoxelFrame
     static void raycast2ChunkAndReturnBlock(
         const glm::vec3 &startPoint,
         const glm::vec3 &direction,
-        int maxRange,
+        float maxRange,
         std::vector<Chunk> &return_chunkPtr,
         int &return_blockIndexInChunk)
     {
+        glm::vec3 endPointF = startPoint +
+                              direction / VF::vec3Len(direction) * maxRange;
+        int endX = floor(endPointF.x);
+        int endY = floor(endPointF.y);
+        int endZ = floor(endPointF.z);
     }
 } // namespace VoxelFrame
