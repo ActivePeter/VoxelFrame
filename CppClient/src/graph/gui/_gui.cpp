@@ -171,10 +171,11 @@ void Gui::renderGui()
             !ImGui::IsAnyWindowHovered())
         {
             std::cout << "hhhs" << std::endl;
-            for (auto i : guiNothingClickEventPuber.listeners)
-            {
-                i->GuiNothingClickListenerCallback();
-            }
+            guiNothingClickEventPuber.pub2All();
+            // for (auto i : guiNothingClickEventPuber.listeners)
+            // {
+            //     i->GuiNothingClickListenerCallback();
+            // }
         }
     }
 

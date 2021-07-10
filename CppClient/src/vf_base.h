@@ -4,7 +4,6 @@
 #include "vector"
 #include "deque"
 #include "list"
-
 namespace VoxelFrame
 {
 }

@@ -18,11 +18,11 @@ public:                                                             \
         }                                                           \
     }
 
-// namespace VoxelFrame
-// {
-//     // class EventPublisher;
-//     class EventPublisher
-//     {
+// namespace VoxelFrame                                             \
+// {                                                                \
+//     // class EventPublisher;                                     \
+//     class EventPublisher                                         \
+//     {                                                            \
 //     };
 
 // }

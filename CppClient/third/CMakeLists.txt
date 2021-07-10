@@ -8,6 +8,8 @@ project (${PROJECT_NAME})
 
 set (CMAKE_CXX_STAND 11)
 
+# include(../CMAKE_COMPILER.cmake)
+
 #########################################
 #sdl
 add_subdirectory(SDL)

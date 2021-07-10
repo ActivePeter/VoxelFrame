@@ -137,17 +137,19 @@ void Input::processInput()
             static int oldY = 0;
             if (gameWindow.cursor.getLocked())
             {
-                for (auto *i : mouseMovePublisher.listeners)
-                {
-                    i->MouseMoveListenerCallback(gameWindow.windowW / 2, gameWindow.windowH / 2, event.motion.x - gameWindow.windowW / 2, event.motion.y - gameWindow.windowH / 2);
-                }
+                mouseMovePublisher.pub2All(gameWindow.windowW / 2, gameWindow.windowH / 2, event.motion.x - gameWindow.windowW / 2, event.motion.y - gameWindow.windowH / 2);
+                // for (auto *i : mouseMovePublisher.listeners)
+                // {
+                //     i->MouseMoveListenerCallback(gameWindow.windowW / 2, gameWindow.windowH / 2, event.motion.x - gameWindow.windowW / 2, event.motion.y - gameWindow.windowH / 2);
+                // }
             }
             else
             {
-                for (auto *i : mouseMovePublisher.listeners)
-                {
-                    i->MouseMoveListenerCallback(event.motion.x, event.motion.y, event.motion.x - oldX, event.motion.y - oldY);
-                }
+                mouseMovePublisher.pub2All(event.motion.x, event.motion.y, event.motion.x - oldX, event.motion.y - oldY);
+                // for (auto *i : mouseMovePublisher.listeners)
+                // {
+                //     i->MouseMoveListenerCallback(event.motion.x, event.motion.y, event.motion.x - oldX, event.motion.y - oldY);
+                // }
             }
 
             oldX = event.motion.x;
