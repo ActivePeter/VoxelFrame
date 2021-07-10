@@ -44,6 +44,7 @@ bool GameWindow::createWindow()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_DisplayMode current;
     SDL_GetCurrentDisplayMode(0, &current);
+
     window = SDL_CreateWindow(
         WindowName,                                                         // title
         SDL_WINDOWPOS_CENTERED,                                             // x

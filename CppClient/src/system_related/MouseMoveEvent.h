@@ -15,9 +15,17 @@ namespace VoxelFrame
         virtual void ListenerCallback(MouseMove)(int x, int y, int dx, int dy) = 0;
     };
 
-    class PublisherClass(MouseMove){
-        PublisherClassBody(MouseMove)
-
+    class PublisherClass(MouseMove)
+    {
+        PublisherClassBody(MouseMove);
+        ///
+        void pub2All(int x, int y, int dx, int dy)
+        {
+            for (auto &i : listeners)
+            {
+                i->ListenerCallback(MouseMove)(x, y, dx, dy);
+            }
+            //
+        };
     };
-
 }

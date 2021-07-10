@@ -15,9 +15,16 @@ namespace VoxelFrame
         virtual void ListenerCallback(GuiNothingClick)() = 0;
     };
 
-    class PublisherClass(GuiNothingClick){
-        PublisherClassBody(GuiNothingClick)
-
+    class PublisherClass(GuiNothingClick)
+    {
+        PublisherClassBody(GuiNothingClick);
+        void pub2All()
+        {
+            for (auto &i : listeners)
+            {
+                i->GuiNothingClickListenerCallback();
+            }
+        }
     };
 
 }
