@@ -129,7 +129,7 @@ public:
         return commonBlockInfos[blockId];
     }
     //尝试通过方块的坐标获取方块信息,如果返沪null。说明没有获取到方块。
-    CommonBlockInfo *getBlcokInfoByBlockPos(int bx, int by, int bz);
+    CommonBlockInfo *getBlockInfoByBlockPos(int bx, int by, int bz);
 };
 
 #endif // __BLOCK_H__

@@ -52,17 +52,22 @@ public:
      * 方块id信息
     */
     uint8_t data[VF_ChunkSize];
+    uint8_t getBlockIdAtPos(int bx, int by, int bz)
+    {
+        return data[blockPos2blockIndex(bx, by, bz)];
+    }
+
     /**
      * 方块碰撞器
     */
     rp3d::RigidBody *blockRigids[VF_ChunkSize];
+
     /**
      * 方块激活状态
     */
-    // bitset<VF_ChunkSize> blockActiveState;
-
     char blockActiveState[VF_ChunkSize / 8];
 
+    //区块坐标
     ChunkKey chunkKey;
 
     // bool need
@@ -103,6 +108,8 @@ public:
         returnY = (index / VF_ChunkWidth) % VF_ChunkWidth;
         returnZ = index / VF_ChunkWidth / VF_ChunkWidth;
     }
+    template <typename PosType>
+    void turnInWorldPos2InChunkPos(PosType &x, PosType &y, PosType &z);
 };
 
 #include "chunk.temp.h"

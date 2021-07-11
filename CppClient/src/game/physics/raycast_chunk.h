@@ -68,9 +68,13 @@ namespace VoxelFrame
                 //scaleZ is min
                 curZ++;
             }
-
+            CommonBlockInfo *blockInfo = BlockManager::getBlockInfoByBlockPos(curX, curY, curZ);
             //2.判断是否实际block碰撞器与block碰撞
             //  2.1目前都是普通方块，所以不为0（空气时），即为碰撞
+            if (!blockInfo->isEmptyBlock())
+            {
+                //非空气方块，做进一步碰撞检测
+            }
             //  2.2要考虑的是以后加入其他形状的方块，则需要跟每一个面检测碰撞。然后最近的碰撞点即为碰撞面。
             //4.若碰撞。返回
             //  若未碰撞。讲curX curY curZ 设置为2步骤中检测的到的碰撞方块
