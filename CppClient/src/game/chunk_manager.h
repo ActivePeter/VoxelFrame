@@ -60,6 +60,10 @@ public:
     }
 
     ChunkManager();
+    //通过chunkkey 获取已经加载的区块，若未加载，则返回null
+    std::shared_ptr<Chunk> getChunkOfKeyIfLoaded(const ChunkKey &ck)
+    {
+    }
     std::shared_ptr<Chunk> getChunkOfKey(ChunkKey &ck)
     {
         if (!chunkKey2chunkPtr.contains(ck))
