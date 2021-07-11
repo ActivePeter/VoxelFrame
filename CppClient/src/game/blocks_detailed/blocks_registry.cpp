@@ -6,6 +6,9 @@
 
 void registerBlockAll(BlockManager &bm)
 {
+    //air
+    bm.addBlock(
+        CommonBlockInfo(true));
     //grass
     bm.addBlock(
         CommonBlockInfo(
@@ -13,6 +16,7 @@ void registerBlockAll(BlockManager &bm)
                 std::make_shared<UP_Side_Bottom__BlockUVsetter>(
                     "grass_top",
                     "grass_side",
-                    "grass_bottom"))));
+                    "grass_bottom")),
+            false));
     App::getInstance().graphPtr->_textureManagerPtr->registBlockFacesEnd();
 }

@@ -40,6 +40,11 @@ class CommonBlockInfo;
 class CommonBlockInfo
 {
 protected:
+    //VAR
+    bool isEmpty;
+    std::shared_ptr<Base_BlockUVSetter> blockUVSetter;
+
+    //FUNC
     inline void setFaceVertices(vector<Vertex> &vertices, uint8_t _0, uint8_t _1, uint8_t _2, uint8_t _3)
     {
         addUpStandardVertexOfIndex(vertices[vertices.size() - 4], _0);
@@ -59,10 +64,15 @@ protected:
     void addUpStandardVertexOfIndex(Vertex &vertex, uint8_t index);
 
 public:
-    std::shared_ptr<Base_BlockUVSetter> blockUVSetter;
-    CommonBlockInfo(std::shared_ptr<Base_BlockUVSetter> blockUVSetter1)
+    CommonBlockInfo(bool isEmptyBlock)
+    {
+        // blockUVSetter = blockUVSetter1;
+        isEmpty = isEmptyBlock;
+    }
+    CommonBlockInfo(std::shared_ptr<Base_BlockUVSetter> blockUVSetter1, bool isEmptyBlock)
     {
         blockUVSetter = blockUVSetter1;
+        isEmpty = isEmptyBlock;
     }
     /**************************************
      * 方块基础信息1,判断某个方向是否有标准类型面
@@ -85,6 +95,11 @@ public:
      * 包含了三角形的顺序信息（indices
      * ***************************************/
     void pushOneFace2Mesh(int blockx, int blocky, int blockz, BlockAbout::FaceDirection dir, Mesh &mesh);
+    //判断是否为空方快（空气类方块
+    bool isEmptyBlock()
+    {
+        return isEmpty;
+    }
     rp3d::BoxShape *getBlockColliderShape()
     {
         static rp3d::BoxShape *boxShape;
@@ -104,14 +119,17 @@ private:
 public:
     // CommonBlockFaceState commonBlockFaceState[];
     BlockManager();
-    void addBlock(CommonBlockInfo &block)
+    void addBlock(const CommonBlockInfo &block)
     {
         commonBlockInfos.push_back(block);
     }
+    //通过方块id获取方块信息
     CommonBlockInfo &getBlockInfo(int blockId)
     {
-        return commonBlockInfos[blockId - 1];
+        return commonBlockInfos[blockId];
     }
+    //尝试通过方块的坐标获取方块信息,如果返沪null。说明没有获取到方块。
+    CommonBlockInfo *getBlcokInfoByBlockPos(int bx, int by, int bz);
 };
 
 #endif // __BLOCK_H__
