@@ -5,10 +5,42 @@
 #include "app.h"
 // #include "math.h"
 #include "tool/calc.h"
+#include "numeric"
 // #include "main_player.h"
 namespace VoxelFrame
 {
-
+    //推导过程 见 ./markdown/record.md 7.14
+    static bool raycast2Triangle(
+        const glm::vec3 &startPoint,
+        const glm::vec3 &direction, const glm::vec3 &triP1, const glm::vec3 &triP2, const glm::vec3 &triP3,
+        glm::vec3 &return_cross)
+    {
+        //应当在前面先判断下是否平行，若平行则直接不相交
+        //法向量
+        auto norm = glm::cross(triP2 - triP1, triP3 - triP1);
+        //如果两个向量垂直浮点数不能直接判断等于0，要跟epsilon做比较
+        if (abs(glm::dot(direction, norm)) < std::numeric_limits<float>::epsilon())
+        {
+            return false;
+        }
+        //起点到三角形三点的向量矩阵
+        glm::mat3x3 p2tvs(triP1 - startPoint, triP2 - startPoint, triP3 - startPoint);
+        glm::vec3 k1k2k3 = glm::inverse(p2tvs) * direction;
+        float n = 1 / (k1k2k3.x + k1k2k3.y + k1k2k3.z);
+        return_cross = startPoint + (n)*direction;
+        float a = n * k1k2k3.x;
+        float b = n * k1k2k3.y;
+        float c = n * k1k2k3.z;
+        //全都大于0即在三角形内
+        if (a >= 0 && b >= 0 && c >= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     /**
      * 射线检测是否碰到方块，
      *      若碰到方块，返回方块所在区块的指针以及方块的序号，

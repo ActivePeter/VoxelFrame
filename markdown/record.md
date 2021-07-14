@@ -1,5 +1,49 @@
 新建个文件专门用来记录 开发过程。遇到的问题。相关知识
 
+## 7.14
+
+要检测射线和面的交点，首先要获取到射线起点到面的距离（距离可以先用行列式算体积，），然后根据法线与射线夹角算出交点，然后判断交点是否于三角形内
+
+- 这是计算平面焦点的证明过程
+
+  ![image-20210715003749585](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210715003749585.png)
+
+- 这是判断是否在三角形内的代码
+
+  ```c++
+  // Determine whether point P in triangle ABC
+  bool PointinTriangle(Vector3 A, Vector3 B, Vector3 C, Vector3 P)
+  {
+      Vector3 v0 = C - A ;
+      Vector3 v1 = B - A ;
+      Vector3 v2 = P - A ;
+  
+      float dot00 = v0.Dot(v0) ;
+      float dot01 = v0.Dot(v1) ;
+      float dot02 = v0.Dot(v2) ;
+      float dot11 = v1.Dot(v1) ;
+      float dot12 = v1.Dot(v2) ;
+  
+      float inverDeno = 1 / (dot00 * dot11 - dot01 * dot01) ;
+  
+      float u = (dot11 * dot02 - dot01 * dot12) * inverDeno ;
+      if (u < 0 || u > 1) // if u out of range, return directly
+      {
+          return false ;
+      }
+  
+      float v = (dot00 * dot12 - dot01 * dot02) * inverDeno ;
+      if (v < 0 || v > 1) // if v out of range, return directly
+      {
+          return false ;
+      }
+  
+      return u + v <= 1 ;
+  }
+  ```
+
+  
+
 ## 7.10
 
 前几天先是实现了一下整体的事件系统（Listener, Publisher

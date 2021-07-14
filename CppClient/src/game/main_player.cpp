@@ -28,6 +28,7 @@ MainPlayer::MainPlayer()
             // .addEmptyComponent<EcsComp::PlayerTag>()
             .entityId;
     App::getInstance().inputPtr->mouseMovePublisher.addListener((VF::MouseMoveEventListener *)this);
+
     // App::getInstance()
     //     .ecsPtr->addSysByFunc(EcsSys::SyncPlayer);
 }
