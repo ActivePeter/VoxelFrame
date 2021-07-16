@@ -18,9 +18,11 @@ void CommonBlockInfo::pushOneFace2Mesh(int blockx, int blocky, int blockz, Block
     {
         // printf("dir: %d \r\n", dir);
         Vertex vertex;
+        //添加方块坐标和区块坐标（网格坐标）的偏移
         vertex.setPosition(mesh.mesh_position.x + blockx,
                            mesh.mesh_position.y + blocky,
                            mesh.mesh_position.z + blockz);
+        //加入序列
         for (int i = 0; i < 4; i++)
         {
             mesh.vertices.push_back(vertex);
@@ -38,6 +40,12 @@ void CommonBlockInfo::pushOneFace2Mesh(int blockx, int blocky, int blockz, Block
 
         // printf("%d %d\r\n", mesh.vertices.size(), mesh.indices.size());
     }
+}
+
+void CommonBlockInfo::pushOneFaceVerticesAndIndices_selfPos(BlockAbout::FaceDirection dir,
+                                                            std::vector<Vertex> &vertices,
+                                                            std::vector<unsigned int> &indices)
+{
 }
 
 //注册所有方块

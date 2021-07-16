@@ -37,6 +37,9 @@ void CommonBlockInfo::setFaceVertexPosOnDir(Mesh &mesh, BlockAbout::FaceDirectio
     }
 }
 
+/**
+ * 将方块的相对顶点坐标加到未初始化的顶点上
+*/
 void CommonBlockInfo::addUpStandardVertexOfIndex(Vertex &vertex, uint8_t index)
 {
     switch (index)

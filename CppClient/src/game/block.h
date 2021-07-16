@@ -44,7 +44,7 @@ class CommonBlockInfo
 
 protected:
     /**
-     * 将某一面对应方块中顶点序号的顶点加入vertices中
+     * 根据四个序号 初始化（获取到vertices里）一面的顶点坐标
     */
     inline void setFaceVertices(vector<Vertex> &vertices, uint8_t _0, uint8_t _1, uint8_t _2, uint8_t _3)
     {
@@ -96,11 +96,29 @@ public:
      * ***************************************/
     void setFaceVertexPosOnDir(Mesh &mesh, BlockAbout::FaceDirection dir);
     // virtual void setVertexUVOnDir(BlockAbout::FaceDirection dir, Mesh &mesh) {}
+
     /**************************************
      * 往区块网格添加一个方块面的函数
      * 包含了三角形的顺序信息（indices
+     * 顶点信息（vertices
+     * 材质信息（uv
+     * 
+     * 网格是区块网格，所以要加上方块的坐标作为顶点的偏移
      * ***************************************/
     void pushOneFace2Mesh(int blockx, int blocky, int blockz, BlockAbout::FaceDirection dir, Mesh &mesh);
+
+    /**
+     * 获取某一面的顶点信息到序列里
+     *  （相对方块自身的坐标
+    */
+    void pushOneFaceVerticesAndIndices_selfPos(
+        BlockAbout::FaceDirection dir,
+        std::vector<Vertex> &vertices,
+        std::vector<unsigned int> &indices);
+
+    /**
+     * 获取方块的物理碰撞器形状
+    */
     rp3d::BoxShape *getBlockColliderShape()
     {
         static rp3d::BoxShape *boxShape;
@@ -118,9 +136,9 @@ public:
         return isEmptyBlockFlag;
     }
     /**
-     * 获取方块所有的网格三角形
+     * 获取方块所有的网格三角形(以vertex序列和index序列表示)
     */
-    void getBlockValidVertices(vector<Vertex> vertices, vector)
+    void getBlockValidVertices(std::vector<Vertex> vertices, std::vector<unsigned int> indices)
     {
     }
 };
@@ -134,8 +152,11 @@ private:
     std::vector<CommonBlockInfo> commonBlockInfos;
 
 public:
-    // CommonBlockFaceState commonBlockFaceState[];
+    /**
+     * block manager构造函数
+    */
     BlockManager();
+
     /**
      * 添加block信息（在注册block时调用
     */
@@ -143,6 +164,7 @@ public:
     {
         commonBlockInfos.push_back(block);
     }
+
     /**
      * 添加一个emptyblock（在注册block时调用
     */
