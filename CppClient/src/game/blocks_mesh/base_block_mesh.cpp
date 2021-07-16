@@ -1,7 +1,6 @@
 #include "../block.h"
 
 // 不同种类的网格信息，表达在不同文件里，比较清晰
-
 void CommonBlockInfo::setFaceVertexPosOnDir(Mesh &mesh, BlockAbout::FaceDirection dir)
 {
     // 8个点 对应8个索引

@@ -6,6 +6,9 @@
 
 void registerBlockAll(BlockManager &bm)
 {
+    //air
+    bm.addEmptyBlock(
+        CommonBlockInfo());
     //grass
     bm.addBlock(
         CommonBlockInfo(

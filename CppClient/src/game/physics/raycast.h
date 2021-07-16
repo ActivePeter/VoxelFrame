@@ -1,7 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "vf_base.h"
-#include "chunk.h"
+#include "game/chunk.h"
 #include "app.h"
 // #include "math.h"
 #include "tool/calc.h"
@@ -102,8 +102,28 @@ namespace VoxelFrame
             }
 
             //2.判断是否实际block碰撞器与block碰撞
-            //  2.1目前都是普通方块，所以不为0（空气时），即为碰撞
-            //  2.2要考虑的是以后加入其他形状的方块，则需要跟每一个面检测碰撞。然后最近的碰撞点即为碰撞面。
+
+            ChunkKey ck;
+            ChunkKey::getChunkKeyOfPoint(ck, curX, curY, curZ);
+            // App::gamePtr-
+            auto chunk = App::getInstance().gamePtr->chunkManager->getChunkOfKey(ck);
+            if (chunk)
+            {
+                auto pos = ck.getChunkPosFromWorldPos(curX, curY, curZ);
+                auto blockId = chunk->data[Chunk::getBlockIndexByPos(std::get<0>(pos), std::get<1>(pos), std::get<2>(pos))];
+                auto &blockInfo = App::getInstance().gamePtr->blockManager->getBlockInfo(blockId);
+                if (blockInfo.isEmptyBlock())
+                {
+                    //  2.1空气方块，不碰撞，下一个
+                    continue;
+                }
+                else
+                {
+                    //  2.2非空，需要进行具体的碰撞测试
+                    
+                }
+            }
+
             //4.若碰撞。返回
             //  若未碰撞。讲curX curY curZ 设置为2步骤中检测的到的碰撞方块
         }

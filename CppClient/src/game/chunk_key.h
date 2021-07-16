@@ -26,6 +26,11 @@ struct ChunkKey
     template <typename PosVType>
     static void getChunkKeyOfPoint(ChunkKey &_return, PosVType x, PosVType y, PosVType z);
     /**
+     * 将世界坐标转换为区块中坐标
+    */
+    template <typename PosVType>
+    std::tuple<PosVType, PosVType, PosVType> getChunkPosFromWorldPos(PosVType x, PosVType y, PosVType z);
+    /**
      * 获取一个点对应的chunk坐标
     */
     // static void getChunkKeyOfPoint(ChunkKey &_return, float x, float y, float z);

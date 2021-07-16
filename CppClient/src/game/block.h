@@ -37,9 +37,15 @@ class CommonBlockInfo;
 //代表最普通的方块状态。
 
 ///////////////////////////
+class BlockManager;
 class CommonBlockInfo
 {
+    friend class BlockManager;
+
 protected:
+    /**
+     * 将某一面对应方块中顶点序号的顶点加入vertices中
+    */
     inline void setFaceVertices(vector<Vertex> &vertices, uint8_t _0, uint8_t _1, uint8_t _2, uint8_t _3)
     {
         addUpStandardVertexOfIndex(vertices[vertices.size() - 4], _0);
@@ -57,9 +63,19 @@ protected:
      * 参考markdown文件夹里的 方块顶点顺序.md
      * ***************************************/
     void addUpStandardVertexOfIndex(Vertex &vertex, uint8_t index);
+    bool isEmptyBlockFlag = false;
 
 public:
     std::shared_ptr<Base_BlockUVSetter> blockUVSetter;
+
+    /**
+     * 空的blockInfo的构造函数
+    */
+    CommonBlockInfo() {}
+
+    /**
+     * 普通的（有uv材质的）blockInfo的构造函数， 
+    */
     CommonBlockInfo(std::shared_ptr<Base_BlockUVSetter> blockUVSetter1)
     {
         blockUVSetter = blockUVSetter1;
@@ -94,20 +110,51 @@ public:
         }
         return boxShape;
     }
+    /**
+     * 判断是否为空方快
+    */
+    bool isEmptyBlock()
+    {
+        return isEmptyBlockFlag;
+    }
+    /**
+     * 获取方块所有的网格三角形
+    */
+    void getBlockValidVertices(vector<Vertex> vertices, vector)
+    {
+    }
 };
+
 class BlockManager
 {
 private:
-    //通过方块id查询方块面状态
+    /**
+     * 以方块id的顺序存储方块信息，可以快速的随机访问
+    */
     std::vector<CommonBlockInfo> commonBlockInfos;
 
 public:
     // CommonBlockFaceState commonBlockFaceState[];
     BlockManager();
-    void addBlock(CommonBlockInfo &block)
+    /**
+     * 添加block信息（在注册block时调用
+    */
+    void addBlock(const CommonBlockInfo &block)
     {
         commonBlockInfos.push_back(block);
     }
+    /**
+     * 添加一个emptyblock（在注册block时调用
+    */
+    void addEmptyBlock(const CommonBlockInfo &block)
+    {
+        // block.isEmptyBlockFlag = false;
+        commonBlockInfos.push_back(block);
+        commonBlockInfos.end()->isEmptyBlockFlag = true;
+    }
+    /**
+     * 根据blockId获取blockInfo
+    */
     CommonBlockInfo &getBlockInfo(int blockId)
     {
         return commonBlockInfos[blockId - 1];

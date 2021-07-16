@@ -30,10 +30,10 @@ private:
     {
         return data[x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth];
     }
-    inline uint32_t getIndexByPos(int x, int y, int z)
-    {
-        return x + y * (VF_ChunkWidth + 1) + z * (VF_ChunkWidth + 1) * (VF_ChunkWidth + 1);
-    }
+    // static inline uint32_t getBlockIndexByPos(int x, int y, int z)
+    // {
+    //     return x + y * (VF_ChunkWidth + 1) + z * (VF_ChunkWidth + 1) * (VF_ChunkWidth + 1);
+    // }
     /** 
      * 判断并构建一个方向上的网格 需要参数一一对应
      */
@@ -59,10 +59,9 @@ public:
     /**
      * 方块激活状态
     */
-    // bitset<VF_ChunkSize> blockActiveState;
-
     char blockActiveState[VF_ChunkSize / 8];
 
+    //区块坐标（在map中的key
     ChunkKey chunkKey;
 
     // bool need
@@ -92,11 +91,18 @@ public:
     }
     Chunk(ChunkKey ck);
     Chunk() {}
-
+    
+    /**
+     * block坐标转换为在chunkdata中的index
+    */
     static inline int blockPos2blockIndex(int x, int y, int z)
     {
         return x + y * VF_ChunkWidth + z * VF_ChunkWidth * VF_ChunkWidth;
     }
+
+    /**
+     * blockindex转换为block坐标
+    */
     static inline void blockIndex2blockPos(int index, int &returnX, int &returnY, int &returnZ)
     {
         returnX = index % VF_ChunkWidth;
