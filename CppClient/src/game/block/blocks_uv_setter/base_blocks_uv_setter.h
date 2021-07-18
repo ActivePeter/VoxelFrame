@@ -11,5 +11,5 @@ class Base_BlockUVSetter
 {
 public:
     void setFaceUVsByTextureIndex(Mesh &mesh, int textureIndex);
-    virtual void setVertexUVOnDir(BlockAbout::FaceDirection dir, Mesh &mesh) {}
+    virtual void setVertexUVOnDir(Block_FaceDirection dir, Mesh &mesh) {}
 };

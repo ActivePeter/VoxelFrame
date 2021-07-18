@@ -8,10 +8,10 @@ void registerBlockAll(BlockManager &bm)
 {
     //air
     bm.addEmptyBlock(
-        CommonBlockInfo());
+        CommonBlockMesh());
     //grass
     bm.addBlock(
-        CommonBlockInfo(
+        CommonBlockMesh(
             std::static_pointer_cast<Base_BlockUVSetter>(
                 std::make_shared<UP_Side_Bottom__BlockUVsetter>(
                     "grass_top",

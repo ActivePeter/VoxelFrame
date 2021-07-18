@@ -66,21 +66,21 @@ void Chunk::constructMesh()
                 constructMeshInOneDim(x, y, z,
                                       x + 1, y, z,
                                       _block, _block_p, blockInfo, blockInfo_p_x,
-                                      BlockAbout::FaceX_Positive, BlockAbout::FaceX_Negative);
+                                      Block_FaceDirection::X_Positive, Block_FaceDirection::X_Negative);
 
                 _block_p = readData(x, y + 1, z);
                 auto &blockInfo_p_y = blockManager->getBlockInfo(_block_p);
                 constructMeshInOneDim(x, y, z,
                                       x, y + 1, z,
                                       _block, _block_p, blockInfo, blockInfo_p_y,
-                                      BlockAbout::FaceY_Positive, BlockAbout::FaceY_Negative);
+                                      Block_FaceDirection::Y_Positive, Block_FaceDirection::Y_Negative);
 
                 _block_p = readData(x, y, z + 1);
                 auto &blockInfo_p_z = blockManager->getBlockInfo(_block_p);
                 constructMeshInOneDim(x, y, z,
                                       x, y, z + 1,
                                       _block, _block_p, blockInfo, blockInfo_p_z,
-                                      BlockAbout::FaceZ_Positive, BlockAbout::FaceZ_Negative);
+                                      Block_FaceDirection::Z_Positive, Block_FaceDirection::Z_Negative);
             }
         }
     }
@@ -138,8 +138,8 @@ void Chunk::constructMeshInOneDim(int blockx, int blocky, int blockz,
                                   uint8_t &block_p,
                                   CommonBlockInfo &blockInfo,
                                   CommonBlockInfo &blockInfo_p,
-                                  BlockAbout::FaceDirection posDir,
-                                  BlockAbout::FaceDirection negDir)
+                                  Block_FaceDirection posDir,
+                                  Block_FaceDirection negDir)
 {
     //+1为空 当前为实心
     if (!block_p &&

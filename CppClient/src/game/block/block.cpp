@@ -1,7 +1,7 @@
 #include "block.h"
 #include "app.h"
 
-// void CommonBlockInfo::setFaceUVsByTextureIndex(Mesh &mesh, int textureIndex)
+// void CommonBlockMesh::setFaceUVsByTextureIndex(Mesh &mesh, int textureIndex)
 // {
 //     float uvs[8];
 //     auto size = mesh.vertices.size();
@@ -13,7 +13,7 @@
 //     mesh.vertices[size - 1].setUV(uvs[6], uvs[7]);
 // }
 
-void CommonBlockInfo::pushOneFace2Mesh(int blockx, int blocky, int blockz, BlockAbout::FaceDirection dir, Mesh &mesh)
+void CommonBlockMesh::pushOneFace2Mesh(int blockx, int blocky, int blockz, Block_FaceDirection dir, Mesh &mesh)
 {
     {
         // printf("dir: %d \r\n", dir);
@@ -27,14 +27,7 @@ void CommonBlockInfo::pushOneFace2Mesh(int blockx, int blocky, int blockz, Block
         {
             mesh.vertices.push_back(vertex);
         }
-        setFaceVertexPosOnDir(mesh, dir);
-
-        mesh.indices.push_back((unsigned int)(mesh.vertices.size() - 4));
-        mesh.indices.push_back((unsigned int)(mesh.vertices.size() - 3));
-        mesh.indices.push_back((unsigned int)(mesh.vertices.size() - 2));
-        mesh.indices.push_back((unsigned int)(mesh.vertices.size() - 4));
-        mesh.indices.push_back((unsigned int)(mesh.vertices.size() - 2));
-        mesh.indices.push_back((unsigned int)(mesh.vertices.size() - 1));
+        this->pushOneFaceVerticesAndIndices_selfPos(dir, mesh.vertices, mesh.indices);
         // this->setVertexUVOnDir(dir, mesh);
         blockUVSetter->setVertexUVOnDir(dir, mesh);
 
@@ -42,15 +35,23 @@ void CommonBlockInfo::pushOneFace2Mesh(int blockx, int blocky, int blockz, Block
     }
 }
 
-void CommonBlockInfo::pushOneFaceVerticesAndIndices_selfPos(BlockAbout::FaceDirection dir,
+void CommonBlockMesh::pushOneFaceVerticesAndIndices_selfPos(Block_FaceDirection dir,
                                                             std::vector<Vertex> &vertices,
                                                             std::vector<unsigned int> &indices)
 {
+    setFaceVertexPosOnDir(vertices, dir);
+    //三角形点序号，对应刚添加的四个点
+    indices.push_back((unsigned int)(vertices.size() - 4));
+    indices.push_back((unsigned int)(vertices.size() - 3));
+    indices.push_back((unsigned int)(vertices.size() - 2));
+    indices.push_back((unsigned int)(vertices.size() - 4));
+    indices.push_back((unsigned int)(vertices.size() - 2));
+    indices.push_back((unsigned int)(vertices.size() - 1));
 }
 
 //注册所有方块
 BlockManager::BlockManager()
 {
     registerBlockAll(*this);
-    // commonBlockInfos.resize(255);
+    // CommonBlockMeshs.resize(255);
 }

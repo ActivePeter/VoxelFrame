@@ -1,34 +1,34 @@
 #include "../block.h"
 
 // 不同种类的网格信息，表达在不同文件里，比较清晰
-void CommonBlockInfo::setFaceVertexPosOnDir(Mesh &mesh, BlockAbout::FaceDirection dir)
+void CommonBlockMesh::setFaceVertexPosOnDir(Vertices &vertices, Block_FaceDirection dir)
 {
     // 8个点 对应8个索引
     switch (dir)
     {
-    case BlockAbout::FaceX_Positive:
+    case Block_FaceDirection::X_Positive:
         // 1 4 7 6
-        setFaceVertices(mesh.vertices, 1, 4, 7, 6);
+        setFaceVertices(vertices, 1, 4, 7, 6);
         break;
-    case BlockAbout::FaceX_Negative:
+    case Block_FaceDirection::X_Negative:
         // 3 5 2 0
-        setFaceVertices(mesh.vertices, 3, 5, 2, 0);
+        setFaceVertices(vertices, 3, 5, 2, 0);
         break;
-    case BlockAbout::FaceY_Positive:
+    case Block_FaceDirection::Y_Positive:
         // 2 5 7 4
-        setFaceVertices(mesh.vertices, 2, 5, 7, 4);
+        setFaceVertices(vertices, 2, 5, 7, 4);
         break;
-    case BlockAbout::FaceY_Negative:
+    case Block_FaceDirection::Y_Negative:
         // 1 6 3 0
-        setFaceVertices(mesh.vertices, 1, 6, 3, 0);
+        setFaceVertices(vertices, 1, 6, 3, 0);
         break;
-    case BlockAbout::FaceZ_Positive:
+    case Block_FaceDirection::Z_Positive:
         // 6 7 5 3
-        setFaceVertices(mesh.vertices, 6, 7, 5, 3);
+        setFaceVertices(vertices, 6, 7, 5, 3);
         break;
-    case BlockAbout::FaceZ_Negative:
+    case Block_FaceDirection::Z_Negative:
         // 0 2 4 1
-        setFaceVertices(mesh.vertices, 0, 2, 4, 1);
+        setFaceVertices(vertices, 0, 2, 4, 1);
         break;
 
     default:
@@ -40,7 +40,7 @@ void CommonBlockInfo::setFaceVertexPosOnDir(Mesh &mesh, BlockAbout::FaceDirectio
 /**
  * 将方块的相对顶点坐标加到未初始化的顶点上
 */
-void CommonBlockInfo::addUpStandardVertexOfIndex(Vertex &vertex, uint8_t index)
+void CommonBlockMesh::addUpStandardVertexOfIndex(Vertex &vertex, uint8_t index)
 {
     switch (index)
     {

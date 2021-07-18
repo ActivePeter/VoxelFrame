@@ -59,14 +59,17 @@ struct Texture
     string type;
     string path;
 };
-
+using Vertices = vector<Vertex>;
+using Indices = vector<unsigned int>;
 class Mesh
 {
 public:
     std::mutex dataMut;
+
     // mesh Data
-    vector<Vertex> vertices;
-    vector<unsigned int> indices;
+
+    Vertices vertices;
+    Indices indices;
 
     vector<Texture> textures;
     glm::vec3 mesh_position;

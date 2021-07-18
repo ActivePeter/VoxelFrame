@@ -44,8 +44,8 @@ private:
         uint8_t &block_p,
         CommonBlockInfo &blockInfo,
         CommonBlockInfo &blockInfo_p,
-        BlockAbout::FaceDirection posDir,
-        BlockAbout::FaceDirection negDir);
+        Block_FaceDirection posDir,
+        BlockFaceDirection negDir);
 
 public:
     /**

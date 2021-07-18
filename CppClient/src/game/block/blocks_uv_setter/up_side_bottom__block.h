@@ -34,24 +34,24 @@ public:
     //     bottomIndex = textureManager.registBlockFaceTexture("grass_bottom");
     // }
     //重写父类
-    void setVertexUVOnDir(BlockAbout::FaceDirection dir, Mesh &mesh)
+    void setVertexUVOnDir(Block_FaceDirection dir, Mesh &mesh)
     {
         // printf("child is called\r\n");
         auto size = mesh.vertices.size();
         switch (dir)
         {
-        case BlockAbout::FaceX_Positive: //侧面
-        case BlockAbout::FaceX_Negative:
-        case BlockAbout::FaceZ_Negative:
-        case BlockAbout::FaceZ_Positive:
+        case Block_FaceDirection::X_Positive: //侧面
+        case Block_FaceDirection::X_Negative:
+        case Block_FaceDirection::Z_Negative:
+        case Block_FaceDirection::Z_Positive:
             setFaceUVsByTextureIndex(mesh, sideIndex);
             //根据index 还有材质的总数，就可以算出材质具体的位置，然后对应顶点进行配置即可
             /* code */
             break;
-        case BlockAbout::FaceY_Negative: //底面
+        case Block_FaceDirection::Y_Negative: //底面
             setFaceUVsByTextureIndex(mesh, bottomIndex);
             break;
-        case BlockAbout::FaceY_Positive: //上面
+        case Block_FaceDirection::Y_Positive: //上面
             setFaceUVsByTextureIndex(mesh, topIndex);
             break;
         }
