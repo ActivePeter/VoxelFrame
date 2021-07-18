@@ -118,7 +118,7 @@ public:
     /**
      * 根据blockId获取blockInfo
     */
-    CommonBlockMesh &getBlockInfo(int blockId)
+    BlockInfo &getBlockInfo(int blockId)
     {
         return blockInfos[blockId];
     }
