@@ -11,5 +11,5 @@ public:
     /**
      * 获取方块所有的网格三角形(以vertex序列和index序列表示)
     */
-    virtual void getBlockValidVertices(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices) = 0;
+    virtual void getBlockValidTriangles(std::vector<VertexPos> &vertices, std::vector<unsigned int> &indices) = 0;
 };

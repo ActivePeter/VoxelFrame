@@ -20,7 +20,9 @@ class Mesh;
 #include <atomic>
 
 using namespace std;
+using VertexPos = glm::vec3;
 
+//one point of triangle and uv info
 struct Vertex
 {
     // // position

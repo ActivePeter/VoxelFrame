@@ -5,7 +5,7 @@ class BlockMesh_Common: public BlockMesh_Base
 {
     friend class BlockManager;
     /* BlockMesh_Base *******************************************************/
-    void getBlockValidVertices(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices) override;
+    void getBlockValidTriangles(std::vector<VertexPos>& vertices, std::vector<unsigned int>& indices) override;
 
     rp3d::BoxShape* getBlockColliderShape() override
     {
@@ -37,7 +37,7 @@ protected:
      * 这个函数包含方块 顶点相对坐标 和 对应的index
      * 参考markdown文件夹里的 方块顶点顺序.md
      * ***************************************/
-    void addUpStandardVertexOfIndex(Vertex &vertex, uint8_t index);
+    void addUpStandardVertexOfIndex(VertexPos& vertexPos, uint8_t index);
 
 public:
     /**
