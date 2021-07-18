@@ -1,13 +1,13 @@
-class Base_BlockUVSetter;
+class BlockUVSetter_Base;
 #pragma once
-#include "../enum.h"
-#include "game/block.h"
+// #include "../enum.h"
+#include "../block.h"
 #include "graph/Mesh.h"
 #include "app.h"
 
 /////////////////////////////////////////
 
-class Base_BlockUVSetter
+class BlockUVSetter_Base
 {
 public:
     void setFaceUVsByTextureIndex(Mesh &mesh, int textureIndex);

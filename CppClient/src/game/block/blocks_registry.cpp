@@ -1,21 +1,25 @@
 #pragma once
 // #include "game/blocks_base_type/up_side_bottom__block.h"
-#include "game/block.h"
+//#include "game/block.h"
 #include "app.h"
-#include "game/blocks_uv_setter/up_side_bottom__block.h"
+#include "blocks_mesh/BlockMesh_Common.h"
+#include "blocks_uv_setter/BlockUVSetter_UP_Side_Bottom.h"
+#include "block.h"
 
-void registerBlockAll(BlockManager &bm)
+void registerBlockAll(BlockManager& bm)
 {
-    //air
-    bm.addEmptyBlock(
-        CommonBlockMesh());
-    //grass
-    bm.addBlock(
-        CommonBlockMesh(
-            std::static_pointer_cast<Base_BlockUVSetter>(
-                std::make_shared<UP_Side_Bottom__BlockUVsetter>(
-                    "grass_top",
-                    "grass_side",
-                    "grass_bottom"))));
-    App::getInstance().graphPtr->_textureManagerPtr->registBlockFacesEnd();
+	//air
+	bm.addEmptyBlock(BlockInfo::newEmptyBlock());
+	//grass
+	bm.addBlock(
+		BlockInfo(
+			std::make_shared<BlockUVSetter_UP_Side_Bottom>(
+				"grass_top",
+				"grass_side",
+				"grass_bottom"
+			),
+			std::make_shared<BlockMesh_Common>()
+		)
+	);
+	App::getInstance().graphPtr->_textureManagerPtr->registBlockFacesEnd();
 }

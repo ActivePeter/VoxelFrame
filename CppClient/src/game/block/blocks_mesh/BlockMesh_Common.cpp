@@ -1,7 +1,7 @@
 #include "../block.h"
 
 // 不同种类的网格信息，表达在不同文件里，比较清晰
-void CommonBlockMesh::setFaceVertexPosOnDir(Vertices &vertices, Block_FaceDirection dir)
+void BlockMesh_Common::setFaceVertexPosOnDir(Vertices &vertices, Block_FaceDirection dir)
 {
     // 8个点 对应8个索引
     switch (dir)
@@ -40,7 +40,7 @@ void CommonBlockMesh::setFaceVertexPosOnDir(Vertices &vertices, Block_FaceDirect
 /**
  * 将方块的相对顶点坐标加到未初始化的顶点上
 */
-void CommonBlockMesh::addUpStandardVertexOfIndex(Vertex &vertex, uint8_t index)
+void BlockMesh_Common::addUpStandardVertexOfIndex(Vertex &vertex, uint8_t index)
 {
     switch (index)
     {
@@ -70,4 +70,9 @@ void CommonBlockMesh::addUpStandardVertexOfIndex(Vertex &vertex, uint8_t index)
         vertex.addPosition(1, 1, 1);
         break;
     }
+}
+
+void BlockMesh_Common::getBlockValidVertices(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices) 
+{
+    
 }

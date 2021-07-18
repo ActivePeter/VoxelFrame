@@ -2,14 +2,14 @@
 #include "game/block.h"
 #include "graph/Mesh.h"
 #include "app.h"
-#include "base_blocks_uv_setter.h"
+#include "_BlockUVSetter_Base.h"
 //////////////////////////////////
 
 //还可以在实例化的时候自动将自己的材质预先加入到要构建的材质列表中，并且记录自己的材质对应的索引
 // 最后所有block加载完
 // 进行材质合并
 
-class UP_Side_Bottom__BlockUVsetter : public Base_BlockUVSetter
+class BlockUVSetter_UP_Side_Bottom : public BlockUVSetter_Base
 {
 private:
     //需要有一个在材质中的位置
@@ -20,7 +20,7 @@ private:
     int bottomIndex;
 
 public:
-    UP_Side_Bottom__BlockUVsetter(std::string top, std::string side, std::string bottom)
+    BlockUVSetter_UP_Side_Bottom(std::string top, std::string side, std::string bottom)
     {
         topIndex = App::getInstance().graphPtr->_textureManagerPtr->registBlockFaceTexture(top);
         sideIndex = App::getInstance().graphPtr->_textureManagerPtr->registBlockFaceTexture(side);

@@ -1,9 +1,22 @@
 #pragma once
 #include "vf_base.h"
-class CommonBlockMesh
+#include "_BlockMesh_Base.h"
+class BlockMesh_Common: public BlockMesh_Base
 {
     friend class BlockManager;
+    /* BlockMesh_Base *******************************************************/
+    void getBlockValidVertices(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices) override;
 
+    rp3d::BoxShape* getBlockColliderShape() override
+    {
+        static rp3d::BoxShape* boxShape;
+        if (!boxShape)
+        {
+            boxShape = physic_engine::physicCommon().createBoxShape(rp3d::Vector3(0.5, 0.5, 0.5));
+        }
+        return boxShape;
+    }
+    /**************************************************************************/
 protected:
     /**
      * 根据四个序号 初始化（获取到vertices里）一面的顶点坐标
@@ -25,20 +38,17 @@ protected:
      * 参考markdown文件夹里的 方块顶点顺序.md
      * ***************************************/
     void addUpStandardVertexOfIndex(Vertex &vertex, uint8_t index);
-    bool isEmptyBlockFlag = false;
 
 public:
-    std::shared_ptr<Base_BlockUVSetter> blockUVSetter;
-
     /**
      * 空的blockInfo的构造函数
     */
-    CommonBlockMesh() {}
+    BlockMesh_Common() {}
 
     /**
      * 普通的（有uv材质的）blockInfo的构造函数， 
     */
-    CommonBlockMesh(std::shared_ptr<Base_BlockUVSetter> blockUVSetter1)
+    BlockMesh_Common(std::shared_ptr<Base_BlockUVSetter> blockUVSetter1)
     {
         blockUVSetter = blockUVSetter1;
     }
@@ -78,29 +88,6 @@ public:
         std::vector<Vertex> &vertices,
         std::vector<unsigned int> &indices);
 
-    /**
-     * 获取方块的物理碰撞器形状
-    */
-    rp3d::BoxShape *getBlockColliderShape()
-    {
-        static rp3d::BoxShape *boxShape;
-        if (!boxShape)
-        {
-            boxShape = physic_engine::physicCommon().createBoxShape(rp3d::Vector3(0.5, 0.5, 0.5));
-        }
-        return boxShape;
-    }
-    /**
-     * 判断是否为空方快
-    */
-    bool isEmptyBlock()
-    {
-        return isEmptyBlockFlag;
-    }
-    /**
-     * 获取方块所有的网格三角形(以vertex序列和index序列表示)
-    */
-    void getBlockValidVertices(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices)
-    {
-    }
+    
+    
 };
