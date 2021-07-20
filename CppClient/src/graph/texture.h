@@ -38,9 +38,10 @@ public:
     int registBlockFaceTexture(std::string TextureFileName)
     {
         faceCnt++;
+        std::cout << "./resource/images/" + TextureFileName + ".png \r\n";
         //读取文件，加入总的材质面板里
         auto a = cv::imread("./resource/images/" + TextureFileName + ".png");
-        // cv::imshow("ss", a);
+        cv::imshow(TextureFileName, a);
         blockFacesBuffer.push_back(a);
         return faceCnt - 1;
     }

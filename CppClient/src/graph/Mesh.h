@@ -21,12 +21,13 @@ class Mesh;
 
 using namespace std;
 using VertexPos = glm::vec3;
+using VertexPoses = std::vector<VertexPos>;
 
 //one point of triangle and uv info
 struct Vertex
 {
     // // position
-    glm::vec3 Position;
+    VertexPos Position;
 
     // // texCoords材质uv
     glm::vec2 TexCoords;
@@ -38,6 +39,11 @@ struct Vertex
     // glm::vec3 Tangent;
     // // bitangent
     // glm::vec3 Bitangent;
+    Vertex() {}
+    Vertex(const VertexPos &pos)
+    {
+        this->Position = pos;
+    }
     void setUV(float u, float v)
     {
         TexCoords.x = u;
@@ -82,6 +88,15 @@ public:
 
     Mesh() : needSetupBeforeDraw(false), indicesSize(0)
     {
+    }
+
+    void appendVetexPoses(const VertexPoses &vertexPoses)
+    {
+        // vertices.resize(vertices.size() + vertexPoses.size());
+        for (int i = 0; i < vertexPoses.size(); i++)
+        {
+            vertices.push_back(Vertex(vertexPoses[i]));
+        }
     }
     // constructor
     // Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures)

@@ -1,5 +1,6 @@
 class BlockManager;
 class CommonBlockMesh;
+class BlockInfo;
 
 #ifndef __BLOCK_H__
 #define __BLOCK_H__
@@ -35,11 +36,12 @@ class CommonBlockMesh;
 enum class Block_FaceDirection
 {
     X_Positive = 0,
-    X_Negative = 1,
-    Y_Positive = 2,
-    Y_Negative = 3,
-    Z_Positive = 4,
-    Z_Negative = 5,
+    X_Negative,
+    Y_Positive,
+    Y_Negative,
+    Z_Positive,
+    Z_Negative,
+    End,
 };
 ///////////////////////////
 class BlockManager;
@@ -54,12 +56,15 @@ class BlockManager;
     存储所有方块信息，
     若empty，则uvsetter和blockmesh是没有的
 */
-struct BlockInfo
+class BlockInfo
 {
-    std::shared_ptr<BlockUVSetter_Base> blockUVSetter;
-    std::shared_ptr<BlockMesh_Base> blockMesh;
+    friend class BlockManager;
+
     bool isEmptyBlockFlag = false;
 
+public:
+    std::shared_ptr<BlockUVSetter_Base> blockUVSetter;
+    std::shared_ptr<BlockMesh_Base> blockMesh;
     /**
      * 判断是否为空方快
     */
@@ -73,16 +78,25 @@ struct BlockInfo
         blockInfo.isEmptyBlockFlag = true;
         return blockInfo;
     }
+
+    /**
+     * 默认构造函数
+    */
+    BlockInfo()
+    {
+    }
+
     /*
         模板构造函数
     */
     template <typename BlockUVSetterType, typename BlockMeshType>
-    BlockInfo(BlockUVSetterType blockUVSetter, BlockMeshType blockMesh)
+    BlockInfo(std::shared_ptr<BlockUVSetterType> blockUVSetter, std::shared_ptr<BlockMeshType> blockMesh)
     {
-        this->blockUVSetter = static_cast<BlockUVSetter_Base>(blockUVSetter);
-        this->blockMesh = static_cast<BlockMesh_Base>(blockMesh);
+        this->blockUVSetter = blockUVSetter; // static_cast<BlockUVSetter_Base>(blockUVSetter);
+        this->blockMesh = blockMesh;
+        //static_cast<BlockMesh_Base>(blockMesh);
     }
-}
+};
 
 class BlockManager
 {
@@ -113,7 +127,7 @@ public:
     {
         blockInfos.push_back(blockInfo);
         //设置为空方块属性
-        blockInfos.end()->blockMesh->isEmptyBlockFlag = true;
+        blockInfos.end()->isEmptyBlockFlag = true;
     }
     /**
      * 根据blockId获取blockInfo
@@ -123,5 +137,9 @@ public:
         return blockInfos[blockId];
     }
 };
+namespace _Block
+{
+    void pushOneFace2Mesh(int blockx, int blocky, int blockz, BlockInfo &blockInfo, Block_FaceDirection dir, Mesh &mesh);
+}
 
 #endif // __BLOCK_H__

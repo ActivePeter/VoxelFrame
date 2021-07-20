@@ -65,24 +65,40 @@ void Chunk::constructMesh()
                 auto &blockInfo_p_x = blockManager->getBlockInfo(_block_p);
                 constructMeshInOneDim(x, y, z,
                                       x + 1, y, z,
-                                      _block, _block_p, blockInfo, blockInfo_p_x,
+                                      //   _block, _block_p,
+                                      blockInfo, blockInfo_p_x,
                                       Block_FaceDirection::X_Positive, Block_FaceDirection::X_Negative);
 
                 _block_p = readData(x, y + 1, z);
                 auto &blockInfo_p_y = blockManager->getBlockInfo(_block_p);
                 constructMeshInOneDim(x, y, z,
                                       x, y + 1, z,
-                                      _block, _block_p, blockInfo, blockInfo_p_y,
+                                      //   _block, _block_p,
+                                      blockInfo, blockInfo_p_y,
                                       Block_FaceDirection::Y_Positive, Block_FaceDirection::Y_Negative);
 
                 _block_p = readData(x, y, z + 1);
                 auto &blockInfo_p_z = blockManager->getBlockInfo(_block_p);
                 constructMeshInOneDim(x, y, z,
                                       x, y, z + 1,
-                                      _block, _block_p, blockInfo, blockInfo_p_z,
+                                      //   _block, _block_p,
+                                      blockInfo, blockInfo_p_z,
                                       Block_FaceDirection::Z_Positive, Block_FaceDirection::Z_Negative);
             }
         }
+    }
+    std::cout << "vertices cnt: " << this->vertices.size() << "\r\n";
+    std::cout << "indices cnt: " << this->indices.size() << "\r\n";
+    for (auto &i : vertices)
+    {
+        // printf_s("%.2f %.2f %.2f\r\n", i.Position.x,
+        //          i.Position.y,
+        //          i.Position.z);
+        // std::cout << "one vertex pos is "
+        //           << i.Position.x << ","
+        //           << i.Position.y << ","
+        //           << i.Position.z
+        //           << "\r\n";
     }
     dataMut.unlock();
 
@@ -134,24 +150,25 @@ Chunk::Chunk(ChunkKey ck)
 
 void Chunk::constructMeshInOneDim(int blockx, int blocky, int blockz,
                                   int blockx_p, int blocky_p, int blockz_p,
-                                  uint8_t &block,
-                                  uint8_t &block_p,
-                                  CommonBlockInfo &blockInfo,
-                                  CommonBlockInfo &blockInfo_p,
+                                  //   uint8_t &block,
+                                  //   uint8_t &block_p,
+                                  BlockInfo &blockInfo,
+                                  BlockInfo &blockInfo_p,
                                   Block_FaceDirection posDir,
                                   Block_FaceDirection negDir)
 {
     //+1为空 当前为实心
-    if (!block_p &&
-        block &&
-        blockInfo.hasStandardFace(posDir))
+    if (blockInfo_p.isEmptyBlock() &&
+        !blockInfo.isEmptyBlock() &&
+        blockInfo.blockMesh->hasStandardFace(posDir))
     {
-        blockInfo.pushOneFace2Mesh(blockx, blocky, blockz, posDir, *this);
-        auto &mesh = *this;
-        auto &vetex1 = mesh.vertices[mesh.vertices.size() - 4];
-        auto &vetex2 = mesh.vertices[mesh.vertices.size() - 3];
-        auto &vetex3 = mesh.vertices[mesh.vertices.size() - 2];
-        auto &vetex4 = mesh.vertices[mesh.vertices.size() - 1];
+        _Block::pushOneFace2Mesh(blockx, blocky, blockz, blockInfo, posDir, *this);
+        // blockInfo.pushOneFace2Mesh(blockx, blocky, blockz, posDir, *this);
+        // auto &mesh = *this;
+        // auto &vetex1 = mesh.vertices[mesh.vertices.size() - 4];
+        // auto &vetex2 = mesh.vertices[mesh.vertices.size() - 3];
+        // auto &vetex3 = mesh.vertices[mesh.vertices.size() - 2];
+        // auto &vetex4 = mesh.vertices[mesh.vertices.size() - 1];
         // printf("vec added 1: %.2f %.2f %.2f \r\n", vetex1.Position.x, vetex1.Position.y, vetex1.Position.z);
         // printf("vec added 2: %.2f %.2f %.2f \r\n", vetex2.Position.x, vetex2.Position.y, vetex2.Position.z);
         // printf("vec added 3: %.2f %.2f %.2f \r\n", vetex3.Position.x, vetex3.Position.y, vetex3.Position.z);
@@ -159,11 +176,12 @@ void Chunk::constructMeshInOneDim(int blockx, int blocky, int blockz,
         // printf("\r\n");
     }
     //x为空 x+1为实,添加朝x负向的面
-    else if (!block &&
-             block_p &&
-             blockInfo_p.hasStandardFace(negDir))
+    else if (blockInfo.isEmptyBlock() &&
+             !blockInfo_p.isEmptyBlock() &&
+             blockInfo_p.blockMesh->hasStandardFace(negDir))
     {
-        blockInfo_p.pushOneFace2Mesh(blockx_p, blocky_p, blockz_p, negDir, *this);
+        _Block::pushOneFace2Mesh(blockx_p, blocky_p, blockz_p, blockInfo_p, negDir, *this);
+        // blockInfo_p.pushOneFace2Mesh();
     }
 }
 
@@ -215,7 +233,7 @@ void Chunk::updatePhysic()
                 if (this->data[i])
                 {
                     blockRigids[i]->addCollider(
-                        App::getInstance().gamePtr->blockManager->getBlockInfo(i).getBlockColliderShape(),
+                        App::getInstance().gamePtr->blockManager->getBlockInfo(data[i]).blockMesh->getBlockColliderShape(),
                         rp3d::Transform(
                             rp3d::Vector3(0.5, 0.5, 0.5),
                             rp3d::Quaternion::identity()));

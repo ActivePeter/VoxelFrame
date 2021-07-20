@@ -17,7 +17,7 @@
                 "E:/pa_files/thd_libs/opencv450/build/include",
                 "${workspaceFolder}/third/ThreadPool",
                 "${workspaceFolder}/third/reactphysics3d/include",
-                "C:/Users/sjjmw/.conan/data/sdl/2.0.14/_/_/package/5273cb1e5c61509a97e93d6b4616e05b71d63f69/include/SDL2"
+                "${workspaceFolder}/third/SDL/include"
             ],
             "defines": [
                 "_DEBUG",

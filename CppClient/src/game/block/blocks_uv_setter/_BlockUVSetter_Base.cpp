@@ -1,4 +1,4 @@
-#include "base_blocks_uv_setter.h"
+#include "_BlockUVSetter_Base.h"
 
 //对应基础类型方块的网格设置uv
 void BlockUVSetter_Base::setFaceUVsByTextureIndex(Mesh &mesh, int textureIndex)

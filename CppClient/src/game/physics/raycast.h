@@ -120,9 +120,10 @@ namespace VoxelFrame
                 else
                 {
                     //  2.2非空，需要进行具体的碰撞测试
-                    Vertices vetices;
+                    //Vertices vetices;
+                    VertexPoses vertexPoses;
                     Indices indices;
-                    blockInfo.blockMesh->getBlockValidVertices(vetices,indices);
+                    blockInfo.blockMesh->getBlockValidTriangles(vertexPoses,indices);
                 }
             }
 

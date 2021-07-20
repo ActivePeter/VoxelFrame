@@ -6,7 +6,7 @@
 #include "blocks_uv_setter/BlockUVSetter_UP_Side_Bottom.h"
 #include "block.h"
 
-void registerBlockAll(BlockManager& bm)
+void registerBlockAll(BlockManager &bm)
 {
 	//air
 	bm.addEmptyBlock(BlockInfo::newEmptyBlock());
@@ -16,10 +16,7 @@ void registerBlockAll(BlockManager& bm)
 			std::make_shared<BlockUVSetter_UP_Side_Bottom>(
 				"grass_top",
 				"grass_side",
-				"grass_bottom"
-			),
-			std::make_shared<BlockMesh_Common>()
-		)
-	);
+				"grass_bottom"),
+			std::make_shared<BlockMesh_Common>()));
 	App::getInstance().graphPtr->_textureManagerPtr->registBlockFacesEnd();
 }

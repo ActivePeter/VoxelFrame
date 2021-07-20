@@ -8,7 +8,7 @@ class TCallbackRegister;
 #include "chunk.h"
 #include "chunk_manager.h"
 
-#include "block.h"
+#include "block/block.h"
 #include "main_player.h"
 #include "interface/IRegister.h"
 

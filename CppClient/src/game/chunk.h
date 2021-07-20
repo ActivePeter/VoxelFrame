@@ -16,7 +16,7 @@ class Chunk;
 #include "graph/_Graph.h"
 // #include "game.h"
 // #include "app.h"
-#include "block.h"
+#include "block/block.h"
 // #include "game.h"
 #include "physic_engine/physic_engine.h"
 
@@ -40,12 +40,12 @@ private:
     void constructMeshInOneDim(
         int blockx, int blocky, int blockz,
         int blockx_p, int blocky_p, int blockz_p,
-        uint8_t &block,
-        uint8_t &block_p,
-        CommonBlockInfo &blockInfo,
-        CommonBlockInfo &blockInfo_p,
+        // uint8_t &block,
+        // uint8_t &block_p,
+        BlockInfo &blockInfo,
+        BlockInfo &blockInfo_p,
         Block_FaceDirection posDir,
-        BlockFaceDirection negDir);
+        Block_FaceDirection negDir);
 
 public:
     /**
@@ -91,7 +91,7 @@ public:
     }
     Chunk(ChunkKey ck);
     Chunk() {}
-    
+
     /**
      * block坐标转换为在chunkdata中的index
     */
