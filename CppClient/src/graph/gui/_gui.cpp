@@ -2,6 +2,7 @@
 #include "graph/_Graph.h"
 #include "system_related/imgui_impl_sys.h"
 #include "imgui.h"
+#include "app.h"
 // Gui _Gui;
 
 void Gui::init()

@@ -3,7 +3,7 @@
 void App::run()
 {
     ecsPtr = paecs::createScene();
-    gamePtr = std::make_shared<Game>();
+    gamePtr = std::make_shared<VF::_Game::Game>();
     graphPtr = std::make_shared<Graph>();
     inputPtr = std::make_shared<Input>();
     auto &graph = *graphPtr;

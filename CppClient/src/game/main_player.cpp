@@ -22,10 +22,10 @@ MainPlayer::MainPlayer()
     auto &ecs = *App::getInstance().ecsPtr;
     this->entityId =
         ecs.createEntity()
-            .addComponent(EcsComp::CapsuleCollider(&(this->getRigid())))
-            .addEmptyComponent<EcsComp::ChunkRelatedTag>()
-            // .addEmptyComponent<EcsComp::Position3D>()
-            // .addEmptyComponent<EcsComp::PlayerTag>()
+            .addComponent(_EcsComp::CapsuleCollider(&(this->getRigid())))
+            .addEmptyComponent<_EcsComp::ChunkRelatedTag>()
+            // .addEmptyComponent<_EcsComp::Position3D>()
+            // .addEmptyComponent<_EcsComp::PlayerTag>()
             .entityId;
     App::getInstance().inputPtr->mouseMovePublisher.addListener((VF::MouseMoveEventListener *)this);
 

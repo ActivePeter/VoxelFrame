@@ -3,7 +3,7 @@
 #include "Cursor_WinAPI.h"
 #endif
 
-#include "vf_base.h"
+#include "base/vf_base.h"
 // HWND handle;
 void Cursor::setLocked(bool locked)
 {

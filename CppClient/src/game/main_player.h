@@ -10,7 +10,7 @@ class MainPlayer;
 #ifndef __MAIN_PLAYER_H__
 #define __MAIN_PLAYER_H__
 #include "graph/Camera.h"
-#include "chunk.h"
+#include "chunk/chunk.h"
 #include "interface/IRegister.h"
 #include "physics/rigid.h"
 #include "physics/collision_shape.h"

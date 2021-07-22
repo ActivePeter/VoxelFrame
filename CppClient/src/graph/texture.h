@@ -1,5 +1,5 @@
 #pragma once
-#include "vf_base.h"
+#include "base/vf_base.h"
 #include "opencv2/opencv.hpp"
 #include "math.h"
 //负责接收注册和构建贴图
@@ -10,7 +10,7 @@ private:
     int blocksMixedTextureW = 1;
     float perBlockTextureWidth2UV = 1; //需要在最后变为  1/ blocksMixedTextureW; //单个材质的uv宽度
     int faceCnt = 0;
-    list<cv::Mat> blockFacesBuffer;
+    std::list<cv::Mat> blockFacesBuffer;
     const int blockFaceTextureWidth = 32;
 
     /* data */
@@ -38,9 +38,9 @@ public:
     int registBlockFaceTexture(std::string TextureFileName)
     {
         faceCnt++;
-        std::cout << "./resource/images/" + TextureFileName + ".png \r\n";
+        std::cout << ".//resource//images//" + TextureFileName + ".png \r\n";
         //读取文件，加入总的材质面板里
-        auto a = cv::imread("./resource/images/" + TextureFileName + ".png");
+        auto a = cv::imread(".//resource//images//" + TextureFileName + ".png");
         cv::imshow(TextureFileName, a);
         blockFacesBuffer.push_back(a);
         return faceCnt - 1;

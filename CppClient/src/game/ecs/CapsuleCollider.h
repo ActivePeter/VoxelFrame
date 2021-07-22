@@ -3,7 +3,7 @@
 /**
  * 胶囊碰撞器
 */
-namespace EcsComp
+namespace _EcsComp
 {
     struct CapsuleCollider
     {

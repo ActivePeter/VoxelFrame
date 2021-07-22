@@ -1,12 +1,18 @@
-class Game;
-class TCaller;
-class TCallbackRegister;
+namespace VoxelFrame
+{
+    namespace _Game
+    {
+        class Game;
+        class TCaller;
+        class TCallbackRegister;
+    }
+}
 #ifndef __GAME_H__
 #define __GAME_H__
 
-#include "vf_base.h"
-#include "chunk.h"
-#include "chunk_manager.h"
+#include "base/vf_base.h"
+#include "chunk/chunk.h"
+#include "chunk/chunk_manager.h"
 
 #include "block/block.h"
 #include "main_player.h"
@@ -18,71 +24,75 @@ class TCallbackRegister;
 #include "graph/gui/GuiNothingClickEvent.h"
 
 // #include "paecs/paecs.h"
-
-using TCallbackFunc = void (*)(Game &game);
-//////////////////////////////
-class TCaller : IRegister
+namespace VoxelFrame
 {
-public:
-    int T;
-    std::vector<TCallbackFunc> callbacks;
-    TCaller(int T) : T(T) {}
-    void callAll(Game &game)
+    namespace _Game
     {
-        for (int i = 0; i < callbacks.size(); i++)
+        using TCallbackFunc = void (*)(Game &game);
+        //////////////////////////////
+        class TCaller : IRegister
         {
-            callbacks[i](game);
-        }
-    }
-};
-class Game
-    : IRegister,
-      public VF::GuiNothingClickEventListener
-{
-    ////////////////////////////////////////////
-    //     GuiNothingClickEventListener
-public:
-    void ListenerCallback(GuiNothingClick)() override;
-    // private:
-    std::vector<TCaller> TCallers;
-    /* data */
-public:
-    void IRegister_regist() override;
+        public:
+            int T;
+            std::vector<TCallbackFunc> callbacks;
+            TCaller(int T) : T(T) {}
+            void callAll(Game &game)
+            {
+                for (int i = 0; i < callbacks.size(); i++)
+                {
+                    callbacks[i](game);
+                }
+            }
+        };
+        class Game
+            : IRegister,
+              public VF::GuiNothingClickEventListener
+        {
+            ////////////////////////////////////////////
+            //     GuiNothingClickEventListener
+        public:
+            void ListenerCallback(GuiNothingClick)() override;
+            // private:
+            std::vector<TCaller> TCallers;
+            /* data */
+        public:
+            void IRegister_regist() override;
 
-    // datas
-    std::shared_ptr<ChunkManager> chunkManager;
-    std::shared_ptr<BlockManager> blockManager;
-    std::shared_ptr<MainPlayer> mainPlayer;
+            // datas
+            std::shared_ptr<_Chunk::Manager> chunkManager;
+            std::shared_ptr<_Block::Manager> blockManager;
+            std::shared_ptr<MainPlayer> mainPlayer;
 
-    paecs::SysGroup beforePhysicSysGroup;
-    paecs::SysGroup afterPhysicSysGroup;
+            paecs::SysGroup beforePhysicSysGroup;
+            paecs::SysGroup afterPhysicSysGroup;
 
-    /**
+            /**
      * all the interfaces after physic will add themselves to this vector
     */
-    std::deque<IUpdaterAfterPhysic *> iUpdaterAfterPhysics;
-    std::deque<IUpdaterBeforePhysic *> iUpdaterBeforePhysics;
+            std::deque<IUpdaterAfterPhysic *> iUpdaterAfterPhysics;
+            std::deque<IUpdaterBeforePhysic *> iUpdaterBeforePhysics;
 
-    bool playing = false;
+            bool playing = false;
 
-    uint64_t gameTick;
-    // funcs
+            uint64_t gameTick;
+            // funcs
 
-    void start();
-    void loop();
-    void registTCallback(int T, TCallbackFunc f);
+            void start();
+            void loop();
+            void registTCallback(int T, TCallbackFunc f);
 
-    bool getControlling()
-    {
-        return controlling;
+            bool getControlling()
+            {
+                return controlling;
+            }
+            void setControlling(bool a)
+            {
+                controlling = a;
+            }
+
+        private:
+            bool controlling = false;
+        };
     }
-    void setControlling(bool a)
-    {
-        controlling = a;
-    }
-
-private:
-    bool controlling = false;
-};
-
+}
 #endif // __GAME_H__

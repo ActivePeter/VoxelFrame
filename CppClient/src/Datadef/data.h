@@ -10,13 +10,13 @@ typedef struct
     int id2;
 } BlockKey;
 
-//ChunkKey 区块在世界map中的键
+//Key 区块在世界map中的键
 typedef struct
 {
     int x;
     int y;
     int z;
-} ChunkKey;
+} Key;
 
 //ChunkModel 区块的数据模型
 typedef struct
@@ -26,5 +26,5 @@ typedef struct
 //WorldModel 地图的数据模型
 typedef struct
 {
-    std::map<ChunkKey, ChunkModel> map;
+    std::map<Key, ChunkModel> map;
 } WorldModel;

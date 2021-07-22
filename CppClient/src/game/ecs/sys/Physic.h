@@ -3,19 +3,24 @@
 #include "../VectorAbout.h"
 // #include "../ChunkRelated.h"
 #include "../Tags.h"
-#include "vf_base.h"
-
-namespace EcsSys
+#include "base/vf_base.h"
+namespace VoxelFrame
 {
-    void updateChunkColliderForChunkRelated(
-        EcsComp::CapsuleCollider &collider,
-        // EcsComp::Position3D &pos,
-        EcsComp::ChunkRelatedTag &chunks);
-    /**
+    namespace _Game
+    {
+        namespace _EcsSys
+        {
+            void updateChunkColliderForChunkRelated(
+                _EcsComp::CapsuleCollider &collider,
+                // _EcsComp::Position3D &pos,
+                _EcsComp::ChunkRelatedTag &chunks);
+            /**
      * get check collider for entities in
     */
-    // void gravity(
-    //     EcsComp::CapsuleCollider &collider,
-    //     EcsComp::Position3D &pos,
-    //     EcsComp::ChunkRelated &chunks);
+            // void gravity(
+            //     _EcsComp::CapsuleCollider &collider,
+            //     _EcsComp::Position3D &pos,
+            //     _EcsComp::ChunkRelated &chunks);
+        }
+    }
 }

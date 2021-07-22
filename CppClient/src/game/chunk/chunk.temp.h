@@ -1,9 +1,8 @@
 #pragma once
 
-// void ChunkKey::getChunkKeyOfPoint(ChunkKey &_return, int32_t px, int32_t py, int32_t pz)
+// void Key::getKeyOfPoint(Key &_return, int32_t px, int32_t py, int32_t pz)
 
-
-// void ChunkKey::getChunkKeyOfPoint(ChunkKey &_return, float px, float py, float pz)
+// void Key::getKeyOfPoint(Key &_return, float px, float py, float pz)
 // {
 //     if (px >= 0)
 //     {

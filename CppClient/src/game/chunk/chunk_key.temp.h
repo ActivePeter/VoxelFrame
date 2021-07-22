@@ -1,6 +1,7 @@
 #include "chunk_key.h"
+
 template <typename PosVType>
-void ChunkKey::getChunkKeyOfPoint(ChunkKey &_return, PosVType px, PosVType py, PosVType pz)
+void Key::getKeyOfPoint(Key &_return, PosVType px, PosVType py, PosVType pz)
 {
     if (px >= 0)
     {
@@ -29,11 +30,13 @@ void ChunkKey::getChunkKeyOfPoint(ChunkKey &_return, PosVType px, PosVType py, P
 }
 
 template <typename PosVType>
-std::tuple<PosVType, PosVType, PosVType> ChunkKey::getChunkPosFromWorldPos(PosVType x, PosVType y, PosVType z)
+// std::tuple<PosVType, PosVType, PosVType>
+Type::Vec3<PosVType>
+Key::getChunkPosFromWorldPos(PosVType x, PosVType y, PosVType z)
 {
-    x-=VF_ChunkWidth*this->x;
-    y-=VF_ChunkWidth*this->y;
-    z-=VF_ChunkWidth*this->z;
+    x -= VF_ChunkWidth * this->x;
+    y -= VF_ChunkWidth * this->y;
+    z -= VF_ChunkWidth * this->z;
 
-    return std::tuple<PosVType,PosVType,PosVType>(x,y,z);
+    return Type::Vec3<PosVType>(x, y, z); // std::tuple<PosVType, PosVType, PosVType>(x, y, z);
 }

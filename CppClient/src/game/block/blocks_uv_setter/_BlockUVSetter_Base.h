@@ -1,4 +1,10 @@
-class BlockUVSetter_Base;
+namespace VoxelFrame
+{
+    namespace _Game
+    {
+        class BlockUVSetter_Base;
+    }
+}
 #pragma once
 // #include "../enum.h"
 #include "../block.h"
@@ -6,10 +12,18 @@ class BlockUVSetter_Base;
 #include "app.h"
 
 /////////////////////////////////////////
-
-class BlockUVSetter_Base
+namespace VoxelFrame
 {
-public:
-    void setFaceUVsByTextureIndex(Mesh &mesh, int textureIndex);
-    virtual void setVertexUVOnDir(Block_FaceDirection dir, Mesh &mesh) {}
-};
+    namespace _Game
+    {
+        namespace _Block
+        {
+            class BlockUVSetter_Base
+            {
+            public:
+                void setFaceUVsByTextureIndex(_Graph::Mesh &mesh, int textureIndex);
+                virtual void setVertexUVOnDir(_Block::FaceDirection dir, _Graph::Mesh &mesh) = 0;
+            };
+        }
+    }
+}

@@ -217,7 +217,7 @@ rendering api 抽象 （
 
 - [x] game周期回调注册
 - [x] 为了提高范围遍历性能。在初始化将范围内区块的相对坐标预存到一个数组里
-- [x] 将chunk chunkmanager文件分离
+- [x] 将chunk Manager文件分离
 - [ ] 
 
 ---

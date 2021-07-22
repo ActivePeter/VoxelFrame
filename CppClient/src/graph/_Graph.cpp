@@ -9,7 +9,7 @@
 // #include "system/io/_IO.h"
 #include "system_related/_Input.h"
 #include "./gui/_gui.h"
-#include "game/chunk_manager.h"
+#include "game/chunk/chunk_manager.h"
 // #include "Models/WindowInfoModel.h"
 // Graph _g_Graph;
 

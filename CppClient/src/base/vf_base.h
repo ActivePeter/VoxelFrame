@@ -4,8 +4,10 @@
 #include "vector"
 #include "deque"
 #include "list"
-//#include 
+//#include
 namespace VoxelFrame
 {
 }
 namespace VF = VoxelFrame;
+#include "base.calc.h"
+#include "base.type.h"

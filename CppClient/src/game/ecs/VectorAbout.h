@@ -1,5 +1,5 @@
 #pragma once
-namespace EcsComp
+namespace _EcsComp
 {
     struct Position3D
     {

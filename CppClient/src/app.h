@@ -6,7 +6,7 @@ class App;
 #include "system_related/_media_api.h"
 #include "system_related/_sys_api.h"
 
-#include "vf_base.h"
+#include "base/vf_base.h"
 #include "paecs/paecs.h"
 #include "game/game.h"
 #include "graph/_Graph.h"
@@ -37,7 +37,7 @@ private:
 public:
     // Scene scene;
     std::shared_ptr<paecs::Scene> ecsPtr;
-    std::shared_ptr<Game> gamePtr;
+    std::shared_ptr<VF::_Game::Game> gamePtr;
     std::shared_ptr<Graph> graphPtr;
     std::shared_ptr<Input> inputPtr;
 
