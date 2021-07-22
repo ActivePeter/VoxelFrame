@@ -36,8 +36,15 @@ namespace VoxelFrame
                     return false;
                 }
             }
-            static void raycast2TrianglesNearest(const glm::vec3 &startPoint, const glm::vec3 &direction)
+            static bool raycast2TrianglesNearest(
+                const Type::Vec3F &startPoint, const Type::Vec3F &direction,
+                std::vector<Type::Vec3F> &vertexPoses, _Graph::Indices &indices, Type::Vec3F &return_colidPoint)
             {
+                assert(indices.size() % 3 == 0);
+                //遍历所有三角形
+                for (size_t i = 0; i < indices.size() / 3; i++)
+                {
+                }
             }
             static void raycast2ChunkAndReturnBlock(
                 const glm::vec3 &startPoint,

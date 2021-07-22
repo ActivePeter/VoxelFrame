@@ -19,8 +19,12 @@ namespace VoxelFrame
                 const glm::vec3 &direction, const glm::vec3 &triP1, const glm::vec3 &triP2, const glm::vec3 &triP3,
                 glm::vec3 &return_cross);
 
-            static void raycast2TrianglesNearest(const glm::vec3 &startPoint, const glm::vec3 &direction);
-
+            /**
+             * 与三角形碰撞并返回离射线最近的碰撞点，若无碰撞返回false
+            */
+            static bool raycast2TrianglesNearest(
+                const Type::Vec3F &startPoint, const Type::Vec3F &direction,
+                std::vector<Type::Vec3F> &vertexPoses, _Graph::Indices &indices, Type::Vec3F &return_colidPoint);
             /**
              * 射线检测是否碰到方块，
              *      若碰到方块，返回方块所在区块的指针以及方块的序号，
