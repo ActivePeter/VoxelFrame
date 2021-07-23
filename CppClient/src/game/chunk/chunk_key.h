@@ -7,6 +7,9 @@ namespace VoxelFrame
     {
         namespace _Chunk
         {
+            /**
+             * chunk坐标
+            */
             struct Key
             {
                 int32_t x;

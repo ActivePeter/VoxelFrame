@@ -1,5 +1,8 @@
 #include "chunk_key.h"
 
+/**
+ * 获取某一点对应的chunk的key
+*/
 template <typename PosVType>
 void Key::getKeyOfPoint(Key &_return, PosVType px, PosVType py, PosVType pz)
 {

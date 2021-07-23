@@ -6,9 +6,9 @@ namespace VoxelFrame
         namespace Physics
         {
             static bool raycast2Triangle(
-                const glm::vec3 &startPoint,
-                const glm::vec3 &direction, const glm::vec3 &triP1, const glm::vec3 &triP2, const glm::vec3 &triP3,
-                glm::vec3 &return_cross)
+                const Type::Vec3F &startPoint,
+                const Type::Vec3F &direction, const Type::Vec3F &triP1, const Type::Vec3F &triP2, const Type::Vec3F &triP3,
+                Type::Vec3F &return_cross)
             {
                 //应当在前面先判断下是否平行，若平行则直接不相交
                 //法向量
@@ -20,7 +20,7 @@ namespace VoxelFrame
                 }
                 //起点到三角形三点的向量矩阵
                 glm::mat3x3 p2tvs(triP1 - startPoint, triP2 - startPoint, triP3 - startPoint);
-                glm::vec3 k1k2k3 = glm::inverse(p2tvs) * direction;
+                Type::Vec3F k1k2k3 = glm::inverse(p2tvs) * direction;
                 float n = 1 / (k1k2k3.x + k1k2k3.y + k1k2k3.z);
                 return_cross = startPoint + (n)*direction;
                 float a = n * k1k2k3.x;
@@ -41,20 +41,55 @@ namespace VoxelFrame
                 std::vector<Type::Vec3F> &vertexPoses, _Graph::Indices &indices, Type::Vec3F &return_colidPoint)
             {
                 assert(indices.size() % 3 == 0);
-                //遍历所有三角形
-                for (size_t i = 0; i < indices.size() / 3; i++)
+                bool hasColid = false;
+                // Type::Vec3F mostCloseP;
+                //遍历所有三角形,以找出最近的碰撞点
+                for (size_t i = 0; i < indices.size() / 3; i += 3)
                 {
+                    // Type::Vec3F triangle[3];
+                    assert(
+                        indices[i] < vertexPoses.size() &&
+                        indices[i + 1] < vertexPoses.size() &&
+                        indices[i + 2] < vertexPoses.size());
+                    // if(indices[i]<vertexPoses.size()&&)
+                    Type::Vec3F colidP;
+                    bool colid = raycast2Triangle(
+                        startPoint, direction,
+                        vertexPoses[indices[i]],
+                        vertexPoses[indices[i + 1]],
+                        vertexPoses[indices[i + 2]],
+                        colidP);
+                    //之前没有碰撞
+                    if (!hasColid && colid)
+                    {
+                        return_colidPoint = colidP;
+                    }
+                    else
+                    {
+                        //跟之前的碰撞点距离比较大小，距离小的作为返回量
+                        auto d1 = _Calc::vec3Len(colidP - startPoint);
+                        auto d2 = _Calc::vec3Len(return_colidPoint);
+                        if (d1 < d2)
+                        {
+                            return_colidPoint = colidP;
+                        }
+                    }
+                    if (colid)
+                    {
+                        hasColid = true;
+                    }
                 }
+                return hasColid;
             }
-            static void raycast2ChunkAndReturnBlock(
-                const glm::vec3 &startPoint,
-                const glm::vec3 &direction,
+            static bool raycast2ChunkAndReturnBlock(
+                const Type::Vec3F &startPoint,
+                const Type::Vec3F &direction,
                 float maxRange,
                 std::vector<_Chunk::Chunk> &return_chunkPtr,
                 int &return_blockIndexInChunk)
             {
-                glm::vec3 delta = direction / VF::_Calc::vec3Len(direction) * maxRange;
-                glm::vec3 endPointF = startPoint + delta;
+                Type::Vec3F delta = direction / VF::_Calc::vec3Len(direction) * maxRange;
+                Type::Vec3F endPointF = startPoint + delta;
 
                 int endX = floor(endPointF.x);
                 int endY = floor(endPointF.y);
@@ -101,6 +136,12 @@ namespace VoxelFrame
                         curZ++;
                     }
 
+                    //判断是否超出范围
+                    if (_Calc::vec3Len(Type::Vec3F(curX, curY, curZ) - startPoint) > maxRange)
+                    {
+                        return false;
+                    }
+
                     //2.判断是否实际block碰撞器与block碰撞
 
                     _Chunk::Key ck;
@@ -120,11 +161,31 @@ namespace VoxelFrame
                         else
                         {
                             //  2.2非空，需要进行具体的碰撞测试
-                            //Vertices vetices;
-                            std::vector<Type::Vec3F> vertexPoses;
-                            _Graph::Indices indices;
-                            blockInfo.blockMesh->getBlockValidTriangles(vertexPoses, indices);
+
+                            std::vector<Type::Vec3F> vertexPoses;                              //接收方块所有顶点
+                            _Graph::Indices indices;                                           //接受方块所有顶点序号
+                            blockInfo.blockMesh->getBlockValidTriangles(vertexPoses, indices); //获取方块三角形
+
+                            Type::Vec3F colidP;
+                            bool hasColid = raycast2TrianglesNearest(
+                                //射线起点和方向是来自player的cam的，当然这里是参数传进来的
+                                startPoint,
+                                direction,
+                                vertexPoses,
+                                indices,
+                                colidP);
+
+                            if (hasColid)
+                            {
+                                return_blockIndexInChunk = _Chunk::blockPos2blockIndex(pos.x, pos.y, pos.z);
+                                return_chunkPtr = chunk;
+                                return true;
+                            }
                         }
+                    }
+                    else
+                    { //没有区块，直接停止
+                        return false;
                     }
 
                     //4.若碰撞。返回
