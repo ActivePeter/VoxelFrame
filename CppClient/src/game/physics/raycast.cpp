@@ -85,7 +85,7 @@ namespace VoxelFrame
                 const Type::Vec3F &startPoint,
                 const Type::Vec3F &direction,
                 float maxRange,
-                std::vector<_Chunk::Chunk> &return_chunkPtr,
+                std::shared_ptr<_Chunk::Chunk> &return_chunkPtr,
                 int &return_blockIndexInChunk)
             {
                 Type::Vec3F delta = direction / VF::_Calc::vec3Len(direction) * maxRange;

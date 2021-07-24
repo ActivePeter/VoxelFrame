@@ -27,7 +27,7 @@ MainPlayer::MainPlayer()
             // .addEmptyComponent<_EcsComp::Position3D>()
             // .addEmptyComponent<_EcsComp::PlayerTag>()
             .entityId;
-    App::getInstance().inputPtr->mouseMovePublisher.addListener((VF::MouseMoveEventListener *)this);
+    App::getInstance().inputPtr->mouseMovePublisher.addListener(this);
 
     // App::getInstance()
     //     .ecsPtr->addSysByFunc(EcsSys::SyncPlayer);
@@ -130,23 +130,27 @@ void MainPlayer::syncPositionAfterPhysic()
 void MainPlayer::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
 {
     {
+        auto bakYaw = cameraPtr->getYaw();
+        auto bakPitch = cameraPtr->getPitch();
         xoffset *= MouseSensitivity;
         yoffset *= MouseSensitivity;
 
-        cameraPtr->Yaw += xoffset;
-        cameraPtr->Pitch += yoffset;
+        //cameraPtr->Yaw += xoffset;/*
+        //cameraPtr->Pitch += yoffset;*/
+        bakYaw += xoffset;
+        bakPitch += yoffset;
 
         // make sure that when pitch is out of bounds, screen doesn't get flipped
         if (constrainPitch)
         {
-            if (cameraPtr->Pitch > 89.0f)
-                cameraPtr->Pitch = 89.0f;
-            if (cameraPtr->Pitch < -89.0f)
-                cameraPtr->Pitch = -89.0f;
+            if (bakPitch > 89.0f)
+                bakPitch = 89.0f;
+            if (bakPitch < -89.0f)
+                bakPitch = -89.0f;
         }
 
         // update Front, Right and Up Vectors using the updated Euler angles
-        cameraPtr->updateCameraVectors();
+        cameraPtr->setEularAndUpdate(bakYaw,bakPitch);
     }
 }
 
@@ -164,37 +168,37 @@ void MainPlayer::ProcessMouseScroll(float yoffset)
 
 void MainPlayer::IRegister_regist()
 {
-    auto &input = *App::getInstance().inputPtr;
-    input.registerMouseMove(
-        [](double xpos, double ypos, double dx, double dy)
-        {
-            // // camera 操作
-            // static bool firstMouse = true;
-            // static double lastX, lastY;
-            // if (firstMouse)
-            // {
-            //     lastX = xpos;
-            //     lastY = ypos;
-            //     firstMouse = false;
-            // }
+    // auto &input = *App::getInstance().inputPtr;
+    // input.registerMouseMove(
+    //     [](double xpos, double ypos, double dx, double dy)
+    //     {
+    //         // // camera 操作
+    //         // static bool firstMouse = true;
+    //         // static double lastX, lastY;
+    //         // if (firstMouse)
+    //         // {
+    //         //     lastX = xpos;
+    //         //     lastY = ypos;
+    //         //     firstMouse = false;
+    //         // }
 
-            // float xoffset = xpos - lastX;
-            // float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+    //         // float xoffset = xpos - lastX;
+    //         // float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
 
-            // lastX = xpos;
-            // lastY = ypos;
+    //         // lastX = xpos;
+    //         // lastY = ypos;
 
-            auto gamePtr = App::getInstance().gamePtr;
-            auto &cursor = App::getInstance().graphPtr->gameWindow.cursor;
-            if (gamePtr && cursor.getLocked())
-            {
-                gamePtr->mainPlayer->ProcessMouseMovement((float)dx, (float)-dy);
-            }
-            // if (App::getInstance().graphPtr && App::getInstance().graphPtr->cameraPtr)
-            // {
-            //     App::getInstance().graphPtr->cameraPtr->ProcessMouseMovement(xoffset, yoffset);
-            // }
-        });
+    //         auto gamePtr = App::getInstance().gamePtr;
+    //         auto &cursor = App::getInstance().graphPtr->gameWindow.cursor;
+    //         if (gamePtr && cursor.getLocked())
+    //         {
+    //             gamePtr->mainPlayer->ProcessMouseMovement((float)dx, (float)-dy);
+    //         }
+    //         // if (App::getInstance().graphPtr && App::getInstance().graphPtr->cameraPtr)
+    //         // {
+    //         //     App::getInstance().graphPtr->cameraPtr->ProcessMouseMovement(xoffset, yoffset);
+    //         // }
+    //     });
 }
 
 void MainPlayer::updateAfterPhysic()
@@ -213,21 +217,21 @@ void MainPlayer::checkControl()
 
     rp3d::Vector3 velocity(0, 0, 0);
 
-    if (input.getKey(Input_Key(W)) == Input_KeyState::E_KeyDown)
+    if (input.getKey(Input_Key(W)) == Input_KeyState::KeyDown)
     {
         velocity += rp3d::Vector3(cameraPtr->Front.x, 0, cameraPtr->Front.z);
     }
-    if (input.getKey(Input_Key(S)) == Input_KeyState::E_KeyDown)
+    if (input.getKey(Input_Key(S)) == Input_KeyState::KeyDown)
     {
         velocity -= rp3d::Vector3(cameraPtr->Front.x, 0, cameraPtr->Front.z);
         // this->Key_Move(N_MainPlayer::BACKWARD, app.deltaTime);
     }
-    if (input.getKey(Input_Key(A)) == Input_KeyState::E_KeyDown)
+    if (input.getKey(Input_Key(A)) == Input_KeyState::KeyDown)
     {
         // this->Key_Move(N_MainPlayer::LEFT, app.deltaTime);
         velocity -= rp3d::Vector3(cameraPtr->Right.x, 0, cameraPtr->Right.z);
     }
-    if (input.getKey(Input_Key(D)) == Input_KeyState::E_KeyDown)
+    if (input.getKey(Input_Key(D)) == Input_KeyState::KeyDown)
     {
         // this->Key_Move(N_MainPlayer::RIGHT, app.deltaTime);
         velocity += rp3d::Vector3(cameraPtr->Right.x, 0, cameraPtr->Right.z);
@@ -237,8 +241,9 @@ void MainPlayer::checkControl()
     // }
     this->getRigid().setLinearVelocity(velocity);
 }
-void MainPlayer::ListenerCallback(MouseMove)(int x, int y, int dx, int dy)
+void MainPlayer::MouseMove_ListenerCallback(int x, int y, int dx, int dy)
 {
+	//如果当前视角锁定
     if (App::getInstance().graphPtr->gameWindow.cursor.getLocked())
     {
         ProcessMouseMovement((float)dx, (float)-dy);

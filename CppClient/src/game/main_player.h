@@ -9,6 +9,7 @@ class MainPlayer;
 
 #ifndef __MAIN_PLAYER_H__
 #define __MAIN_PLAYER_H__
+
 #include "graph/Camera.h"
 #include "chunk/chunk.h"
 #include "interface/IRegister.h"
@@ -19,16 +20,14 @@ class MainPlayer;
 #include "system_related/MouseMoveEvent.h"
 // #include "ecs/VectorAbout.h"
 
-namespace N_MainPlayer
-{
-    enum Movement
-    {
-        FORWARD,
-        BACKWARD,
-        LEFT,
-        RIGHT
-    };
-}
+// namespace _MainPlayer {
+//     enum class Movement {
+//         FORWARD,
+//         BACKWARD,
+//         LEFT,
+//         RIGHT
+//     };
+// }
 //当前玩家，并非指任意玩家
 class MainPlayer
     : public IRegister,
@@ -36,13 +35,13 @@ class MainPlayer
       public Capsule,
       public IUpdaterAfterPhysic,
       public IUpdaterBeforePhysic,
-      public VF::MouseMoveEventListener
+      public VF::Event::MouseMove_EventListener
 //   public VF::ListenerClass(MouseMove)
 {
     ///////////////////////
     //      MouseMove
 public:
-    void ListenerCallback(MouseMove)(int x, int y, int dx, int dy) override;
+    void MouseMove_ListenerCallback(int x, int y, int dx, int dy) override;
     ///////////////////////
     //
     //      IUpdaterAfterPhysic
@@ -101,6 +100,7 @@ public: //var
 
 public: //func
     MainPlayer();
+
     // void syncPhysic() override;
     // void beforePhysic() override;
     //将camera移到player下
@@ -128,8 +128,9 @@ public: //func
     void ProcessMouseScroll(float yoffset);
 
     /**
-     * 检查控制操作
+     * 检查键盘控制操作
     */
     void checkControl();
 };
+
 #endif // __MAIN_PLAYER_H__

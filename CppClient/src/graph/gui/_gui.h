@@ -21,7 +21,7 @@ private:
 
     /* data */
 public:
-    VoxelFrame::GuiNothingClickEventPublisher guiNothingClickEventPuber;
+    VoxelFrame::Event::GuiNothingClick_EventPublisher guiNothingClick_EventPublisher;
 
     ImGuiContext *imguiContext;
     void init();

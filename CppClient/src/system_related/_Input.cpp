@@ -193,7 +193,7 @@ Input_KeyState Input::getKey(int M_KeyCode)
     // auto keyStates =
     if (M_KeyCode >= len)
     {
-        return Input_KeyState::E_KeyUp;
+        return Input_KeyState::KeyUp;
     }
     // for (int i = 0; i < len; i++)
     // {

@@ -34,7 +34,7 @@ namespace VoxelFrame
                 const glm::vec3 &startPoint,
                 const glm::vec3 &direction,
                 float maxRange,
-                std::vector<_Chunk::Chunk> &return_chunkPtr,
+                std::shared_ptr<_Chunk::Chunk> &return_chunkPtr,
                 int &return_blockIndexInChunk);
 
             // #include "raycast.declare.h"

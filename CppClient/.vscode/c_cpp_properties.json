@@ -14,7 +14,7 @@
                 // "${workspaceFolder}/third/sparsepp",
                 "${workspaceFolder}/third/parallel-hashmap",
                 "${workspaceFolder}/third/paecs/src",
-                "E:/pa_files/thd_libs/opencv450/build/include",
+                "C:/.conan/e241d5/1/include",
                 "${workspaceFolder}/third/ThreadPool",
                 "${workspaceFolder}/third/reactphysics3d/include",
                 "${workspaceFolder}/third/SDL/include"

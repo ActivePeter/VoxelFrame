@@ -3,7 +3,9 @@ namespace VoxelFrame
     namespace _Game
     {
         class Game;
+
         class TCaller;
+
         class TCallbackRegister;
     }
 }
@@ -29,13 +31,16 @@ namespace VoxelFrame
     namespace _Game
     {
         using TCallbackFunc = void (*)(Game &game);
+
         //////////////////////////////
         class TCaller : IRegister
         {
         public:
             int T;
             std::vector<TCallbackFunc> callbacks;
+
             TCaller(int T) : T(T) {}
+
             void callAll(Game &game)
             {
                 for (int i = 0; i < callbacks.size(); i++)
@@ -44,14 +49,16 @@ namespace VoxelFrame
                 }
             }
         };
+
         class Game
             : IRegister,
-              public VF::GuiNothingClickEventListener
+              public VF::Event::GuiNothingClick_EventListener
         {
             ////////////////////////////////////////////
             //     GuiNothingClickEventListener
         public:
-            void ListenerCallback(GuiNothingClick)() override;
+            void GuiNothingClick_ListenerCallback() override;
+
             // private:
             std::vector<TCaller> TCallers;
             /* data */
@@ -78,16 +85,21 @@ namespace VoxelFrame
             // funcs
 
             void start();
+
             void loop();
+
             void registTCallback(int T, TCallbackFunc f);
 
             bool getControlling()
             {
                 return controlling;
             }
+
             void setControlling(bool a)
             {
                 controlling = a;
+                
+                //                this.
             }
 
         private:

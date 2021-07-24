@@ -49,3 +49,5 @@ VF_UE4Client/voxelframe/.vscode/compileCommands_Default/
 VF_UE4Client/voxelframe/.vscode/compileCommands_voxelframe/
 VF_UE4Client/voxelframe/Binaries/
 VF_UE4Client/
+CppClient/cmake-build-debug/
+CppClient/.idea/
