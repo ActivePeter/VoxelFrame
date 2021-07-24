@@ -117,7 +117,7 @@ void Graph::drawMesh()
     // glUseProgram(shaderProgram);
 
     // pass projection matrix to shader (note that in this case it could change every frame)
-    glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)gameWindow.windowW / (float)gameWindow.windowH, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(camera.getZoom()), (float)gameWindow.windowW / (float)gameWindow.windowH, 0.1f, 100.0f);
     camShader.setMat4("projection", projection);
 
     // camera/view transformation

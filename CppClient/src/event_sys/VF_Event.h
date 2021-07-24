@@ -2,7 +2,7 @@
 
 #define VF_EventNamespaceBegin \
 namespace VoxelFrame{ \
-namespace Event{             \
+namespace _Event{             \
 
 #define VF_EventNamespaceEnd \
 }}                           \

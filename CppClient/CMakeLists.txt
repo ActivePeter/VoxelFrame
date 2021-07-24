@@ -40,7 +40,7 @@ endif()
 set (SRC_DIR ${PROJECT_SOURCE_DIR}/src)
 include_directories (${SRC_DIR})
 file(GLOB_RECURSE SRC_FILES ${SRC_DIR}/*.cpp ${SRC_DIR}/*.cc)
-add_executable (${PROJECT_NAME} ${SRC_FILES})
+add_executable (${PROJECT_NAME} ${SRC_FILES} "src/graph/CameraStateChangeEvent.h")
 
 if(MSVC)
     set(CompilerFlags

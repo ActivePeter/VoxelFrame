@@ -29,6 +29,8 @@ MainPlayer::MainPlayer()
             .entityId;
     App::getInstance().inputPtr->mouseMovePublisher.addListener(this);
 
+    mainPlayerWorldOperator.init(this);
+	
     // App::getInstance()
     //     .ecsPtr->addSysByFunc(EcsSys::SyncPlayer);
 }
@@ -154,7 +156,7 @@ void MainPlayer::ProcessMouseMovement(float xoffset, float yoffset, GLboolean co
     }
 }
 
-void MainPlayer::ProcessMouseScroll(float yoffset)
+/*void MainPlayer::ProcessMouseScroll(float yoffset)
 {
     {
         auto &Zoom = cameraPtr->Zoom;
@@ -164,7 +166,7 @@ void MainPlayer::ProcessMouseScroll(float yoffset)
         if (Zoom > 45.0f)
             Zoom = 45.0f;
     }
-}
+}*/
 
 void MainPlayer::IRegister_regist()
 {
@@ -219,22 +221,22 @@ void MainPlayer::checkControl()
 
     if (input.getKey(Input_Key(W)) == Input_KeyState::KeyDown)
     {
-        velocity += rp3d::Vector3(cameraPtr->Front.x, 0, cameraPtr->Front.z);
+        velocity += rp3d::Vector3(cameraPtr->getFront().x, 0, cameraPtr->getFront().z);
     }
     if (input.getKey(Input_Key(S)) == Input_KeyState::KeyDown)
     {
-        velocity -= rp3d::Vector3(cameraPtr->Front.x, 0, cameraPtr->Front.z);
+        velocity -= rp3d::Vector3(cameraPtr->getFront().x, 0, cameraPtr->getFront().z);
         // this->Key_Move(N_MainPlayer::BACKWARD, app.deltaTime);
     }
     if (input.getKey(Input_Key(A)) == Input_KeyState::KeyDown)
     {
         // this->Key_Move(N_MainPlayer::LEFT, app.deltaTime);
-        velocity -= rp3d::Vector3(cameraPtr->Right.x, 0, cameraPtr->Right.z);
+        velocity -= rp3d::Vector3(cameraPtr->getRight().x, 0, cameraPtr-> getRight().z);
     }
     if (input.getKey(Input_Key(D)) == Input_KeyState::KeyDown)
     {
         // this->Key_Move(N_MainPlayer::RIGHT, app.deltaTime);
-        velocity += rp3d::Vector3(cameraPtr->Right.x, 0, cameraPtr->Right.z);
+        velocity += rp3d::Vector3(cameraPtr->getRight().x, 0, cameraPtr->  getRight().z);
     }
     velocity = velocity.getUnit() * app.deltaTime * 120;
     velocity.y = this->getRigid().getLinearVelocity().y;

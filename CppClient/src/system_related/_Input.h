@@ -26,7 +26,7 @@ private:
     /* data */
     // vector<>
 public:
-    VF::Event::MouseMove_EventPublisher mouseMovePublisher;
+    VF::_Event::MouseMove_EventPublisher mouseMovePublisher;
     std::vector<MouseMoveFunc> mouseMoveCallbacks;
     std::vector<void (*)(Input &Input)> processInputCallbacks;
     std::deque<void (*)(int btn, int action)> mouseBtnCallbacks;

@@ -52,7 +52,7 @@ namespace VoxelFrame
 
         class Game
             : IRegister,
-              public VF::Event::GuiNothingClick_EventListener
+              public VF::_Event::GuiNothingClick_EventListener
         {
             ////////////////////////////////////////////
             //     GuiNothingClickEventListener

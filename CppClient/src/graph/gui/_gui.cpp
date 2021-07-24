@@ -105,7 +105,7 @@ void Gui::renderGui()
             if (camPtr)
             {
                 char buff[90] = {0};
-                sprintf_s(buff, "cam pos: %.2f %.2f %.2f", camPtr->Position.x, camPtr->Position.y, camPtr->Position.z);
+                sprintf_s(buff, "cam pos: %.2f %.2f %.2f", camPtr->getPosition().x, camPtr->getPosition().y, camPtr->getPosition().z);
                 ImGui::Text(buff);
             }
         }

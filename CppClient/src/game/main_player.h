@@ -18,6 +18,8 @@ class MainPlayer;
 #include "game/interfaces/IUpdaterAfterPhysic.h"
 #include "game/interfaces/IUpdaterBeforePhysic.h"
 #include "system_related/MouseMoveEvent.h"
+
+#include "MainPlayerWorldOperator.h"
 // #include "ecs/VectorAbout.h"
 
 // namespace _MainPlayer {
@@ -35,9 +37,11 @@ class MainPlayer
       public Capsule,
       public IUpdaterAfterPhysic,
       public IUpdaterBeforePhysic,
-      public VF::Event::MouseMove_EventListener
+      public VF::_Event::MouseMove_EventListener
 //   public VF::ListenerClass(MouseMove)
 {
+    friend class VF::_Game::MainPlayerWorldOperator;
+    //friend class VF::// MainPlayerWorldOperator;
     ///////////////////////
     //      MouseMove
 public:
@@ -98,6 +102,8 @@ public: //var
     int chunkY = 0;
     int chunkZ = 0;
 
+    VF::_Game::MainPlayerWorldOperator mainPlayerWorldOperator;
+
 public: //func
     MainPlayer();
 
@@ -109,7 +115,7 @@ public: //func
 
     glm::vec3 getPosition()
     {
-        return cameraPtr->Position;
+        return cameraPtr->getPosition();
     }
 
     void syncPositionAfterPhysic();
