@@ -6,42 +6,42 @@
 // #include "graph/CameraStateChangeEvent.h"
 
 //#include "graph/"
-#include <iomanip>
 
-namespace VoxelFrame {
-    namespace _Game {
-        class MainPlayer;
+#include "block/BlockSelector.h"
 
-        /**
-         * 用来完成玩家和世界的交互（放方块，拆方块，打动物，操作工具
-         */
-        class MainPlayerWorldOperator : public VF::_Event::CameraStateChange_EventListener {
+namespace VoxelFrame
+{
+	namespace _Game
+	{
+		class MainPlayer;
 
+		/**
+		 * 用来完成玩家和世界的交互（放方块，拆方块，打动物，操作工具
+		 */
+		class MainPlayerWorldOperator : public VF::_Event::CameraStateChange_EventListener
+		{
 
-            MainPlayer *mainPlayer{};
-        public:
-            //////////////////////////////////////////
-            /**
-             * CameraStateChange_EventListener
-            */
-            void CameraStateChange_ListenerCallback(Camera &cam,
-                                                    const VF::_Event::CameraStateChangeType &stateChangeType) override {
+			//;
+			_Block::Selector blockSelector;
+			MainPlayer* mainPlayer{};
 
-                // std::cout << "MainPlayerWorldOperator CameraStateChange_EventListener " << std::setprecision(5)
-                // 		  << cam.getFront().x << " "
-                // 		  << cam.getFront().y << " "
-                // 		  << cam.getFront().z << "\r\n";
-            }
+		public:
+			//////////////////////////////////////////
+			/**
+			 * CameraStateChange_EventListener
+			*/
+			void CameraStateChange_ListenerCallback(Camera& cam,
+				const VF::_Event::CameraStateChangeType& stateChangeType) override;
 
-            //////////////////////////////////////////
-            void init(MainPlayer *mainPlayer1);
+			//////////////////////////////////////////
+			void init(MainPlayer* mainPlayer1);
 
-            /*MainPlayerWorldOperator(MainPlayer *mainPlayer):mainPlayer(mainPlayer)
-            {
+			/*MainPlayerWorldOperator(MainPlayer *mainPlayer):mainPlayer(mainPlayer)
+			{
 
-            }*/
-        };
-    }
+			}*/
+		};
+	}
 }
 
 #include "main_player.h"

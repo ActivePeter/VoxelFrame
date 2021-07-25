@@ -13,44 +13,49 @@ class Graph;
 #include "shader_m.h"
 #include "texture.h"
 #include "system_related/GameWindow.h"
+#include "parallel_hashmap/phmap.h"
+
 class Graph
 {
-private:
-    /* data */
-    void drawMesh();
-
+	////////////////////////////////////////
 public:
-    bool runningFlag = true;
-    std::shared_ptr<Gui> _guiPtr;
-    std::shared_ptr<TextureManager> _textureManagerPtr;
+	phmap::flat_hash_set<VF::_Graph::Mesh*> meshes2draw;
+private:
+	/* data */
+	void drawMesh();
+	////////////////////////////////////////
+public:
+	bool runningFlag = true;
+	std::shared_ptr<Gui> _guiPtr;
+	std::shared_ptr<TextureManager> _textureManagerPtr;
 
-    float highDPIscaleFactor = 1;
-    bool mouseIsLocked = false;
-    std::shared_ptr<Camera> cameraPtr;
-    std::shared_ptr<Shader> camShaderPtr;
-    GameWindow gameWindow;
-    // timing
-    // float deltaTime = 0.0f; // time between current frame and last frame
-    // float lastFrame = 0.0f;
+	float highDPIscaleFactor = 1;
+	bool mouseIsLocked = false;
+	std::shared_ptr<Camera> cameraPtr;
+	std::shared_ptr<Shader> camShaderPtr;
+	GameWindow gameWindow;
+	// timing
+	// float deltaTime = 0.0f; // time between current frame and last frame
+	// float lastFrame = 0.0f;
 
-    // void addChunk2DrawList(std::shared_ptr<Chunk> chunkPtr);
+	// void addChunk2DrawList(std::shared_ptr<Chunk> chunkPtr);
 
-    void doDraw();
-    bool init();
-    inline void drawBegin();
-    inline void drawEnd();
+	void doDraw();
+	bool init();
+	inline void drawBegin();
+	inline void drawEnd();
 
-    inline bool running()
-    {
-        return runningFlag;
-    }
-    inline void end()
-    {
-        SDL_GL_DeleteContext(gameWindow.GLContext);
-        SDL_DestroyWindow(gameWindow.window);
-        SDL_Quit();
-        // glfwTerminate();
-    }
+	inline bool running()
+	{
+		return runningFlag;
+	}
+	inline void end()
+	{
+		SDL_GL_DeleteContext(gameWindow.GLContext);
+		SDL_DestroyWindow(gameWindow.window);
+		SDL_Quit();
+		// glfwTerminate();
+	}
 };
 
 // extern Graph _g_Graph;
