@@ -1,7 +1,5 @@
-namespace VoxelFrame
-{
-	namespace _Game
-	{
+namespace VoxelFrame {
+	namespace _Game {
 		class Game;
 
 		class TCaller;
@@ -26,35 +24,31 @@ namespace VoxelFrame
 #include "graph/gui/GuiNothingClickEvent.h"
 
 // #include "paecs/paecs.h"
-namespace VoxelFrame
-{
-	namespace _Game
-	{
+namespace VoxelFrame {
+	namespace _Game {
 		using TCallbackFunc = void (*)(Game& game);
 
 		//////////////////////////////
-		class TCaller : IRegister
-		{
+		class TCaller : IRegister {
 		public:
 			int T;
 			std::vector<TCallbackFunc> callbacks;
 
 			TCaller(int T) : T(T) {}
 
-			void callAll(Game& game)
-			{
-				for (int i = 0; i < callbacks.size(); i++)
-				{
+			void callAll(Game& game) {
+				for (int i = 0; i < callbacks.size(); i++) {
 					callbacks[i](game);
-					//this->callAll()£»
+
+					//this->callAll()ï¿½ï¿½
+
 				}
 			}
 		};
 
 		class Game
 			: IRegister,
-			public VF::_Event::GuiNothingClick_EventListener
-		{
+			public VF::_Event::GuiNothingClick_EventListener {
 			////////////////////////////////////////////
 			//     GuiNothingClickEventListener
 		public:
