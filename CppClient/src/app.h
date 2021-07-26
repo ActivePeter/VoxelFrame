@@ -33,30 +33,30 @@ class App;
 class App
 {
 private:
-    /* data */
+	/* data */
 public:
-    // Scene scene;
-    std::shared_ptr<paecs::Scene> ecsPtr;
-    std::shared_ptr<VF::_Game::Game> gamePtr;
-    std::shared_ptr<Graph> graphPtr;
-    std::shared_ptr<Input> inputPtr;
+	// Scene scene;
+	std::shared_ptr<paecs::Scene> ecsPtr;
+	std::shared_ptr<VF::_Game::Game> gamePtr;
+	std::shared_ptr<VF::_Graph::Graph> graphPtr;
+	std::shared_ptr<Input> inputPtr;
 
-    // timing
-    float deltaTime = 0.0f; // time between current frame and last frame
-    float lastFrame = 0.0f;
+	// timing
+	float deltaTime = 0.0f; // time between current frame and last frame
+	float lastFrame = 0.0f;
 
-    // app()
-    // {
+	// app()
+	// {
 
-    // }
-    inline void calcTimePerLoop()
-    {
-        float currentFrame = (float)_sys_api_getTick() / 1000;
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
-    }
-    void run();
-    static App &getInstance();
+	// }
+	inline void calcTimePerLoop()
+	{
+		float currentFrame = (float)_sys_api_getTick() / 1000;
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+	}
+	void run();
+	static App& getInstance();
 };
 
 // extern app _g_app;

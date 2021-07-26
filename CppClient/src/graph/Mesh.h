@@ -18,7 +18,7 @@ class Mesh;
 #include <vector>
 #include <mutex>
 #include <atomic>
-
+// #include "game/chunk/chunk.h"
 // using namespace std;
 // using VertexPos = glm::vec3;
 
@@ -89,6 +89,7 @@ namespace VoxelFrame
 
 			std::atomic<int> indicesSize;
 			std::atomic<bool> needSetupBeforeDraw;
+			bool constructed = false;
 
 			Mesh() : needSetupBeforeDraw(false), indicesSize(0)
 			{
@@ -121,71 +122,14 @@ namespace VoxelFrame
 			// }
 			virtual void bindTexture() = 0;
 			// render the mesh
-			void draw()
-			{
-				// std::cout << "chunk on draw" << std::endl;
-				// Shader &shader;
-				// // bind appropriate textures
-				// unsigned int diffuseNr = 1;
-				// unsigned int specularNr = 1;
-				// unsigned int normalNr = 1;
-				// unsigned int heightNr = 1;
-				// for (unsigned int i = 0; i < textures.size(); i++)
-				// {
-				//     glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
-				//     // retrieve texture number (the N in diffuse_textureN)
-				//     string number;
-				//     string name = textures[i].type;
-				//     if (name == "texture_diffuse")
-				//         number = std::to_string(diffuseNr++);
-				//     else if (name == "texture_specular")
-				//         number = std::to_string(specularNr++); // transfer unsigned int to stream
-				//     else if (name == "texture_normal")
-				//         number = std::to_string(normalNr++); // transfer unsigned int to stream
-				//     else if (name == "texture_height")
-				//         number = std::to_string(heightNr++); // transfer unsigned int to stream
+			void draw();
 
-				//     // now set the sampler to the correct texture unit
-				//     glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
-				//     // and finally bind the texture
-				//     glBindTexture(GL_TEXTURE_2D, textures[i].id);
-				// }
-
-				// // draw mesh
-				// glUseProgram(shaderProgram);
-				// if (inited && dataMut.try_lock())
-				// {
-				if (needSetupBeforeDraw)
-				{
-					// dataMut.unlock();
-					setupMesh();
-				}
-				if (inited)
-				{
-					//如果锁成功了
-					// dataMut.lock();
-
-					// dataMut.lock();
-					int sizeCopy = indicesSize;
-					// dataMut.unlock();
-					//App::
-					glBindVertexArray(VAO);
-					glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
-				}
-
-				//解锁
-
-				// }
-				// glBindVertexArray(0); // no need to unbind it every time
-
-				// // always good practice to set everything back to defaults once configured.
-				// glActiveTexture(GL_TEXTURE0);
-			}
 			void setupMesh()
 			{
 
 				//这里需要mutex
 				// dataMut.lock();
+				if (needSetupBeforeDraw)
 				{
 					if (!inited)
 					{
@@ -224,24 +168,24 @@ namespace VoxelFrame
 
 					// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
 					glBindBuffer(GL_ARRAY_BUFFER, 0);
-					// // vertex normals
-					// glEnableVertexAttribArray(1);
-					// glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Normal));
-					// // vertex texture coords
-					// glEnableVertexAttribArray(2);
-					// glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, TexCoords));
-					// // vertex tangent
-					// glEnableVertexAttribArray(3);
-					// glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Tangent));
-					// // vertex bitangent
-					// glEnableVertexAttribArray(4);
-					// glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Bitangent));
-
 					glBindVertexArray(0);
+					needSetupBeforeDraw = false;
 				}
-				// needSetupBeforeDraw = true;
-				// dataMut.unlock();
-				needSetupBeforeDraw = false;
+
+				if (inited) {
+					glBindVertexArray(VAO);
+					// // load data into vertex buffers
+					glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+					//坐标 对齐
+					glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+					glEnableVertexAttribArray(0);
+
+					//uv 对齐
+					glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(glm::vec3)));
+					glEnableVertexAttribArray(1);
+				}
+
 			}
 
 		private:

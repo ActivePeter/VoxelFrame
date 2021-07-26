@@ -4,7 +4,7 @@ void App::run()
 {
     ecsPtr = paecs::createScene();
     gamePtr = std::make_shared<VF::_Game::Game>();
-    graphPtr = std::make_shared<Graph>();
+    graphPtr = std::make_shared<VF::_Graph::Graph>();
     inputPtr = std::make_shared<Input>();
     auto &graph = *graphPtr;
     if (!graph.init())

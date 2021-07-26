@@ -108,6 +108,20 @@ void Gui::renderGui()
                 sprintf_s(buff, "cam pos: %.2f %.2f %.2f", camPtr->getPosition().x, camPtr->getPosition().y, camPtr->getPosition().z);
                 ImGui::Text(buff);
             }
+            // auto player=
+            if (App::getInstance().gamePtr)
+            {
+                auto player = App::getInstance().gamePtr->mainPlayer;
+                if (player)
+                {
+                    char buff[90] = {0};
+                    sprintf_s(buff, "cam pos: %d %d %d",
+                              player->chunkX,
+                              player->chunkY,
+                              player->chunkZ);
+                    ImGui::Text(buff);
+                }
+            }
         }
         {
             auto &cursor = App::getInstance().graphPtr->gameWindow.cursor;

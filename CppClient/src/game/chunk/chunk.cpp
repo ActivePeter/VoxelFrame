@@ -23,6 +23,12 @@ namespace VoxelFrame
 */
 			void Chunk::constructMesh()
 			{
+				//static bool constructed = false;
+				if (constructed) {
+					return;
+				}
+				//printf("chunk mesh constructed\r\n");
+				constructed = true;
 				dataMut.lock();
 				// 貌似不用加锁，因为访问顶点数据的只可能时这个函数
 
@@ -96,25 +102,26 @@ namespace VoxelFrame
 						}
 					}
 				}
-				std::cout << "vertices cnt: " << this->vertices.size() << "\r\n";
-				std::cout << "indices cnt: " << this->indices.size() << "\r\n";
-				for (auto& i : vertices)
-				{
-					// printf_s("%.2f %.2f %.2f\r\n", i.Position.x,
-					//          i.Position.y,
-					//          i.Position.z);
-					// std::cout << "one vertex pos is "
-					//           << i.Position.x << ","
-					//           << i.Position.y << ","
-					//           << i.Position.z
-					//           << "\r\n";
-				}
+				// std::cout << "vertices cnt: " << this->vertices.size() << "\r\n";
+				// std::cout << "indices cnt: " << this->indices.size() << "\r\n";
+				//for (auto& i : vertices)a
+				//	// printf_s("%.2f %.2f %.2f\r\n", i.Position.x,
+				//	//          i.Position.y,
+				//	//          i.Position.z);
+				//	// std::cout << "one vertex pos is "
+				//	//           << i.Position.x << ","
+				//	//           << i.Position.y << ","
+				//	//           << i.Position.z
+				//	//           << "\r\n";
+				//}
 				dataMut.unlock();
 
 				// dataMut.lock();
 				needSetupBeforeDraw = true;
 				indicesSize = (int)indices.size();
-				printf("chunk %d %d %d is constructed\r\n", key.x, key.y, key.z);
+				printf("chunk %d %d %d is constructed, indices: %.2f %.2f %.2f\r\n",
+					key.x, key.y, key.z,
+					vertices[0].Position.x, vertices[0].Position.y, vertices[0].Position.z);
 
 				// setupMesh();
 			}
