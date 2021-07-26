@@ -44,7 +44,7 @@ namespace VoxelFrame
 			// // bitangent
 			// glm::vec3 Bitangent;
 			Vertex() {}
-			Vertex(const Type::Vec3F& pos)
+			Vertex(const Type::Vec3F &pos)
 			{
 				this->Position = pos;
 			}
@@ -95,7 +95,7 @@ namespace VoxelFrame
 			{
 			}
 
-			void appendVetexPoses(const std::vector<Type::Vec3F>& vertexPoses)
+			void appendVetexPoses(const std::vector<Type::Vec3F> &vertexPoses)
 			{
 				// vertices.resize(vertices.size() + vertexPoses.size());
 				for (int i = 0; i < vertexPoses.size(); i++)
@@ -121,72 +121,11 @@ namespace VoxelFrame
 			//     }
 			// }
 			virtual void bindTexture() = 0;
-			// render the mesh
+			// 绘制网格
 			void draw();
 
-			void setupMesh()
-			{
-
-				//这里需要mutex
-				// dataMut.lock();
-				if (needSetupBeforeDraw)
-				{
-					if (!inited)
-					{
-						setupResourceTest();
-						glGenVertexArrays(1, &VAO);
-						glGenBuffers(1, &VBO);
-						glGenBuffers(1, &EBO);
-						inited = true;
-					}
-					// create buffers/arrays
-
-					glBindVertexArray(VAO);
-					// // load data into vertex buffers
-					glBindBuffer(GL_ARRAY_BUFFER, VBO);
-					// // A great thing about structs is that their memory layout is sequential for all its items.
-					// // The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
-					// // again translates to 3/2 floats which translates to a byte array.
-					dataMut.lock();
-					glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
-					dataMut.unlock();
-
-					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-					dataMut.lock();
-					glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
-					dataMut.unlock();
-					// // set the vertex attribute pointers
-					// // vertex Positions
-
-					//坐标 对齐
-					glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-					glEnableVertexAttribArray(0);
-
-					//uv 对齐
-					glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(glm::vec3)));
-					glEnableVertexAttribArray(1);
-
-					// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-					glBindBuffer(GL_ARRAY_BUFFER, 0);
-					glBindVertexArray(0);
-					needSetupBeforeDraw = false;
-				}
-
-				if (inited) {
-					glBindVertexArray(VAO);
-					// // load data into vertex buffers
-					glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-					//坐标 对齐
-					glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-					glEnableVertexAttribArray(0);
-
-					//uv 对齐
-					glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(glm::vec3)));
-					glEnableVertexAttribArray(1);
-				}
-
-			}
+			//初始化网格(在绘制中调用
+			void setupMesh();
 
 		private:
 			// render data

@@ -1,5 +1,6 @@
 [requires]
 opencv/4.5.0
+glfw/3.3.4
 
 [generators]
 cmake

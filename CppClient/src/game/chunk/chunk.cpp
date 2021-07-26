@@ -119,11 +119,11 @@ namespace VoxelFrame
 				// dataMut.lock();
 				needSetupBeforeDraw = true;
 				indicesSize = (int)indices.size();
-				printf("chunk %d %d %d is constructed, indices: %.2f %.2f %.2f\r\n",
+				/*printf("chunk %d %d %d is constructed, indices: %.2f %.2f %.2f\r\n",
 					key.x, key.y, key.z,
-					vertices[0].Position.x, vertices[0].Position.y, vertices[0].Position.z);
+					vertices[0].Position.x, vertices[0].Position.y, vertices[0].Position.z);*/
 
-				// setupMesh();
+					// setupMesh();
 			}
 
 			/**

@@ -9,11 +9,11 @@ namespace VoxelFrame {
 				}
 
 				/**
-	 * 更新区块清除列表中区块的状态
-	 *      1.若在范围内，则从销毁列表中清除
-	 *      2.不在范围内，进行倒计时，
-	 *      3.若倒计时为0，则执行清除
-	*/
+				 * 更新区块清除列表中区块的状态
+				 *      1.若在范围内，则从销毁列表中清除
+				 *      2.不在范围内，进行倒计时，
+				 *      3.若倒计时为0，则执行清除
+				*/
 				void updateChunksDestroyState(Game& game) {
 					auto& destroyQuene = game.chunkManager->chunksDestroyQuene;
 					if (destroyQuene.size() > 0) {
@@ -29,22 +29,11 @@ namespace VoxelFrame {
 				}
 			}
 
-			// Manager /////////////////////////////////////////////////////////////////////////////////////////
-			// void Manager::addNewChunk(int32_t x, int32_t y, int32_t z)
-			// {
-			//     Key ck(x, y, z);
-			//     auto newChunk = std::make_shared<Chunk>(ck);
-
-			//     // newChunk->constructMesh();
-			//     Key2chunkPtr[ck] = newChunk;
-			//     App::getInstance().graphPtr->addChunk2DrawList(newChunk);
-			// }
-
 			/**
- * 构造Manager
- * 1.构造视野区块数组
- * 2.注册区块相关的周期检测
-*/
+			 * 构造Manager
+			 * 1.构造视野区块数组
+			 * 2.注册区块相关的周期检测
+			*/
 			Manager::Manager() {
 				//构造区块网格的线程池
 				threadPool2BuildChunkMeshes = std::make_shared<ThreadPool>(4);
@@ -101,21 +90,20 @@ namespace VoxelFrame {
 			}
 
 			/**
- * 如果玩家所在区块。就需要加载新的未绘制的区块，
- * 同时将不在视野内的区块加入倒计时销毁队列
- * 当然，如果在时间内又再次回来。那么将区块再次从销毁队列中移除
- *
- * 思考
- * 用什么来做销毁队列：易于遍历和增删，
- * 目前来看可以用list，list增删方便 遍历也不差
-*/
+			 * 如果玩家所在区块。就需要加载新的未绘制的区块，
+			 * 同时将不在视野内的区块加入倒计时销毁队列
+			 * 当然，如果在时间内又再次回来。那么将区块再次从销毁队列中移除
+			 *
+			 * 思考
+			 * 用什么来做销毁队列：易于遍历和增删，
+			 * 目前来看可以用list，list增删方便 遍历也不差
+			*/
 			void Manager::checkPlayerChunkPosChanged() {
 				//上一次player所在区块的坐标
 				static int lastX = -1, lastY = -1, lastZ = -1;
 				auto playerPtr = App::getInstance().gamePtr->mainPlayer;
 				auto& player = *playerPtr;
-				//auto& Graph = App::getInstance().gra;
-				//this.
+
 				if (lastX != player.chunkX ||
 					lastY != player.chunkY ||
 					lastZ != player.chunkZ) { //如果改变，就重新计算范围内区块
@@ -129,8 +117,6 @@ namespace VoxelFrame {
 							//不在范围内,即旧区块,从graph的绘制列表中拿出
 							//并加入销毁列表
 							if (!isChunkInRange(chunks2Draw[i]->key, player.chunkX, player.chunkY, player.chunkZ)) {
-								//std::cout << "erase a chunk" << std::endl;
-								//printf("erase a chunk %d %d %d\r\n", chunks2Draw[i]->key.x, chunks2Draw[i]->key.y, chunks2Draw[i]->key.z);
 								App::getInstance().graphPtr->meshes2draw.erase(chunks2Draw[i].get());
 								chunksDestroyQuene.push_back(chunks2Draw[i]);
 							}
@@ -150,31 +136,13 @@ namespace VoxelFrame {
 
 						App::getInstance().graphPtr->meshes2draw.emplace(chunks2Draw[i].get());
 
-						auto find = App::getInstance().graphPtr->meshes2draw.find(chunks2Draw[i].get());
-						auto findChunk = ((Chunk*)(*find));
-						/*printf("chunk add 2 draw %d %d %d %s\r\n", findChunk->key.x, findChunk->key.y,
-							findChunk->key.z,
-							find != App::getInstance().graphPtr->meshes2draw.end() ? "yes" : "no");*/
-							//这里的 construct mesh 要换成多线程
-							//往线程池加入构造网格函数
-							/**
-							 * 出现了一个bug
-							 * 在draw chunk时 chunk似乎被释放了
-							 * 发现是因为gl的函数不能被多线程调用，即使是无关函数，也可能操作相关数据
-							 *
-							 * 又有了一个问题，纵向移动时一加载区块就直接无法操作，也不是无响应
-							*/
-							//auto &chunkR = *chunk2Draw;
-							//threadPool2BuildChunkMeshes->enqueue(
-							//	[](std::shared_ptr<Chunk> chunkPtr) { // Chunk *chunkPtr)
-							//		// chunkPtr->dataMut.lock();
-							//		chunkPtr->constructMesh();
-							//		// chunkPtr->dataMut.unlock();
-							//	},
-							//	chunk2Draw);
-						//if(chunks2Draw[i]->needSetupBeforeDraw){}
-						chunks2Draw[i]->constructMesh();
-
+						threadPool2BuildChunkMeshes->enqueue(
+							[](std::shared_ptr<Chunk> chunkPtr) { // Chunk *chunkPtr)
+								// chunkPtr->dataMut.lock();
+								chunkPtr->constructMesh();
+								// chunkPtr->dataMut.unlock();
+							},
+							chunk2Draw);
 						//chunks2Draw[i]->constructMesh();
 					}
 				}

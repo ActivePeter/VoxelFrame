@@ -22,10 +22,11 @@ namespace VoxelFrame
 		{
 
 			//;
-			_Block::Selector blockSelector;
+
 			MainPlayer* mainPlayer{};
 
 		public:
+			_Block::Selector blockSelector;
 			//////////////////////////////////////////
 			/**
 			 * CameraStateChange_EventListener

@@ -25,8 +25,8 @@ namespace VoxelFrame
 			class Manager
 			{
 				/******************
-	 * datas
-	*******************/
+				 * datas
+				*******************/
 			private:
 				// Game &game;
 				/* data */
@@ -35,23 +35,23 @@ namespace VoxelFrame
 				const int ChunkLoadRangeRadius = 1; //加载区块的半径
 
 				/**
-	 * 需要加载区块相对坐标，用于区块变更时重新加载
-	*/
+				 * 需要加载区块相对坐标，用于区块变更时重新加载
+				*/
 				std::vector<Key> inRangeChunksPos;
 				//用于遍历并绘制所有网格
 				//玩家区块变更就需要更新这个列表
 
 			public:
 				/**
-	 * 要被清除的区块
-	 *  人物移动的时候，大小是动态变化的，所以用list
-	*/
+				 * 要被清除的区块
+				 *  人物移动的时候，大小是动态变化的，所以用list
+				*/
 				std::list<std::shared_ptr<Chunk>> chunksDestroyQuene;
 
 				/**
-	 * 要被绘制的区块
-	 *  大小基本固定，所以用vector
-	*/
+				 * 要被绘制的区块
+				 *  大小基本固定，所以用vector
+				*/
 				std::vector<std::shared_ptr<Chunk>> chunks2Draw;
 
 				std::shared_ptr<ThreadPool> threadPool2BuildChunkMeshes;
@@ -95,13 +95,13 @@ namespace VoxelFrame
 				// void addNewChunk(int32_t x, int32_t y, int32_t z);
 
 				/**
-	 * 根据计算完的激活标志更新所有区块中的方块物理碰撞
-	*/
+				 * 根据计算完的激活标志更新所有区块中的方块物理碰撞
+				*/
 				void updateAllChunkPhysic();
 
 				/**
-	 * 在重新遍历所有碰撞实体前，将所有区块的激活标志置0
-	*/
+				 * 在重新遍历所有碰撞实体前，将所有区块的激活标志置0
+				*/
 				void resetAllChunkInactived();
 
 				void checkPlayerChunkPosChanged();

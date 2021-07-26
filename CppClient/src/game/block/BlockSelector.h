@@ -10,6 +10,10 @@ namespace VoxelFrame
 		{
 			class Selector :public _Graph::Mesh
 			{
+			public:
+				Type::Vec3I position;
+				bool active = false;
+			private:
 				void bindTexture() override {};
 			};
 		}

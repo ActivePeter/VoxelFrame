@@ -3,6 +3,8 @@ class Graph;
 ////////////////////////////////////////////////////////
 #ifndef ___GRAPH_H__
 #define ___GRAPH_H__
+#include "glad/glad.h"
+
 #include "system_related/_media_api.h"
 // #include "GLFW/glfw3.h"
 #include "base/vf_base.h"
@@ -23,8 +25,7 @@ namespace VoxelFrame
 		{
 			////////////////////////////////////////
 		public:
-			//phmap::flat_hash_set<VF::_Graph::Mesh*> meshes2draw;
-			std::unordered_set<VF::_Graph::Mesh*> meshes2draw;
+			phmap::flat_hash_set<VF::_Graph::Mesh*> meshes2draw;
 		private:
 			/* data */
 			void drawMesh();
@@ -39,11 +40,6 @@ namespace VoxelFrame
 			std::shared_ptr<Camera> cameraPtr;
 			std::shared_ptr<Shader> camShaderPtr;
 			GameWindow gameWindow;
-			// timing
-			// float deltaTime = 0.0f; // time between current frame and last frame
-			// float lastFrame = 0.0f;
-
-			// void addChunk2DrawList(std::shared_ptr<Chunk> chunkPtr);
 
 			void doDraw();
 			bool init();

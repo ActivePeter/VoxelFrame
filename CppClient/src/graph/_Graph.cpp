@@ -3,16 +3,189 @@
 
 #include "_Graph.h"
 
-// #include "GLFW/glfw3.h"
+//#include "GLFW/glfw3.h"
 #include <iostream>
 // #include "io/Input.h"
 // #include "system/io/_IO.h"
 #include "system_related/_Input.h"
 #include "./gui/_gui.h"
 #include "game/chunk/chunk_manager.h"
+#include "graph/shader_m.h"
 
-namespace VoxelFrame {
-	namespace _Graph {
+namespace VoxelFrame
+{
+	namespace _Graph
+	{
+		struct RaycastDraw {
+			/*const char* vertexShaderSource = "#version 330 core\n"
+				"layout (location = 0) in vec3 aPos;\n"
+				"void main()\n"
+				"{\n"
+				"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+				"}\0";*/
+				/*const char* fragmentShaderSource = "#version 330 core\n"
+					"out vec4 FragColor;\n"
+					"void main()\n"
+					"{\n"
+					"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+					"}\n\0";*/
+			const char* vertexShaderSource = "#version 330 core\n"
+				"layout (location = 0) in vec3 aPos;\n"
+				"uniform mat4 view;\n"
+				"uniform mat4 projection;\n"
+				"void main()\n"
+				"{\n"
+				"   gl_Position = projection*view * vec4(aPos.x, aPos.y, aPos.z, 1.0); \n"
+				"}\0";
+			const char* fragmentShaderSource = "#version 330 core\n"
+				"out vec4 FragColor;\n"
+				"void main()\n"
+				"{\n"
+				"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+				"}\n\0";
+			bool inited = false;
+			unsigned int VBO;
+			unsigned int VAO;
+			//unsigned int shaderProgram;
+
+			std::shared_ptr<Shader> shader;
+			void drawRaycastLine(const glm::mat4& projection, const glm::mat4& view, Type::Vec3F p1, Type::Vec3I p2)
+			{
+				float vertices[9] = {
+					/*p1.x,p1.y,p1.z,
+					p2.x,p2.y,p2.z,
+					p1.x,p1.y,p1.z*/
+					// first triangle
+					//-0.9f, -0.5f, 0.0f, // left
+					//-0.0f, -0.5f, 0.0f, // right
+					//-0.45f, 0.5f, 0.0f, // top
+										// second triangle
+					0.0f, -0.5f, 0.0f,	// left
+					0.9f, -0.5f, 0.0f,	// right
+					//0.45f, 0.5f, 0.0f	// top
+					//p1.x,p1.y,p1.z
+				};
+				vertices[3] = p1.x;
+				vertices[4] = p1.y + 0.1;
+				vertices[5] = p1.z;
+
+				vertices[0] = vertices[6] = p2.x + 0.5;
+				vertices[1] = vertices[7] = p2.y + 1;
+				vertices[2] = vertices[8] = p2.z + 0.5;
+				if (!inited)
+				{
+					inited = true;
+					shader = std::make_shared<Shader>(false, vertexShaderSource, fragmentShaderSource);
+					//{
+					//	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+					//	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+					//	glCompileShader(vertexShader);
+					//	// check for shader compile errors
+					//	int success;
+					//	char infoLog[512];
+					//	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+					//	if (!success)
+					//	{
+					//		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+					//		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+					//	}
+					//	// fragment shader
+					//	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+					//	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+					//	glCompileShader(fragmentShader);
+					//	// check for shader compile errors
+					//	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+					//	if (!success)
+					//	{
+					//		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+					//		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+					//	}
+					//	// link shaders
+					//	shaderProgram = glCreateProgram();
+					//	glAttachShader(shaderProgram, vertexShader);
+					//	glAttachShader(shaderProgram, fragmentShader);
+					//	glLinkProgram(shaderProgram);
+					//	// check for linking errors
+					//	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+					//	if (!success) {
+					//		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+					//		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+					//	}
+					//	glDeleteShader(vertexShader);
+					//	glDeleteShader(fragmentShader);
+					//}
+
+
+					// unsigned int VBO, VAO;
+					glGenVertexArrays(1, &VAO);
+					glGenBuffers(1, &VBO);
+					// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+
+
+
+					glBindVertexArray(VAO);
+
+					glBindBuffer(GL_ARRAY_BUFFER, VBO);
+					glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+					glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+					glEnableVertexAttribArray(0);
+
+					// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+					glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+					// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
+					// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
+					glBindVertexArray(0);
+				}
+
+				//glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);/*
+
+				//glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);*/
+				/*
+				shader->setMat4("projection", projection);
+
+				//// camera/view transformation
+				////glm::mat4 view = camera.GetViewMatrix();
+				shader->setMat4("view", view);
+
+				//
+				shader->use();
+				*/
+
+				//float vertices[] = {
+				//	// first triangle
+				//	-0.9f, -0.5f, 0.0f, // left
+				//	-0.0f, -0.5f, 0.0f, // right
+				//	-0.45f, 0.5f, 0.0f, // top
+				//						// second triangle
+				//	0.0f, -0.5f, 0.0f,	// left
+				//	0.9f, -0.5f, 0.0f,	// right
+				//	0.45f, 0.5f, 0.0f	// top
+				//};
+
+				glBindVertexArray(VAO);
+
+				glBindBuffer(GL_ARRAY_BUFFER, VBO);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+				glEnableVertexAttribArray(0);
+
+				shader->use();
+				shader->setMat4("projection", projection);
+
+				// camera/view transformation
+				//glm::mat4 view = camera.GetViewMatrix();
+				shader->setMat4("view", view);
+				//glUseProgram(shaderProgram);
+
+
+				//glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+				glDrawArrays(GL_TRIANGLES, 0, 3);
+			}
+		};
+		RaycastDraw raycastDraw;
 
 		// #include "Models/WindowInfoModel.h"
 		// Graph _g_Graph;
@@ -35,14 +208,15 @@ namespace VoxelFrame {
 		//////////////////////////////////////
 
 		//暂时test
-		float vertices[] = {
-				-0.5f, -0.5f, 0.0f, // left
-				0.5f, -0.5f, 0.0f,  // right
-				0.0f, 0.5f, 0.0f    // top
-		};
-		unsigned int VBO, VAO;
+		//float vertices[] = {
+		//	-0.5f, -0.5f, 0.0f, // left
+		//	0.5f, -0.5f, 0.0f,	// right
+		//	0.0f, 0.5f, 0.0f	// top
+		//};
+		//unsigned int VBO, VAO;
 
-		bool Graph::init() {
+		bool Graph::init()
+		{
 			// glfwInit(); //初始化GLFW
 			//指明OpenGL版本
 			//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -107,12 +281,13 @@ namespace VoxelFrame {
 		///////////////////////////////////////////////////////////////////////
 
 		// 绘制相关 /////////////////////////////////////////////////////////
-		void Graph::drawMesh() {
+		void Graph::drawMesh()
+		{
 			auto& camShader = *camShaderPtr;
 			auto& camera = *cameraPtr;
 
 			// 仅绘制边线模式
-			// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 			// 相机操作
 			camShader.use();
@@ -140,20 +315,18 @@ namespace VoxelFrame {
 					}
 				}
 			}*/
-			for (auto iter = meshes2draw.begin(); iter != meshes2draw.end(); iter++) {
+			for (auto iter = meshes2draw.begin(); iter != meshes2draw.end(); iter++)
+			{
 				//iter.draw();
 				(*iter)->draw();
 			}
-			//for (auto i : meshes2draw) {
-			//	//if (i) 
-			//	{
-			//		for (auto& j : App::getInstance().gamePtr->chunkManager->chunks2Draw) {
-			//			if (j.get() == i) {
-			//				j->draw();
-			//			}
-			//		}
-			//	}
-			//}
+			//drawRaycastLine();
+			auto player = App::getInstance().gamePtr->mainPlayer;
+			if (player) {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+				raycastDraw.drawRaycastLine(projection, view, camera.getPosition(), player->mainPlayerWorldOperator.blockSelector.position);
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
 		}
 
 		// void Graph::addChunk2DrawList(std::shared_ptr<Chunk> chunkPtr)
@@ -163,7 +336,8 @@ namespace VoxelFrame {
 		//     chunkPtr->constructMesh();
 		// }
 
-		void Graph::doDraw() {
+		void Graph::doDraw()
+		{
 			drawBegin();
 
 			// glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
@@ -185,7 +359,8 @@ namespace VoxelFrame {
 			drawEnd();
 		}
 
-		inline void Graph::drawBegin() {
+		inline void Graph::drawBegin()
+		{
 			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			// 开启面剔除
@@ -194,7 +369,8 @@ namespace VoxelFrame {
 			// glCullFace(GL_FRONT);
 		}
 
-		inline void Graph::drawEnd() {
+		inline void Graph::drawEnd()
+		{
 			SDL_GL_SwapWindow(gameWindow.window);
 			//将存储在缓冲区中的像素颜色进行绘制，这里涉及到双缓冲的问题
 			// glfwSwapBuffers(gameWindow.window);
