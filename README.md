@@ -2,17 +2,19 @@
 
 ![image-20210609143052106](https://hanbaoaaa.xyz/tuchuang/images/2021/06/09/image-20210609143052106.png)
 
+## Important! 
+
+Recently I decided to move the project 2 ue4, this project may be paused.
+
+最近我决定将项目转移到ue4上了，这个项目将会被暂停
+
+ue4 version repo: [https://github.com/ActivePeter/VoxelFrame_UE4](https://github.com/ActivePeter/VoxelFrame_UE4)
+
 ## Introduction（介绍
 
 - I likes playing minecraft very much and it's always been my dream to write a mc.
 
   我非常喜欢玩minecraft，写一个mc是我长久以来一直想做到的事
-  
-- **[important!]** Recently I decided to move the project 2 ue4, this project may be paused.
-
-  最近我决定将项目转移到ue4上了，这个项目将会被永久暂停
-
-  ue4 version repo: [https://github.com/ActivePeter/VoxelFrame_UE4](https://github.com/ActivePeter/VoxelFrame_UE4)
 
 
 ## Organization（组织
